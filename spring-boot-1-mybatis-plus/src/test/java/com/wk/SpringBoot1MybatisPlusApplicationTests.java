@@ -14,6 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.ParseException;
 import java.util.*;
 
+/**
+ * SpringBoot整合mybatisPlus
+ * 参考页面：https://mp.baomidou.com/guide/
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringBoot1MybatisPlusApplicationTests {

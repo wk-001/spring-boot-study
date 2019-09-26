@@ -8,6 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * SpringBoot整合缓存和Redis
+ * 参考页面：https://mrbird.cc/Spring-Boot%20cache.html
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringBoot2CacheApplicationTests {
