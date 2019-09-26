@@ -12,15 +12,26 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserDAO usersMapper;
+	private UserDAO userMapper;
 
 	@Override
 	public List<User> selectAll() {
-		return usersMapper.selectByExample(null);
+		return userMapper.selectByExample(null);
 	}
 
 	@Override
 	public User getById(int id) {
-		return usersMapper.selectByPrimaryKey(id);
+		return userMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public User updUser(User user) {
+		userMapper.updateByPrimaryKeySelective(user);
+		return user;
+	}
+
+	@Override
+	public void delUser(int id) {
+		userMapper.deleteByPrimaryKey(id);
 	}
 }
