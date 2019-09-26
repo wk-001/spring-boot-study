@@ -32,7 +32,7 @@ import javax.servlet.http.Cookie;
 @SpringBootTest
 public class SpringBoot3JunitApplicationTests {
 
-    MockMvc mockMvc;
+    MockMvc mockMvc;        //虚拟请求
 
     @Autowired
     private WebApplicationContext context;
@@ -43,15 +43,16 @@ public class SpringBoot3JunitApplicationTests {
     @Autowired
     private UserService userService;
 
+    //初始化虚拟请求
     @Before
     public void initMock(){
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        //模拟session
+        /*模拟session
         MockHttpSession session = new MockHttpSession();
         User user =new User();
-        user.setName("Dopa");
+        user.setName("tom");
         user.setAge(22);
-        session.setAttribute("user", user);
+        session.setAttribute("user", user);*/
     }
 
     //发送restful风格的请求
@@ -130,7 +131,7 @@ public class SpringBoot3JunitApplicationTests {
     //使用assert断言测试service方法是否符合预期返回值
     @Test
     public void testService(){
-        User user = userService.getById(3);
+        User user = userService.getById(2);
         Assert.assertEquals("用户名是tom","tom",user.getName());
     }
 

@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -19,7 +20,7 @@ import java.util.Map;
 
 //打印请求的控制器类名、方法名、传入的参数
 @Aspect
-//@Component
+@Component
 @Slf4j
 public class LogAspect {
 
