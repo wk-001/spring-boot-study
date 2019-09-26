@@ -8,4 +8,6 @@ public interface UserService {
 
 	List<User> selectAll();
 
+	User getById(int id);
+
 }
