@@ -4,20 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
-    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{js/jquery-3.2.1.min.js}"></script>
 </head>
-<script th:inline="javascript">
-    var ctx = [[@{/}]];
-    function login() {
-        $.post(
-            ctx+"login",
-            {"userName":$("#username").val(),"password":$("#password").val()},
-            function (data) {
-                location.href = ctx + 'index';
-            }
-        )
-    }
-</script>
+
+
 <body>
     <div class="login-page">
         <div class="form">
@@ -27,4 +17,9 @@
         </div>
     </div>
 </body>
+<script th:inline="javascript">
+    var ctx = [[@{/}]];
+</script>
+<script data-th-src="@{js/login/login.js}"></script>
+
 </html>

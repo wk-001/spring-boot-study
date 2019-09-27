@@ -9,6 +9,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,13 +20,20 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
-	//首页
+	//访问首页
 	@RequestMapping("/")
 	public String redirectIndex() {
 		return "redirect:/index";
 	}
 
-	@RequestMapping("login")
+	//未登录的请求跳转到login.html页面
+	@GetMapping("toLogin")
+	public String toLogin() {
+		return "login";
+	}
+
+	//登录
+	@PostMapping("login")
 	@ResponseBody
 	public Map<String,Object> login(String userName, String password){
 		UsernamePasswordToken token = new UsernamePasswordToken(userName,password);

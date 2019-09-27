@@ -1,5 +1,7 @@
 package com.wk;
 
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * https://blog.csdn.net/qq_34021712/article/details/84571067
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringBoot4ShiroApplicationTests {
@@ -42,5 +47,16 @@ public class SpringBoot4ShiroApplicationTests {
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andDo(MockMvcResultHandlers.print());
 	}
+
+	//获取加密盐和加密后的密码
+    @Test
+    public void getPwd(){
+	    String password = "1";
+        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+        int times = 2;
+        String encodedPassword = new SimpleHash("MD5", password, salt, times).toString();
+        System.out.println("encodedPassword = " + encodedPassword);
+        System.out.println("salt = " + salt);
+    }
 
 }

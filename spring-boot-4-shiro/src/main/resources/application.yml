@@ -65,12 +65,20 @@ spring:
         min-idle: 0
         # 连接超时时间（毫秒）
         timeout: 0
+  #关闭thymeleaf页面缓存
+  thymeleaf:
+    cache: false
+  #开启热部署
+  devtools:
+    restart:
+      enabled: true
+
 
 logging:
   level:
     com.wk.dao: trace
   pattern:
-    console: "[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5p [%c] - %m%n"
+    console: "[%d{HH:mm:ss.SSS}] %-5p [%c] - %m%n"
 
 #设置主键策略为数据库自增
 mybatis-plus:

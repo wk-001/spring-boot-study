@@ -1,5 +1,6 @@
 package com.wk.shiro;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -14,13 +15,14 @@ import java.util.LinkedHashMap;
 @Configuration
 public class ShiroConfig {
 
+	//shiro请求过滤器
 	@Bean
 	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		//设置securityManager
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 		//登录的URL
-		shiroFilterFactoryBean.setLoginUrl("/login");
+		shiroFilterFactoryBean.setLoginUrl("/toLogin");
 		//登录成功后跳转的URL
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		//未授权的URL
@@ -50,6 +52,8 @@ public class ShiroConfig {
 	public ShiroRealm shiroRealm(){
 		// 配置Realm，需自己实现
 		ShiroRealm shiroRealm = new ShiroRealm();
+		//配置密码比较器
+        shiroRealm.setCredentialsMatcher(credentialsMatcher());
 		return shiroRealm;
 	}
 
@@ -60,6 +64,16 @@ public class ShiroConfig {
 		securityManager.setRealm(shiroRealm());
 		return securityManager;
 	}
+
+	//配置密码比较器
+	@Bean
+	public HashedCredentialsMatcher credentialsMatcher(){
+        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+        credentialsMatcher.setHashAlgorithmName("MD5");
+        credentialsMatcher.setHashIterations(2);
+        credentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return credentialsMatcher;
+    }
 
 
 }
