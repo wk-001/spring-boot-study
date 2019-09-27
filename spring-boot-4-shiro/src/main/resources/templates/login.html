@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+</head>
+<script th:inline="javascript">
+    var ctx = [[@{/}]];
+    function login() {
+        $.post(
+            ctx+"login",
+            {"userName":$("#username").val(),"password":$("#password").val()},
+            function (data) {
+                location.href = ctx + 'index';
+            }
+        )
+    }
+</script>
+<body>
+    <div class="login-page">
+        <div class="form">
+            <input type="text" placeholder="用户名" id="username" required="required"/>
+            <input type="password" placeholder="密码" id="password" required="required"/>
+            <button onclick="login()">登录</button>
+        </div>
+    </div>
+</body>
+</html>
