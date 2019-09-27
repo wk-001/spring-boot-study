@@ -1,15 +1,17 @@
 package com.wk.interceptor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Parameter;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
 
 @Slf4j
 @Component      //使本类成为Spring上下文中的一个Bean
@@ -24,6 +26,27 @@ public class TimeInterceptor implements HandlerInterceptor {
         request.setAttribute("startTime", new Date().getTime());
         log.info("类名"+((HandlerMethod) o).getBean().getClass().getName());
         log.info("方法名"+((HandlerMethod) o).getMethod().getName());
+        ObjectMapper mapper = new ObjectMapper();
+
+        //获取restful风格请求的所有参数
+        Map pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+        String pathVariable = mapper.writeValueAsString(pathVariables);
+        log.info("restful请求的参数:"+pathVariable);
+
+        /* 获取非restful风格请求的所有参数
+        Map ParameterMap =  request.getParameterMap();
+        Map reqMap = new HashMap();
+        Set<Map.Entry<String,String[]>> entry = ParameterMap.entrySet();
+        Iterator<Map.Entry<String,String[]>> it = entry.iterator();
+        while (it.hasNext()){
+            Map.Entry<String,String[]>  me = it.next();
+            String key = me.getKey();
+            String value = me.getValue()[0];
+            reqMap.put(key,value);
+        }
+        String queryString = mapper.writeValueAsString(reqMap);
+        log.info("请求参数："+queryString);*/
+
         return true;
     }
 

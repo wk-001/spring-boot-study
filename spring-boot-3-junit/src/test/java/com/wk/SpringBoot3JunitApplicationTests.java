@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -23,10 +22,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.Cookie;
+import java.io.IOException;
 
 /**
- * SpringBoot单元测试
- * 参考页面：https://mrbird.cc/Spring-Boot%20TESTing.html
+ * SpringBoot单元测试+json测试
+ * 单元测试参考页面：https://mrbird.cc/Spring-Boot%20TESTing.html
+ * json参考页面：https://mrbird.cc/Spring-Boot%20JSON.html
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,7 +64,7 @@ public class SpringBoot3JunitApplicationTests {
                 .andDo(MockMvcResultHandlers.print());      //打印请求和响应信息
     }
 
-    //发送json格式数据
+    //发送json格式数据，controller层方法接收json数据的参数必须加上@RequestBody注解
     @Test
     public void testJson() throws Exception {
         User user = new User(1,"tom",22);
@@ -147,5 +148,13 @@ public class SpringBoot3JunitApplicationTests {
     public void testSessionAndCookie() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/index").sessionAttr("user", new User()));
         mockMvc.perform(MockMvcRequestBuilders.get("/index").cookie(new Cookie("user", "abc")));
+    }
+
+    //json转对象
+    @Test
+    public void jsonToObj() throws IOException {
+        String jsonContent = "{\"id\":1,\"name\":\"tom\",\"age\":22}";
+        User user = mapper.readValue(jsonContent, User.class);
+        System.out.println("user = " + user.getName());
     }
 }
