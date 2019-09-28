@@ -1,5 +1,6 @@
 package com.wk.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -34,12 +35,14 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/fonts/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
+		filterChainDefinitionMap.put("/plugin/**", "anon");
 		// druid数据源监控页面不拦截
 		filterChainDefinitionMap.put("/druid/**", "anon");
 		// 配置退出过滤器，其中具体的退出代码Shiro已经替我们实现了
 		filterChainDefinitionMap.put("/logout", "logout");
 		//访问项目首页不限制
 		filterChainDefinitionMap.put("/", "anon");
+		filterChainDefinitionMap.put("/index", "anon");
 		//访问登录方法不受限制
 		filterChainDefinitionMap.put("/login", "anon");
 		// 除上以外所有url都必须认证通过才可以访问，未通过认证自动访问LoginUrl
@@ -77,5 +80,10 @@ public class ShiroConfig {
         return credentialsMatcher;
     }
 
+    //thymeleaf页面使用shiro标签
+	@Bean
+	public ShiroDialect shiroDialect() {
+		return new ShiroDialect();
+	}
 
 }

@@ -88,10 +88,10 @@
     color: #ef3b3a;
 }
 body {
-    background: #76b852; /* fallback for old browsers */
+    /*background: #76b852; !* fallback for old browsers *!
     background: -webkit-linear-gradient(right, #76b852, #8dc26f);
     background: -moz-linear-gradient(right, #76b852, #8dc26f);
     background: -o-linear-gradient(right, #76b852, #8dc26f);
-    background: linear-gradient(to left, #76b852, #8dc26f);
+    background: linear-gradient(to left, #76b852, #8dc26f);*/
     font-family: Lato,"PingFang SC","Microsoft YaHei",sans-serif;
 }

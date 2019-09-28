@@ -2,8 +2,6 @@
 <html  xmlns:th="http://www.thymeleaf.org"
        xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-
-    <!--引用公共css，如果不需要单独引入css文件就把~{::link}改为~{}-->
     <head th:replace="common :: common_css(~{::title},~{})">
         <title>首页</title>
         <!--使用本页面css-->
@@ -12,20 +10,9 @@
     <div th:replace="common :: common_js(~{})">
         <!--引入页面自己的js-->
     </div>
-
 </head>
 <body>
-<!--引入top.html的th:fragment="head"片段 中间两个" :: "两边有空格
-<div th:insert="common :: head">-->
-
-</div>
-<div align="center">
-    <h1>首页</h1>
-</div>
-<div class="container-fluid" style="width: 100%; height: 100%; margin: auto;">
-    <div style="width: 80%; height: 100%; margin: auto;">
-
-    </div>
-</div>
+<p>Hello, <shiro:principal property="userName"/>, how are you today?</p>
+aaaaaa
 </body>
 </html>

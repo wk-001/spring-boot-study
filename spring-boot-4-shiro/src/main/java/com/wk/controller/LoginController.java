@@ -1,19 +1,17 @@
 package com.wk.controller;
 
-import com.wk.pojo.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +33,7 @@ public class LoginController {
 	//登录
 	@PostMapping("login")
 	@ResponseBody
-	public Map<String,Object> login(String userName, String password){
+	public Map<String,Object> login(String userName, String password, HttpServletRequest req){
 		UsernamePasswordToken token = new UsernamePasswordToken(userName,password);
 		Subject subject = SecurityUtils.getSubject();
 		String msg = "";
@@ -51,16 +49,32 @@ public class LoginController {
 			e.printStackTrace();
 			msg = "认证失败！原因："+e.getMessage();
 		}
+
+		//获取登录前访问的页面
+		SavedRequest request = WebUtils.getSavedRequest(req);
+		String path = "";
+
+		if (request != null) {
+			String uri = request.getRequestURI();
+			if(uri.equals("/favicon.ico")||"".equals(uri)){
+				path = "/index";
+			}else{
+				path = uri;
+			}
+		}
+
 		Map<String,Object> map = new HashMap<>();
 		map.put("msg",msg);
+		map.put("path",path);
 		return map;
 	}
 
-	@RequestMapping("/index")
+/*	@RequestMapping("/index")
 	public String index(Model model) {
-		// 登录成后，即可通过Subject获取登录的用户信息
+		// 登录成后，即可通过Subject获取登录的用户信息,从shiro的session中取出我们保存的对象，该对象在登录认证成功后保存的
 		User user = (User) SecurityUtils.getSubject().getPrincipal();
 		model.addAttribute("user", user);
 		return "index";
-	}
+	}*/
+
 }
