@@ -40,6 +40,8 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/logout", "logout");
 		//访问项目首页不限制
 		filterChainDefinitionMap.put("/", "anon");
+		//访问登录方法不受限制
+		filterChainDefinitionMap.put("/login", "anon");
 		// 除上以外所有url都必须认证通过才可以访问，未通过认证自动访问LoginUrl
 		filterChainDefinitionMap.put("/**", "authc");
 

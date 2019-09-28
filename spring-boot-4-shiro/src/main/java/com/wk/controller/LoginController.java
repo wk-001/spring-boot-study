@@ -43,8 +43,7 @@ public class LoginController {
 			subject.login(token);
 		} catch (IncorrectCredentialsException e) {
 			e.printStackTrace();
-			System.out.println("密码"+e.getMessage());
-			msg = "密码错误!"+e.getMessage();
+			msg = "密码错误!";
 		} catch(ExcessiveAttemptsException e){
 			e.printStackTrace();
 			msg = "密码输入错误次数超过3次,请1小时后再试！";

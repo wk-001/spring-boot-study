@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
-    <script th:src="@{js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 </head>
 
 
@@ -17,9 +17,11 @@
         </div>
     </div>
 </body>
+<!--获取项目路径-->
 <script th:inline="javascript">
     var ctx = [[@{/}]];
 </script>
+<!--引入登录页面js-->
 <script data-th-src="@{js/login/login.js}"></script>
 
 </html>

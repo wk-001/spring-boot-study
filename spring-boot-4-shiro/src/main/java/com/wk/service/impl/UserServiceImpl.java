@@ -29,13 +29,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 		QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("user_name",userName);
 		User user = userMapper.selectOne(wrapper);
 		if (user != null) {
-			if("1".equals(user.getStatus())){
+			if(1==user.getStatus()){
 				return user;
 			}else {
 				throw new LockedAccountException("账号已被锁定,请联系管理员！");
 			}
 		}else {
-			throw new UnknownAccountException("用户名或密码错误！");
+			throw new UnknownAccountException("用户名不存在！");
 		}
 	}
 }
