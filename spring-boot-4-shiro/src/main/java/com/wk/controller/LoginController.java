@@ -33,8 +33,8 @@ public class LoginController {
 	//登录
 	@PostMapping("login")
 	@ResponseBody
-	public Map<String,Object> login(String userName, String password, HttpServletRequest req){
-		UsernamePasswordToken token = new UsernamePasswordToken(userName,password);
+	public Map<String,Object> login(String userName, String password, Boolean rememberMe,HttpServletRequest req){
+		UsernamePasswordToken token = new UsernamePasswordToken(userName,password,rememberMe);
 		Subject subject = SecurityUtils.getSubject();
 		String msg = "";
 		try {

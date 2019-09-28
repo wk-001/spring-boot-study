@@ -2,9 +2,12 @@ package com.wk.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -46,7 +49,9 @@ public class ShiroConfig {
 		//访问登录方法不受限制
 		filterChainDefinitionMap.put("/login", "anon");
 		// 除上以外所有url都必须认证通过才可以访问，未通过认证自动访问LoginUrl
-		filterChainDefinitionMap.put("/**", "authc");
+//		filterChainDefinitionMap.put("/**", "authc");
+		//user：登录或记住我登录都可以
+		filterChainDefinitionMap.put("/**", "user");
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
@@ -67,6 +72,8 @@ public class ShiroConfig {
 		// 配置SecurityManager，并注入shiroRealm
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		securityManager.setRealm(shiroRealm());
+		//设置cookie管理对象到SecurityManager
+		securityManager.setRememberMeManager(rememberMeManager());
 		return securityManager;
 	}
 
@@ -84,6 +91,19 @@ public class ShiroConfig {
 	@Bean
 	public ShiroDialect shiroDialect() {
 		return new ShiroDialect();
+	}
+
+	//cookie管理对象
+	public CookieRememberMeManager rememberMeManager(){
+		// 设置cookie名称，对应login.html页面的<input type="checkbox" name="rememberMe"/>
+		SimpleCookie cookie = new SimpleCookie("rememberMe");
+		//设置cookie过期时间，单位：秒
+		cookie.setMaxAge(86400);
+		CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
+		rememberMeManager.setCookie(cookie);
+		//rememberMe cookie加密的密钥
+		rememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
+		return rememberMeManager;
 	}
 
 }
