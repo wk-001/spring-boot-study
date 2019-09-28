@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<!--抽取公共css-->
+<head th:fragment="common_css(title,links)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">可替换的页面标题</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="shortcut icon" th:href="@{/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/plugin/bootstrap-3.3.0/css/bootstrap.css}" type="text/css">
+    <th:block th:replace="${links}" />
+</head>
+
+<body>
+
+<!--抽取公共JS-->
+<div th:fragment="common_js(scripts)">
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/plugin/bootstrap-3.3.0/js/bootstrap.js}"></script>
+    <!--/* Per-page placeholder for additional js */-->
+    <th:block th:replace="${scripts}" />
+
+    <!--公共导航条 在引入js文件时一并引入-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/index}" style="padding-right: 25px">SpringBoot Shiro Demo</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a class="navbar-brand" th:href="@{#}">用户列表</a></li>
+                <li><a class="navbar-brand" th:href="@{#}">角色列表</a></li>
+                <li><a class="navbar-brand" th:href="@{#}">权限列表</a></li>
+                <li><a class="navbar-brand" th:href="@{/toPage/a/b}">测试</a></li>
+            </ul>
+            <div>
+                <!--向右对齐-->
+                <ul class="nav navbar-nav navbar-right">
+                    <shiro:guest>
+                        <li><a th:href="@{/login}">登录</a></li>
+                    </shiro:guest>
+                    <shiro:user>　
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                欢迎：[<shiro:principal property="userName"/>]
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{#}">个人中心</a></li>
+                                <li><a th:href="@{#}">我的角色</a></li>
+                                <li><a th:href="@{#}">我的权限</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a th:href="@{/logout}">退出</a></li>
+                            </ul>
+                        </li>
+                    </shiro:user>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+</body>
+</html>

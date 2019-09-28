@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
-    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <!--引用公共css-->
+    <head th:replace="common :: common_css(~{::title},~{::link})">
+        <title>登录</title>
+        <!--使用本页面单独使用的css-->
+        <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    </head>
+    <!--使用公有js-->
+    <div th:replace="common :: common_js(~{::script})">
+        <!--每个页面自己的js-->
+        <!--引入登录页面单独使用的js-->
+        <script data-th-src="@{js/login/login.js}"></script>
+    </div>
 </head>
 
 
@@ -17,11 +25,5 @@
         </div>
     </div>
 </body>
-<!--获取项目路径-->
-<script th:inline="javascript">
-    var ctx = [[@{/}]];
-</script>
-<!--引入登录页面js-->
-<script data-th-src="@{js/login/login.js}"></script>
 
 </html>

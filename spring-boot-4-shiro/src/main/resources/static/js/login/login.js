@@ -15,12 +15,12 @@ function login() {
     }
     $.ajax({
         type: "post",
-        url: ctx+"login",
+        url: "login",
         data: {"userName": username,"password": password},
         dataType: "json",
         success: function (data) {
             if (data.msg==""||data.msg==null) {
-                location.href = '/index';
+                location.href = data.path;
             } else {
                 alert(data.msg);
             }
