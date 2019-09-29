@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PageController {
 
+	//跳转页面
 	@RequestMapping("/{page}")
 	public String showPage(@PathVariable String page){
 		return page;
 	}
 
+	//跳转到目录下的页面，直接写/{fold}/{page}会报错
 	@RequestMapping("/toPage/{fold}/{page}")
 	public String showPages(@PathVariable String fold, @PathVariable String page){
 		String path = fold+"/"+page;

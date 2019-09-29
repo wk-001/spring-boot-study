@@ -44,6 +44,7 @@ public class ShiroRealm extends AuthorizingRealm {
 			String DBPassword = user.getPassword();
 			String salt = user.getSalt();
 			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,DBPassword, ByteSource.Util.bytes(salt),getName());
+			log.info("用户："+userName+"认证成功");
 			return info;
 		}else {
 			throw new UnknownAccountException("用户名或密码错误！");
@@ -79,6 +80,7 @@ public class ShiroRealm extends AuthorizingRealm {
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		info.setRoles(roleSet);
 		info.setStringPermissions(resourceSet);
+		log.info("用户："+user.getUserName()+"授权成功");
 		return info;
 	}
 

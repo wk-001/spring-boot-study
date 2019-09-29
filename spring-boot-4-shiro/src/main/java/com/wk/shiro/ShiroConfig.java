@@ -9,6 +9,8 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -75,6 +77,8 @@ public class ShiroConfig {
 		securityManager.setRealm(shiroRealm());
 		//设置cookie管理对象到SecurityManager
 		securityManager.setRememberMeManager(rememberMeManager());
+		//设置Redis缓存
+		securityManager.setCacheManager(redisCacheManager());
 		return securityManager;
 	}
 
@@ -115,4 +119,10 @@ public class ShiroConfig {
 		return authorizationAttributeSourceAdvisor;
 	}
 
+	//配置Redis缓存
+	public RedisCacheManager redisCacheManager(){
+		RedisCacheManager redisCacheManager = new RedisCacheManager();
+		redisCacheManager.setRedisManager(new RedisManager());
+		return redisCacheManager;
+	}
 }
