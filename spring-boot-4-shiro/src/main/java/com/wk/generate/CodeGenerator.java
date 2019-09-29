@@ -17,9 +17,9 @@ import java.util.List;
 public class CodeGenerator {
 
 	/**
-	 * 数据库表名
+	 * 数据库表名，多个表用","隔开
 	 */
-	private static final String TABLE_NAME = "user";
+	private static final String TABLE_NAME = "role_resource,role";
 
 	/**
 	 * 包名
@@ -154,7 +154,7 @@ public class CodeGenerator {
 		// 写于父类中的公共字段
 		//strategy.setSuperEntityColumns("id");
 		//表名
-		strategy.setInclude(TABLE_NAME);
+		strategy.setInclude(TABLE_NAME.split(","));
 		strategy.setControllerMappingHyphenStyle(true);
 		//根据你的表名来建对应的类名，如果你的表名没有什么下划线，比如test，那么你就可以取消这一步
 //		strategy.setTablePrefix("t_");

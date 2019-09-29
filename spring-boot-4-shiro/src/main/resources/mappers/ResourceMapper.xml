@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.dao.ResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wk.pojo.Resource">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="permission" property="permission" />
+        <result column="url" property="url" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, permission, url
+    </sql>
+
+    <select id="getAllResourcesByUserId" parameterType="integer" resultType="com.wk.pojo.Resource">
+      SELECT
+            re.id,
+            re.`name`,
+            re.permission,
+            re.url
+        FROM
+            `user` AS u
+        INNER JOIN user_role AS ur ON u.id = ur.user_id
+        INNER JOIN role_resource AS rr ON ur.role_id = rr.role_id
+        INNER JOIN resource AS re ON rr.resource_id = re.id
+        WHERE
+            u.id = #{userId}
+    </select>
+
+</mapper>
