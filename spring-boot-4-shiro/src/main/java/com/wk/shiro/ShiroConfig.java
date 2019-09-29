@@ -13,8 +13,10 @@ import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.LinkedHashMap;
+import java.util.Properties;
 
 /**
  * shiro配置类
@@ -26,15 +28,17 @@ public class ShiroConfig {
 	@Bean
 	public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-		//设置securityManager
+		//必须设置 SecurityManager,Shiro的核心安全接口
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		//登录的URL
+		//这里的/toLogin是controller的映射路径,非页面，如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl("/toLogin");
-		//登录成功后跳转的URL
+		//这里的/index是controller的映射路径,非页面,登录成功后要跳转的链接
 		shiroFilterFactoryBean.setSuccessUrl("/index");
-		//未授权的URL
+		//未授权的URL，只针对本方法中配置的路径
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
+		// 配置访问权限 必须是LinkedHashMap，因为它保证有序
+		// 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 一定要注意顺序,否则无法达到过滤效果
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 		// 定义filterChain，静态资源不拦截
 		filterChainDefinitionMap.put("/css/**", "anon");
@@ -92,20 +96,44 @@ public class ShiroConfig {
         return credentialsMatcher;
     }
 
+	/*配置密码比较器和密码重试次数
+    @Bean
+	public RetryLimitHashedCredentialsMatcher credentialsMatcher(){
+		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher();
+		//设置RedisCacheManager
+		credentialsMatcher.setRedisManager(new RedisManager());
+		//设置加密算法
+		credentialsMatcher.setHashAlgorithmName("MD5");
+		//加密次数
+		credentialsMatcher.setHashIterations(2);
+		//存储为16进制
+		credentialsMatcher.setStoredCredentialsHexEncoded(true);
+		return credentialsMatcher;
+	}*/
+
     //thymeleaf页面使用shiro标签
 	@Bean
 	public ShiroDialect shiroDialect() {
 		return new ShiroDialect();
 	}
 
-	//cookie管理对象
-	public CookieRememberMeManager rememberMeManager(){
+	//cookie对象
+	public SimpleCookie simpleCookie(){
 		// 设置cookie名称，对应login.html页面的<input type="checkbox" name="rememberMe"/>
 		SimpleCookie cookie = new SimpleCookie("rememberMe");
-		//设置cookie过期时间，单位：秒
+		//设置cookie过期时间，单位：秒,有效期一天
 		cookie.setMaxAge(86400);
+		/*setcookie的httponly属性设置为true，会增加对xss防护的安全系数
+		只能通过http访问，javascript无法访问
+		防止xss读取cookie*/
+		cookie.setHttpOnly(true);
+		return cookie;
+	}
+
+	//cookie管理对象
+	public CookieRememberMeManager rememberMeManager(){
 		CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
-		rememberMeManager.setCookie(cookie);
+		rememberMeManager.setCookie(simpleCookie());
 		//rememberMe cookie加密的密钥
 		rememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
 		return rememberMeManager;
@@ -125,4 +153,26 @@ public class ShiroConfig {
 		redisCacheManager.setRedisManager(new RedisManager());
 		return redisCacheManager;
 	}
+
+	/**
+	 * 解决： 无权限页面不跳转 shiroFilterFactoryBean.setUnauthorizedUrl("/403") 无效
+	 * shiro的源代码ShiroFilterFactoryBean.Java定义的filter必须满足filter instanceof AuthorizationFilter，
+	 * 只有perms，roles，ssl，rest，port才是属于AuthorizationFilter，而anon，authcBasic，auchc，user是AuthenticationFilter，
+	 * 所以unauthorizedUrl设置后页面不跳转 Shiro注解模式下，登录失败与没有权限都是通过抛出异常。
+	 * 并且默认并没有去处理或者捕获这些异常。在SpringMVC下需要配置捕获相应异常来通知用户信息
+	 *
+	 * 和GlobalExceptionHandler.handleAuthorizationException()二选一使用
+	 */
+	@Bean
+	public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+		SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
+		Properties properties=new Properties();
+		//这里的 /unauthorized 是页面，不是访问的路径
+		properties.setProperty("org.apache.shiro.authz.UnauthorizedException","/403");
+		properties.setProperty("org.apache.shiro.authz.UnauthenticatedException","/403");
+		simpleMappingExceptionResolver.setExceptionMappings(properties);
+		return simpleMappingExceptionResolver;
+	}
+
+
 }

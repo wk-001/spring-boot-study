@@ -20,10 +20,9 @@
             r.`code`
         FROM
             role AS r
-        INNER JOIN user_role AS ur ON r.id = ur.role_id
-        INNER JOIN `user` AS u ON u.id = ur.user_id
+        LEFT JOIN user_role AS ur ON r.id = ur.role_id
         WHERE
-            u.id = #{userId}
+            ur.user_id = #{userId}
     </select>
 
 </mapper>

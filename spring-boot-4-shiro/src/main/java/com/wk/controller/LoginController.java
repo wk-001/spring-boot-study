@@ -1,5 +1,6 @@
 package com.wk.controller;
 
+import com.wk.pojo.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -21,6 +22,13 @@ public class LoginController {
 	//访问首页
 	@RequestMapping("/")
 	public String redirectIndex() {
+		/*Subject subject = SecurityUtils.getSubject();
+		User user=(User) subject.getPrincipal();
+		if (user == null){
+			return "redirect:/login";
+		}else{
+			return "redirect:/index";
+		}*/
 		return "redirect:/index";
 	}
 
@@ -39,6 +47,9 @@ public class LoginController {
 		String msg = "";
 		try {
 			subject.login(token);
+			//登录成功后将用户信息放入session
+			User user = (User) subject.getPrincipal();
+			req.getSession().setAttribute("user",user);
 		} catch (IncorrectCredentialsException e) {
 			e.printStackTrace();
 			msg = "密码错误!";

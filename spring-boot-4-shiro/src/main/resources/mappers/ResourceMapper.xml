@@ -16,18 +16,17 @@
     </sql>
 
     <select id="getAllResourcesByUserId" parameterType="integer" resultType="com.wk.pojo.Resource">
-      SELECT
+        SELECT
             re.id,
             re.`name`,
             re.permission,
             re.url
         FROM
-            `user` AS u
-        INNER JOIN user_role AS ur ON u.id = ur.user_id
-        INNER JOIN role_resource AS rr ON ur.role_id = rr.role_id
-        INNER JOIN resource AS re ON rr.resource_id = re.id
+            resource re
+        LEFT JOIN role_resource rr ON re.id = rr.resource_id
+        LEFT JOIN user_role ur ON rr.role_id = ur.role_id
         WHERE
-            u.id = #{userId}
+            ur.user_id = #{userId}
     </select>
 
 </mapper>

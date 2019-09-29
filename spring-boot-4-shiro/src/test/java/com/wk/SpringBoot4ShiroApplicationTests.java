@@ -19,6 +19,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 /**
  * https://blog.csdn.net/qq_34021712/article/details/84571067
+ *
+ * SpringBoot整合shiro Redis 五 ehcache缓存
+ * https://blog.csdn.net/qq_34021712/article/details/80309246
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
