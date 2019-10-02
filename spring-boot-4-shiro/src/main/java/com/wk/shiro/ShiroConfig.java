@@ -4,18 +4,27 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.SessionListener;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -83,6 +92,8 @@ public class ShiroConfig {
 		securityManager.setRememberMeManager(rememberMeManager());
 		//设置Redis缓存
 		securityManager.setCacheManager(redisCacheManager());
+		//设置session管理器
+		securityManager.setSessionManager(sessionManager());
 		return securityManager;
 	}
 
@@ -174,5 +185,81 @@ public class ShiroConfig {
 		return simpleMappingExceptionResolver;
 	}
 
+	/**
+	 * 配置session监听
+	 */
+	@Bean
+	public SessionListener sessionListener(){
+		SessionListener sessionListener = new ShiroSessionListener();
+		return sessionListener;
+	}
+
+	/**
+	 * 配置会话ID生成器
+	 */
+	@Bean
+	public SessionIdGenerator sessionIdGenerator() {
+		return new JavaUuidSessionIdGenerator();
+	}
+
+	/**
+	 * SessionDAO的作用是为Session提供CRUD并进行持久化的一个shiro组件
+	 * MemorySessionDAO 直接在内存中进行会话维护
+	 * EnterpriseCacheSessionDAO  提供了缓存功能的会话维护，默认情况下使用MapCache实现，内部使用ConcurrentHashMap保存缓存的会话。
+	 */
+	@Bean
+	public SessionDAO sessionDAO(){
+		EnterpriseCacheSessionDAO cacheSessionDAO = new EnterpriseCacheSessionDAO();
+		//设置缓存管理器
+		cacheSessionDAO.setCacheManager(redisCacheManager());
+		//设置session缓存的名字 默认为 shiro-activeSessionCache
+		cacheSessionDAO.setActiveSessionsCacheName("shiro-activeSessionCache");
+		//sessionId生成器
+		cacheSessionDAO.setSessionIdGenerator(sessionIdGenerator());
+		return cacheSessionDAO;
+	}
+
+	/**
+	 * 配置保存sessionId的cookie
+	 * 注意：这里的cookie 不是上面的记住我 cookie 记住我需要一个cookie session管理 也需要自己的cookie
+	 */
+	@Bean
+	public SimpleCookie sessionIdCookie(){
+		//设置cookie的名称
+		SimpleCookie simpleCookie = new SimpleCookie("sid");
+		/*setcookie的httponly属性设置为true，会增加对xss防护的安全系数
+		只能通过http访问，javascript无法访问
+		防止xss读取cookie*/
+		simpleCookie.setHttpOnly(true);
+		//-1表示浏览器关闭时此cookie失效
+		simpleCookie.setMaxAge(-1);
+		return simpleCookie;
+	}
+
+	//配置会话管理器，设定会话超时及保存
+	@Bean
+	public SessionManager sessionManager(){
+		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		List<SessionListener> listeners = new ArrayList<>();
+
+		//配置监听
+		listeners.add(sessionListener());
+		sessionManager.setSessionListeners(listeners);
+		sessionManager.setSessionIdCookie(sessionIdCookie());
+		sessionManager.setSessionDAO(sessionDAO());
+		sessionManager.setCacheManager(redisCacheManager());
+
+		//全局会话超时时间(单位：毫秒)，默认30分钟，暂时设置10秒钟用来测试
+//		sessionManager.setGlobalSessionTimeout(10000);
+		//删除无效session对象 默认为true
+//		sessionManager.setDeleteInvalidSessions(true);
+		//开启定时调度器进行检测过期session 默认为true
+//		sessionManager.setSessionValidationSchedulerEnabled(true);
+		//设置session失效的扫描时间(单位：毫秒), 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时 暂时设置10秒钟用来测试
+//		sessionManager.setSessionValidationInterval(10000);
+		//取消url 后面的 JSESSIONID
+		sessionManager.setSessionIdUrlRewritingEnabled(false);
+		return sessionManager;
+	}
 
 }
