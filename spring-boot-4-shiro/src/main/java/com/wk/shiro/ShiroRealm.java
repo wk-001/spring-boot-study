@@ -12,7 +12,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
@@ -43,7 +43,7 @@ public class ShiroRealm extends AuthorizingRealm {
 		if (user != null) {
 			String DBPassword = user.getPassword();
 			String salt = user.getSalt();
-			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,DBPassword, ByteSource.Util.bytes(salt),getName());
+			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,DBPassword, new MyByteSource(salt),getName());
 			log.info("用户："+userName+"认证成功");
 			return info;
 		}else {
@@ -102,6 +102,49 @@ public class ShiroRealm extends AuthorizingRealm {
 		info.setStringPermissions(resourceSet);
 		log.info("用户："+user.getUserName()+"授权成功");
 		return info;
+	}
+
+	/**
+	 * 重写方法,清除当前用户的的 授权缓存
+	 */
+	@Override
+	public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+		super.clearCachedAuthorizationInfo(principals);
+	}
+
+	/**
+	 * 重写方法，清除当前用户的 认证缓存
+	 */
+	@Override
+	public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+		super.clearCachedAuthenticationInfo(new SimplePrincipalCollection(principals, getName()));
+	}
+
+	@Override
+	public void clearCache(PrincipalCollection principals) {
+		super.clearCache(principals);
+	}
+
+	/**
+	 * 自定义方法：清除所有 授权缓存
+	 */
+	public void clearAllCachedAuthorizationInfo() {
+		getAuthorizationCache().clear();
+	}
+
+	/**
+	 * 自定义方法：清除所有 认证缓存
+	 */
+	public void clearAllCachedAuthenticationInfo() {
+		getAuthenticationCache().clear();
+	}
+
+	/**
+	 * 自定义方法：清除所有的  认证缓存  和 授权缓存
+	 */
+	public void clearAllCache() {
+		clearAllCachedAuthenticationInfo();
+		clearAllCachedAuthorizationInfo();
 	}
 
 }

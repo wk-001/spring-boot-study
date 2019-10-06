@@ -10,7 +10,9 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -22,26 +24,25 @@ public class LoginController {
 	//访问首页
 	@RequestMapping("/")
 	public String redirectIndex() {
-		/*Subject subject = SecurityUtils.getSubject();
+		Subject subject = SecurityUtils.getSubject();
 		User user=(User) subject.getPrincipal();
 		if (user == null){
-			return "redirect:/login";
+			return "login";
 		}else{
 			return "redirect:/index";
-		}*/
-		return "redirect:/index";
+		}
 	}
 
-	//未登录的请求跳转到login.html页面
+	/*未登录的请求跳转到login.html页面
 	@GetMapping("toLogin")
 	public String toLogin() {
 		return "login";
-	}
+	}*/
 
 	//登录
 	@PostMapping("login")
 	@ResponseBody
-	public Map<String,Object> login(String userName, String password, Boolean rememberMe,HttpServletRequest req){
+	public Map<String,Object> login(String userName, String password, Boolean rememberMe, HttpServletRequest req){
 		UsernamePasswordToken token = new UsernamePasswordToken(userName,password,rememberMe);
 		Subject subject = SecurityUtils.getSubject();
 		String msg = "";

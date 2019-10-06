@@ -1,6 +1,13 @@
 $(function () {
 
 })
+function kickout(){
+    var href=location.href;
+    if(href.indexOf("kickout")>0){
+        alert("您的账号在另一台设备上登录,如非本人操作，请立即修改密码！");
+    }
+}
+window.οnlοad=kickout();
 
 function login() {
     var username = $("#username").val();

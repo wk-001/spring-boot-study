@@ -24,6 +24,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Autowired
 	private UserMapper userMapper;
 
+//	private RedisManager redisManager = new RedisManager();
+
 	@Override
 	public User findByUserName(String userName) {
 		QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("user_name",userName);
