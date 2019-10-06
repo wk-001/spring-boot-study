@@ -19,6 +19,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 /**
  * https://blog.csdn.net/qq_34021712/article/details/84571067
+ *
+ * shiro整合Redis
+ * https://blog.csdn.net/qq_34021712/article/details/80791339
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
