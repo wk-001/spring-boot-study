@@ -121,8 +121,8 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
                 e.printStackTrace();
             }
         }
-
-        redisManager.set(getRedisKickoutKey(userName), deque);
+        //登录缓存存在30分钟
+        redisManager.set(getRedisKickoutKey(userName), deque,3600);
 
         //如果被踢出了，直接退出，重定向到踢出后的地址
         if (session.getAttribute("kickout") != null) {

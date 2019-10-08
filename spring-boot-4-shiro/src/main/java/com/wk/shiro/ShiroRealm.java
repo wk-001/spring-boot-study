@@ -113,7 +113,7 @@ public class ShiroRealm extends AuthorizingRealm {
 	}
 
 	/**
-	 * 重写方法，清除当前用户的 认证缓存
+	 * 重写方法，清除当前用户的认证缓存和权限缓存
 	 */
 	@Override
 	public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
