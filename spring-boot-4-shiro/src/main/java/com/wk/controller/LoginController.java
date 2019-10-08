@@ -1,6 +1,8 @@
 package com.wk.controller;
 
 import com.wk.pojo.User;
+import com.wk.redis.RedisManager;
+import com.wk.shiro.KickoutSessionControlFilter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -9,17 +11,22 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class LoginController {
+
+	@Autowired
+	private RedisManager redisManager;
 
 	//访问首页
 	@RequestMapping("/")
@@ -73,6 +80,8 @@ public class LoginController {
 			}else{
 				path = uri;
 			}
+		}else{
+			path = "/index";
 		}
 
 		Map<String,Object> map = new HashMap<>();
@@ -89,4 +98,16 @@ public class LoginController {
 		return "index";
 	}*/
 
+	//退出登录 删除Redis缓存中的登录次数缓存
+	@RequestMapping("logout")
+	public String logout(HttpSession session){
+		Subject subject = SecurityUtils.getSubject();
+		User user = (User)subject.getSession().getAttribute("user");
+//		User user = (User) session.getAttribute("user");
+		String userName = user.getUserName();
+		String key = KickoutSessionControlFilter.KICKOUT_CACHE_KEY_PREFIX+userName;
+		redisManager.del(key);
+		subject.logout();
+		return "redirect:/login";
+	}
 }
