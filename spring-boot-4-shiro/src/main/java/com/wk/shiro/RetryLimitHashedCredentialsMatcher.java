@@ -61,8 +61,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 			//如果正确，清除缓存中用户登录次数
 			redisManager.del(loginCountKey(userName));
 		}else {
-			//密码不匹配就把登录次数放入缓存
-			redisManager.set(loginCountKey(userName),retryCount);
+			//密码不匹配就把登录次数放入缓存,失效时间3600秒，这里120秒用来测试
+			redisManager.set(loginCountKey(userName),retryCount,120);
 		}
 		return match;
 	}
