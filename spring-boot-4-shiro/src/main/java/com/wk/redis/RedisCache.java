@@ -107,6 +107,12 @@ public class RedisCache<K, V> implements Cache<K, V> {
         return this.keyPrefix + getStringRedisKey(key);
     }
 
+    /*将整个user对象作为key
+    private String getStringRedisKey(K key) {
+        return key.toString();
+    }*/
+
+    //将userName作为key
     private String getStringRedisKey(K key) {
         String redisKey;
         if (key instanceof PrincipalCollection) {

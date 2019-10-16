@@ -13,6 +13,7 @@ import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,20 +32,19 @@ public class LoginController {
 	//访问首页
 	@RequestMapping("/")
 	public String redirectIndex() {
-		Subject subject = SecurityUtils.getSubject();
-		User user=(User) subject.getPrincipal();
-		if (user == null){
+		/*Subject subject = SecurityUtils.getSubject();
+		if (subject.isAuthenticated()){*/
+			return "index";
+		/*}else{
 			return "login";
-		}else{
-			return "redirect:/index";
-		}
+		}*/
 	}
 
-	/*未登录的请求跳转到login.html页面
+	/*未登录的请求跳转到login.html页面*/
 	@GetMapping("toLogin")
 	public String toLogin() {
 		return "login";
-	}*/
+	}
 
 	//登录
 	@PostMapping("login")

@@ -17,9 +17,12 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.boot.web.server.ConfigurableWebServerFactory;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import javax.servlet.Filter;
@@ -45,8 +48,7 @@ public class ShiroConfig {
 		//必须设置 SecurityManager,Shiro的核心安全接口
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 		//这里的/toLogin是controller的映射路径,非页面，如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-//		shiroFilterFactoryBean.setLoginUrl("/toLogin");
-		shiroFilterFactoryBean.setLoginUrl("/");
+		shiroFilterFactoryBean.setLoginUrl("/toLogin");
 		//这里的/index是controller的映射路径,非页面,登录成功后要跳转的链接
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		//未授权的URL，只针对本方法中配置的路径
@@ -56,13 +58,16 @@ public class ShiroConfig {
 		LinkedHashMap<String, Filter> filtersMap = new LinkedHashMap<>();
 		//限制同一帐号同时在线的个数
 		filtersMap.put("kickout", kickoutSessionControlFilter());
+		/*配置自定义登出 覆盖 logout 之前默认的LogoutFilter
+		如果退出页面固定可以直接在controller层写一个logout方法
+		filtersMap.put("logout", shiroLogoutFilter());*/
 		//统计登录人数
 		shiroFilterFactoryBean.setFilters(filtersMap);
 
 		// 配置访问权限 必须是LinkedHashMap，因为它保证有序
 		// 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 一定要注意顺序,否则无法达到过滤效果
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-		// 定义filterChain，静态资源不拦截
+		// 定义filterChain，配置不登录可以访问的资源，anon 表示资源可以匿名访问,静态资源不拦截
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/fonts/**", "anon");
@@ -70,24 +75,35 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/plugin/**", "anon");
 		// druid数据源监控页面不拦截
 		filterChainDefinitionMap.put("/druid/**", "anon");
-		// 配置退出过滤器，其中具体的退出代码Shiro已经替我们实现了
+		// 配置退出过滤器，其中具体的退出代码Shiro已经替我们实现了，替换为自定义退出
 //		filterChainDefinitionMap.put("/logout", "logout");
 		//访问项目首页不限制
 		filterChainDefinitionMap.put("/", "anon");
-		filterChainDefinitionMap.put("/index", "anon");
 		//访问登录方法不受限制
 		filterChainDefinitionMap.put("/login", "anon");
 		// 除上以外所有url都必须认证通过才可以访问，未通过认证自动访问LoginUrl
 //		filterChainDefinitionMap.put("/**", "authc");
 		//访问/**下的资源 首先要通过 kickout 后面的filter，然后再通过user后面对应的filter才可以访问。
 		// user：登录或记住我登录都可以
+		//kickout：开启限制同一账号登录
 		filterChainDefinitionMap.put("/**", "kickout,user");
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
 	}
 
-	//手动创建ShiroRealm类，需要继承shiro提供的realm
+	/**
+	 * 配置LogoutFilter，如果退出页面固定可以直接在controller层写一个logout方法
+	 * @return
+
+	public ShiroLogoutFilter shiroLogoutFilter(){
+		ShiroLogoutFilter shiroLogoutFilter = new ShiroLogoutFilter();
+		//配置登出后重定向的地址
+		shiroLogoutFilter.setRedirectUrl("/login");
+		return shiroLogoutFilter;
+	}*/
+
+	//手动创建ShiroRealm类，需要继承shiro提供的realm,提供用户的身份和权限信息
 	@Bean
 	public ShiroRealm shiroRealm(){
 		// 配置Realm，需自己实现
@@ -107,10 +123,14 @@ public class ShiroConfig {
 		return shiroRealm;
 	}
 
+	/**
+	 * 配置核心安全事务管理器
+	 * @return
+	 */
 	@Bean
 	public SecurityManager securityManager(){
-		// 配置SecurityManager，并注入shiroRealm
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+		// 配置SecurityManager，并注入自定义的shiroRealm
 		securityManager.setRealm(shiroRealm());
 		//设置记住我
 		securityManager.setRememberMeManager(rememberMeManager());
@@ -121,7 +141,7 @@ public class ShiroConfig {
 		return securityManager;
 	}
 
-	//shiro生命周期
+	//shiro生命周期处理器
 	@Bean
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
 		return new LifecycleBeanPostProcessor();
@@ -141,7 +161,7 @@ public class ShiroConfig {
     @Bean
 	public RetryLimitHashedCredentialsMatcher credentialsMatcher(){
 		RetryLimitHashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher();
-		//设置RedisCacheManager
+		//设置RedisManager
 		credentialsMatcher.setRedisManager(redisManager());
 		//设置加密算法
 		credentialsMatcher.setHashAlgorithmName("MD5");
@@ -192,7 +212,7 @@ public class ShiroConfig {
 	public RedisCacheManager redisCacheManager(){
 		RedisCacheManager redisCacheManager = new RedisCacheManager();
 		redisCacheManager.setRedisManager(redisManager());
-		//redis中针对不同用户缓存
+		//redis中针对不同用户缓存,user对象的userName属性
 		redisCacheManager.setPrincipalIdFieldName("userName");
 		//用户权限信息缓存时间
 		redisCacheManager.setExpire(200000);
@@ -278,7 +298,8 @@ public class ShiroConfig {
 	//配置会话管理器，设定会话超时及保存
 	@Bean
 	public SessionManager sessionManager(){
-		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+//		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		ShiroSessionManager sessionManager = new ShiroSessionManager();
 		List<SessionListener> listeners = new ArrayList<>();
 
 		//配置监听
@@ -287,6 +308,7 @@ public class ShiroConfig {
 		sessionManager.setSessionIdCookie(sessionIdCookie());
 		sessionManager.setSessionDAO(sessionDAO());
 		sessionManager.setCacheManager(redisCacheManager());
+		sessionManager.setSessionFactory(sessionFactory());
 
 		//全局会话超时时间(单位：毫秒)，默认30分钟，暂时设置10秒钟用来测试
 //		sessionManager.setGlobalSessionTimeout(10000);
@@ -318,5 +340,28 @@ public class ShiroConfig {
 		//被踢出后重定向的地址
 		kickoutSessionControlFilter.setKickoutUrl("/login?kickout=1");
 		return kickoutSessionControlFilter;
+	}
+
+	/**
+	 * 解决spring-boot Whitelabel Error Page
+	 */
+	@Bean
+	public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer(){
+		return new WebServerFactoryCustomizer<ConfigurableWebServerFactory>() {
+			@Override
+			public void customize(ConfigurableWebServerFactory factory) {
+				ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/403.html");
+				ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
+				ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
+
+				factory.addErrorPages(error401Page, error404Page, error500Page);
+			}
+		};
+	}
+
+	@Bean("sessionFactory")
+	public ShiroSessionFactory sessionFactory(){
+		ShiroSessionFactory sessionFactory = new ShiroSessionFactory();
+		return sessionFactory;
 	}
 }

@@ -6,6 +6,20 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * 由于SimpleSession lastAccessTime更改后也会调用SessionDao update方法，
+ * 更新的字段只有LastAccessTime（最后一次访问时间），由于会话失效是由Redis数据过期实现的，
+ * 这个字段意义不大，为了减少对Redis的访问，降低网络压力，实现自己的Session，
+ * 在SimpleSession上套一层，增加一个标识位，如果Session除lastAccessTime以外其它字段修改，
+ * 就标识一下，只有标识为修改的才可以通过doUpdate访问Redis，否则直接返回
+ *
+ * 由于SimpleSession lastAccessTime更改后也会调用SessionDao update方法，
+ * 增加标识位，如果只是更新lastAccessTime SessionDao update方法直接返回
+ *
+ * 理解：使用Redis缓存后每次访问都会修改session中的最后访问时间，但是session已经被Redis缓存管理
+ * session的过期时间由Redis数据过期时间决定的，所以如果每次访问只修改最后访问时间就返回，修改其他的
+ * 数据就把session标记一下，只有标识为修改的才可以通过doUpdate访问Redis
+ */
 public class ShiroSession extends SimpleSession implements Serializable {
     // 除lastAccessTime以外其他字段发生改变时为true
     private boolean isChanged = false;

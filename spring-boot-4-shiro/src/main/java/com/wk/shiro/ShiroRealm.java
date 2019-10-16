@@ -113,7 +113,8 @@ public class ShiroRealm extends AuthorizingRealm {
 	}
 
 	/**
-	 * 重写方法，清除当前用户的认证缓存和权限缓存
+	 * 重写方法，清除当前用户的认证缓存，因为shiroRealm中存储的是user对象，Redis缓存是以用户名存储的
+	 * 需要特殊处理
 	 */
 	@Override
 	public void clearCachedAuthenticationInfo(PrincipalCollection principals) {

@@ -23,6 +23,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -33,11 +34,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -49,6 +52,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
         <!-- thymeleaf页面使用shiro -->
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
@@ -56,12 +60,13 @@
             <version>2.0.0</version>
         </dependency>
 
-        <!-- shiro-spring -->
+        <!-- 整合shiro和spring框架 -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
             <version>1.4.0</version>
         </dependency>
+
         <!-- shiro-core -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -69,13 +74,13 @@
             <version>1.4.0</version>
         </dependency>
 
-
         <!-- SpringBoot整合druid数据源 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.10</version>
         </dependency>
+
         <!-- mybatis-plus 会自动依赖mybatis和mybatis-spring，如果添加会冲突
          引入 MyBatis-Plus 之后不要再次引入 MyBatis 以及 MyBatis-Spring，以避免因版本差异导致的问题。-->
         <dependency>
@@ -83,12 +88,14 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.2.0</version>
         </dependency>
+
         <!--MP 代码生成器-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.2.0</version>
         </dependency>
+
         <!--MP 代码生成器需要的模板依赖-->
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -101,6 +108,12 @@
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
             <version>3.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
         </dependency>
 
     </dependencies>
