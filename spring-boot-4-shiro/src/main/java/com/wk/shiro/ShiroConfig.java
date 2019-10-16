@@ -50,7 +50,7 @@ public class ShiroConfig {
 		//这里的/toLogin是controller的映射路径,非页面，如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 		shiroFilterFactoryBean.setLoginUrl("/toLogin");
 		//这里的/index是controller的映射路径,非页面,登录成功后要跳转的链接
-		shiroFilterFactoryBean.setSuccessUrl("/index");
+		shiroFilterFactoryBean.setSuccessUrl("/");
 		//未授权的URL，只针对本方法中配置的路径
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 

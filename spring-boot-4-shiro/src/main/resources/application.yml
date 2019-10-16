@@ -73,7 +73,6 @@ spring:
     restart:
       enabled: true
 
-
 logging:
   level:
     com.wk.dao: trace
