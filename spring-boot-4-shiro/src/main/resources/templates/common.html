@@ -19,8 +19,10 @@
     <script th:src="@{/plugin/bootstrap-3.3.0/js/bootstrap.js}"></script>
     <!--/* Per-page placeholder for additional js */-->
     <th:block th:replace="${scripts}" />
+</div>
 
-    <!--公共导航条 在引入js文件时一并引入-->
+<div th:fragment="navbar">
+    <!--公共导航条-->
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -40,7 +42,11 @@
                 <shiro:hasRole name="admin">
                     <li><a class="navbar-brand" th:href="@{/user/del}">用户删除</a></li>
                 </shiro:hasRole>
-                <li><a class="navbar-brand" th:href="@{/toPage/a/b}">测试</a></li>
+
+                <!--登录后显示-->
+                <shiro:user>
+                    <li><a class="navbar-brand" th:href="@{/toPage/a/b}">测试</a></li>
+                </shiro:user>
             </ul>
             <div>
                 <!--向右对齐-->

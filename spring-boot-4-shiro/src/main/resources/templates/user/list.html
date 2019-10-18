@@ -4,8 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--引用公共css，如果不需要单独引入css文件就把~{::link}改为~{}-->
+    <head th:replace="common :: common_css(~{::title},~{})">
+        <title>首页</title>
+    </head>
+    <!--使用公有js 如果不需要单独引入css文件就把~{::script}改为~{}-->
+    <div th:replace="common :: common_js(~{})"></div>
 </head>
 <body>
+<!--引入top.html的th:fragment="head"片段 中间两个" :: "两边有空格-->
+<div th:insert="common :: navbar"></div>
 用户查询页面
 <p>[[${msg}]]</p>
 <a th:href="@{/index}">返回</a>
