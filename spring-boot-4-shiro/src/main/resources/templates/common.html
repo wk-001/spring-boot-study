@@ -12,7 +12,7 @@
 </head>
 
 <body>
-
+<script th:src="@{/js/common/common.js}"></script>
 <!--抽取公共JS-->
 <div th:fragment="common_js(scripts)">
     <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
@@ -61,9 +61,8 @@
                                 欢迎：[<shiro:principal property="userName"/>]
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a th:href="@{#}">个人中心</a></li>
-                                <li><a th:href="@{#}">我的角色</a></li>
-                                <li><a th:href="@{#}">我的权限</a></li>
+                                <li><a th:href="@{/toPage/user/center}">个人中心</a></li>
+                                <li><a href="javascript:void(0);" onclick="openPwdModel();">修改密码</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a th:href="@{/logout}">退出</a></li>
                             </ul>
@@ -73,6 +72,88 @@
             </div>
         </div>
     </nav>
+
+    <!-- 模态框（Modal） --><!--backdrop:static时,点击空白处不关闭.keyboard:false时,esc键盘不关闭.-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+                </div>
+                <div class="form-horizontal" style="padding-left: 100px">
+                    <div class="form-group">
+                        <label for="oldPwd" class="col-sm-2 control-label">原始密码</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="oldPwd" placeholder="原始密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPwd" class="col-sm-2 control-label">新密码</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="newPwd" placeholder="新密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPwd" class="col-sm-2 control-label">确认密码</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="confirmPwd" placeholder="确认密码">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="closeModel()">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="updPwd()">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <script>
+        function openPwdModel() {
+            $("#myModal").modal('show');
+        }
+        
+        function closeModel() {
+            $("#myModal").modal('hide');
+            $('#oldPass').val("");
+            $('#newPass').val("");
+            $('#confirmPwd').val("");
+        }
+        
+        function updPwd() {
+            var oldPwd = $("#oldPwd").val();
+            var newPwd = $("#newPwd").val();
+            var confirmPwd = $("#confirmPwd").val();
+            /*去掉全部空格长度为0的话证明该输入框为空*/
+            if($.trim(oldPwd).length==0||$.trim(newPwd).length==0||$.trim(confirmPwd).length==0){
+                alert("请填写密码");
+                return false;
+            }
+            if(oldPwd==newPwd){
+                alert("输入的新密码和旧密码一样");
+                return false;
+            }
+            if(newPwd==confirmPwd){
+                $.post(
+                    "user/checkPassword",
+                    {oldPwd:oldPwd,newPwd:newPwd},
+                    function (data) {
+                        if(data==1){
+                            alert("密码修改成功，请重新登录！");
+                            location.href="logout";
+                        }else{
+                            alert("原始密码不匹配！")
+                            return false;
+                        }
+                    }
+                )
+            }else{
+                alert("第二次输入的新密码和第一次输入的新密码不一致")
+                return false;
+            }
+        }
+    </script>
 </div>
 
 </body>

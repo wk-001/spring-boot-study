@@ -11,13 +11,18 @@
     <!--使用公有js 如果不需要单独引入css文件就把~{::script}改为~{}-->
     <div th:replace="common :: common_js(~{})"></div>
 </head>
+<script>
+    function test() {
+        alert(1)
+    }
+</script>
 <body>
 <!--引入top.html的th:fragment="head"片段 中间两个" :: "两边有空格-->
 <div th:insert="common :: navbar"></div>
 用户查询页面
 <p>[[${msg}]]</p>
 <a th:href="@{/index}">返回</a>
-
+<a th:href="'javascript:void(0);'" th:onclick="test()">测试</a>
 
 <!-- 用户没有身份验证时显示相应信息，即游客访问信息 -->
 <shiro:guest>游客显示的信息</shiro:guest><br/>
@@ -38,7 +43,8 @@
 <shiro:principal type="java.lang.String"/><br/>
 
 <!-- 相当于((User)Subject.getPrincipals()).getUsername() -->
-<shiro:principal property="userName"/><br/>
+用户名：<shiro:principal property="userName"/><br/>
+用户ID：<shiro:principal property="id"/><br/>
 
 <!-- 如果当前Subject有角色将显示body体内容 name="角色名" -->
 <shiro:hasRole name="admin">这是admin角色</shiro:hasRole><br/>
