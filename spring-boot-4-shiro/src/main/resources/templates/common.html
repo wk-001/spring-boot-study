@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<script th:src="@{/js/common/common.js}"></script>
+
 <!--抽取公共JS-->
 <div th:fragment="common_js(scripts)">
     <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
@@ -31,21 +31,21 @@
             <ul class="nav navbar-nav">
                 <!--有指定权限才会在页面显示该链接-->
                 <shiro:hasPermission name="user:list">
-                    <li><a class="navbar-brand" th:href="@{/user/list}">用户列表</a></li>
+                    <li><a class="navbar-brand" th:href="@{/toPage/user/list}">用户列表</a></li>
                 </shiro:hasPermission>
 
                 <shiro:hasPermission name="user:update">
-                    <li><a class="navbar-brand" th:href="@{/user/update}">用户更新</a></li>
+                    <li><a class="navbar-brand" th:href="@{/test/update}">用户更新</a></li>
                 </shiro:hasPermission>
 
                 <!--当前角色是admin才会在页面显示该链接-->
                 <shiro:hasRole name="admin">
-                    <li><a class="navbar-brand" th:href="@{/user/del}">用户删除</a></li>
+                    <li><a class="navbar-brand" th:href="@{/test/del}">用户删除</a></li>
                 </shiro:hasRole>
 
                 <!--登录后显示-->
                 <shiro:user>
-                    <li><a class="navbar-brand" th:href="@{/toPage/a/b}">测试</a></li>
+                    <li><a class="navbar-brand" th:href="@{/toPage/test/jump}">测试</a></li>
                 </shiro:user>
             </ul>
             <div>
