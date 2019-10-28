@@ -40,6 +40,11 @@ public class LoginController {
 		}*/
 	}
 
+	@GetMapping("toRegister")
+	public String toRegistered(){
+		return "user/register";
+	}
+
 	/*未登录的请求跳转到login.html页面*/
 	@GetMapping("toLogin")
 	public String toLogin() {

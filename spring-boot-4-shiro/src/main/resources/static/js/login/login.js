@@ -9,6 +9,10 @@ function kickout(){
 }
 window.οnlοad=kickout();
 
+function toRegistered() {
+    location.href="toRegister";
+}
+
 function login() {
     var username = $("#username").val();
     var password = $("#password").val();

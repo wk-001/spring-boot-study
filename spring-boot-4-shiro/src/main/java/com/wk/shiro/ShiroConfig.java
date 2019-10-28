@@ -81,6 +81,8 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/", "anon");
 		//访问登录方法不受限制
 		filterChainDefinitionMap.put("/login", "anon");
+		//访问注册方法不受限制
+		filterChainDefinitionMap.put("/toRegister", "anon");
 		// 除上以外所有url都必须认证通过才可以访问，未通过认证自动访问LoginUrl
 //		filterChainDefinitionMap.put("/**", "authc");
 		//访问/**下的资源 首先要通过 kickout 后面的filter，然后再通过user后面对应的filter才可以访问。
