@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <!--引用公共css-->
     <head th:replace="common :: common_css(~{::title},~{::link})">
@@ -17,15 +17,47 @@
 
 
 <body>
-    <div class="login-page">
-        <div class="form">
-            <input type="text" placeholder="用户名" id="username" required="required"/>
-            <input type="password" placeholder="密码" id="password" required="required"/>
-            <input type="checkbox" name="rememberMe"/>记住我
-            <button onclick="login()">登录</button>
-            <button onclick="toRegistered()">注册</button>
+<!--<div class="login-page">
+    <div class="form">
+        <input type="text" placeholder="用户名" id="username" />
+        <input type="password" placeholder="密码" id="password" />
+        <input type="checkbox" name="rememberMe"/>记住我
+        <button onclick="login()">登录</button>
+        <button onclick="toRegistered()">注册</button>
+    </div>
+</div>-->
+<div class="form-horizontal" style="padding-left: 450px;padding-top: 200px">
+    <div class="form-group">
+        <label for="username" class="col-sm-2 control-label">账号</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="username" placeholder="请输入账号">
         </div>
     </div>
+    <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">密码</label>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" id="password" placeholder="请输入密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-4">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="rememberMe"/>记住我
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-1">
+            <button class="btn btn-default" onclick="login()">登录</button>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-default" onclick="toRegistered()">注册</button>
+        </div>
+    </div>
+</div>
+
 </body>
 
 </html>

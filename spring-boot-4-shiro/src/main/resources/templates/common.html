@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <link rel="shortcut icon" th:href="@{/favicon.ico}" />
     <link rel="stylesheet" th:href="@{/plugin/bootstrap-3.3.0/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/plugin/layui-v2.5.5/layui/css/layui.css}" type="text/css">
     <th:block th:replace="${links}" />
 </head>
 
@@ -17,7 +18,7 @@
 <div th:fragment="common_js(scripts)">
     <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
     <script th:src="@{/plugin/bootstrap-3.3.0/js/bootstrap.js}"></script>
-    <!--/* Per-page placeholder for additional js */-->
+    <script th:src="@{/plugin/layui-v2.5.5/layui/layui.js}"></script>
     <th:block th:replace="${scripts}" />
 </div>
 
