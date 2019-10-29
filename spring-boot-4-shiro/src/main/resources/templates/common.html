@@ -47,6 +47,7 @@
                 <!--登录后显示-->
                 <shiro:user>
                     <li><a class="navbar-brand" th:href="@{/toPage/test/jump}">测试</a></li>
+                    <li><a class="navbar-brand" th:href="@{/toPage/test/layout}">layui布局</a></li>
                 </shiro:user>
             </ul>
             <div>
@@ -75,7 +76,8 @@
     </nav>
 
     <!-- 模态框（Modal） --><!--backdrop:static时,点击空白处不关闭.keyboard:false时,esc键盘不关闭.-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
