@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -49,6 +50,13 @@ public class SpringBoot4ShiroApplicationTests {
 						.params(param))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andDo(MockMvcResultHandlers.print());
+	}
+
+	@Test
+	public void userList() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/user/list", 1))
+				.andExpect(MockMvcResultMatchers.status().isOk())   //显示请求执行结果代码，如200 404
+				.andDo(MockMvcResultHandlers.print());      //打印请求和响应信息
 	}
 
 	//获取加密盐和加密后的密码

@@ -109,6 +109,66 @@ layui.use(['element','jquery','laydate','form','layedit'], function(){
             ,'密码必须6到12位，且不能出现空格'
         ]
     });
+
+    //信息框弹窗
+    $("#t0").click(function () {
+        var x = layer.open({
+            type:0      //设置类型 默认0 可以不写 1：页面层 2：iframe层
+            ,title:"提示"
+            ,content:"信息框内容"        //也可以显示$("#mydiv")中的内容
+            ,skin:"layui-layer-molv"        //皮肤
+            //,time: 2000         2秒后自动关闭
+            ,shade: [0.8, '#393D49']          //遮罩层透明度和自定义颜色
+            ,shadeClose:true            //点击遮罩层关闭弹窗
+            ,area: ['800px', '500px']    //弹窗宽高
+            ,btn: ['按钮一', '按钮二', '按钮三']
+            ,yes: function(index, layero){
+                //按钮【按钮一】的回调
+                alert(1);
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+                alert(2);
+                return false// 开启该代码可禁止点击该按钮关闭
+            }
+            ,btn3: function(index, layero){
+                //按钮【按钮三】的回调
+                alert(3);
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+                alert("closed");
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        })
+        alert(x);
+    });
+
+    //页面层弹窗
+    $("#t1").click(function () {
+        layer.open({
+            type: 1      //设置类型 默认0 可以不写 1：页面层 2：iframe层
+            , title: "提示"
+            , content: $("#mydiv")     //内容
+            , skin: "layui-layer-molv"        //皮肤
+            ,area: ['800px', '500px']     //弹窗宽高
+            ,maxmin:true        //是否显示最大化最小化按钮，仅type=1 or type=2 有效
+        });
+    });
+
+    //iframe层弹窗
+    $("#t2").click(function () {
+        layer.open({
+            type: 2      //设置类型 默认0 可以不写 1：页面层 2：iframe层
+            , title: "提示"
+            , content: "layout.html"     //url
+            , skin: "layui-layer-molv"        //皮肤
+            ,area: ['800px', '500px']     //弹窗宽高
+            ,maxmin:true        //是否显示最大化最小化按钮，仅type=1 or type=2 有效
+        });
+    });
+
 });
 
 /*使用layui自带的jQuery,前提是项目中只有layui自带的jQuery，引入其他jQuery会冲突

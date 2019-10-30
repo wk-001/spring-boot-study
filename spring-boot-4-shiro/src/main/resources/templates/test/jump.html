@@ -113,6 +113,7 @@
     </div>
 
     <!--表单元素，需要在js中依赖form，如果在form标签加上layui-form-pane会让整个表单变成方框风格-->
+    <div id="mydiv" style="display: none;padding: 10px">
     <form class="layui-form" action="" lay-filter="formTest">
         <!--可以在div中加上layui-form-pane让单个表单变成方框风格-->
         <div class="layui-form-item layui-form-pane">
@@ -200,6 +201,11 @@
         <button class="layui-btn" id="btn2">表单赋值初始值</button>
         <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="demo1" id="btn3">立即提交</button>
     </form>
+    </div>
+    <button class="layui-btn" id="t0">layer.open.type=0信息层</button>
+    <button class="layui-btn" id="t1">layer.open.type=1页面层</button>
+    <button class="layui-btn" id="t2">layer.open.type=2</button>
+
 </div>
 </body>
 </html>
