@@ -20,5 +20,25 @@
 <!--引入lay.html的th:fragment="layNavbar"片段 中间两个" :: "两边有空格-->
 <div th:insert="lay :: layNavbar"></div>
 
+<div class="layui-body">
+    <div style="padding:8% 20px 1px 20px;">
+        <!--工具栏-->
+        <div id="toolBar" style="display: none">
+            <button type="button" class="layui-btn layui-btn-sm">增加</button>
+            <button type="button" class="layui-btn layui-btn-sm">编辑</button>
+            <button type="button" class="layui-btn layui-btn-sm">删除</button>
+        </div>
+
+        <!--数据表格-->
+        <table class="layui-hide" id="userTable" lay-filter="userTable"></table>
+
+        <!--编辑工具栏-->
+        <div id="editDemo">
+            <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
