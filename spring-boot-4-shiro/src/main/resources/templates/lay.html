@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<!--抽取公共css-->
+<head th:fragment="lay_css(title,links)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">可替换的页面标题</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/plugin/layui-v2.5.5/layui/css/layui.css}" type="text/css">
+    <th:block th:replace="${links}"/>
+</head>
+
+<body class="layui-layout-body">
+
+<!--抽取公共JS-->
+<div th:fragment="lay_js(scripts)">
+    <script th:src="@{/plugin/layui-v2.5.5/layui/layui.js}"></script>
+    <th:block th:replace="${scripts}"/>
+</div>
+
+<div th:fragment="layNavbar">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo" onclick="window.location.href='/'" style="cursor: pointer">SpringBoot shiro layui</div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+
+                <!--有指定权限才会在页面显示该链接-->
+                <shiro:hasPermission name="user:list">
+                    <li class="layui-nav-item"><a th:href="@{/toPage/user/list}">用户列表</a></li>
+                </shiro:hasPermission>
+
+                <shiro:hasPermission name="user:update">
+                    <li class="layui-nav-item"><a th:href="@{/test/update}">用户更新</a></li>
+                </shiro:hasPermission>
+
+                <!--当前角色是admin才会在页面显示该链接-->
+                <shiro:hasRole name="admin">
+                    <li class="layui-nav-item"><a th:href="@{/test/del}">用户删除</a></li>
+                </shiro:hasRole>
+
+                <!--登录后显示-->
+                <shiro:user>
+                    <li class="layui-nav-item"><a th:href="@{/toPage/test/jump}">测试</a></li>
+                    <li class="layui-nav-item"><a th:href="@{/toPage/test/layout}">layui布局</a></li>
+
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">其它系统</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="">邮件管理</a></dd>
+                            <dd><a href="">消息管理</a></dd>
+                            <dd><a href="">授权管理</a></dd>
+                        </dl>
+                    </li>
+                </shiro:user>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                        <shiro:principal property="userName"/>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/toPage/user/center}">个人中心</a></dd>
+                        <dd><a href="javascript:void(0);" id="updPwd">修改密码</a></dd>
+                        <dd><a th:href="@{/logout}">退出</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">所有商品</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">列表一</a></dd>
+                            <dd><a href="javascript:;">列表二</a></dd>
+                            <dd><a href="javascript:;">列表三</a></dd>
+                            <dd><a href="">超链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">解决方案</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">列表一</a></dd>
+                            <dd><a href="javascript:;">列表二</a></dd>
+                            <dd><a href="">超链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="">云市场</a></li>
+                    <li class="layui-nav-item"><a href="">发布商品</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--<div class="layui-body">
+            &lt;!&ndash; 内容主体区域 &ndash;&gt;
+            <div style="padding: 15px;"></div>
+        </div>-->
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © layui.com - 底部固定区域
+        </div>
+    </div>
+
+    <div id="pwdModel" style="display: none;padding: 10px">
+        <form class="layui-form layui-form-pane" id="pwdForm" action="" lay-filter="formTest" method="post">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">旧密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="oldPwd" id="oldPwd" placeholder="请输入原始密码" lay-verify="required|pass"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="newPwd" id="newPwd" required lay-verify="required|pass"
+                           placeholder="请输入新密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">重复密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="confirmPwd" id="confirmPwd" required lay-verify="required|pass"
+                           placeholder="请再次输入新密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="pwdBtn">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        layui.use(['jquery', 'element', 'form', 'layer'], function () {
+            var $ = layui.jquery
+            , element = layui.element
+            , form = layui.form
+            ,layer = layui.layer
+
+            //页面层弹窗
+            $("#updPwd").click(function () {
+                layer.open({
+                    type: 1      //设置类型 默认0 可以不写 1：页面层 2：iframe层
+                    , title: "修改密码"
+                    , content: $("#pwdModel")     //内容
+                });
+            });
+
+            //自定义验证规则
+            /*form.verify({
+                //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+                pass: [
+                    /^[\S]{6,12}$/
+                    , '密码必须6到12位，且不能出现空格'
+                ]
+            });*/
+            //监听submit提交
+            form.on('submit(pwdBtn)', function(data){
+
+                var oldPwd = data.field.oldPwd;
+                var newPwd = data.field.newPwd;
+                var confirmPwd = data.field.confirmPwd;
+
+                if(oldPwd==newPwd){
+                    alert("输入的新密码和旧密码一样");
+                    $("#pwdForm")[0].reset();
+                }
+                if(newPwd==confirmPwd){
+                    $.post(
+                        "user/checkPassword",
+                        {oldPwd:oldPwd,newPwd:newPwd},
+                        function (data) {
+                            if(data==1){
+                                alert("密码修改成功，请重新登录！");
+                                location.href="logout";
+                            }else{
+                                alert("原始密码不匹配！")
+                                $("#pwdForm")[0].reset();
+                            }
+                        }
+                    )
+                }else{
+                    alert("第二次输入的新密码和第一次输入的新密码不一致");
+                    $("#pwdForm")[0].reset();
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

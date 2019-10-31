@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!--引用公共css，如果不需要单独引入css文件就把~{::link}改为~{}-->
-    <head th:replace="common :: common_css(~{::title},~{})">
+    <head th:replace="lay :: lay_css(~{::title},~{})">
         <title>首页</title>
     </head>
     <!--使用公有js 如果不需要单独引入css文件就把~{::script}改为~{}-->
-    <div th:replace="common :: common_js(~{::script})">
+    <div th:replace="lay :: lay_js(~{::script})">
         <!--每个页面自己的js-->
         <!--引入登录页面单独使用的js-->
         <script data-th-src="@{/js/user/list.js}"></script>
@@ -17,8 +17,8 @@
 </head>
 
 <body>
-<!--引入common.html的th:fragment="navbar"片段 中间两个" :: "两边有空格-->
-<div th:insert="common :: navbar"></div>
+<!--引入lay.html的th:fragment="layNavbar"片段 中间两个" :: "两边有空格-->
+<div th:insert="lay :: layNavbar"></div>
 
 </body>
 </html>

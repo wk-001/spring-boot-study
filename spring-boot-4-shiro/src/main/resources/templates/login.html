@@ -2,21 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <!--引用公共css-->
-    <head th:replace="common :: common_css(~{::title},~{::link})">
+    <head th:replace="lay :: lay_css(~{::title},~{::link})">
         <title>登录</title>
         <!--使用本页面单独使用的css-->
         <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
     </head>
     <!--使用公有js-->
-    <div th:replace="common :: common_js(~{::script})">
+    <div th:replace="lay :: lay_js(~{::script})">
         <!--每个页面自己的js-->
         <!--引入登录页面单独使用的js-->
-        <script data-th-src="@{js/login/login.js}"></script>
+        <script data-th-src="@{/js/login/login.js}"></script>
     </div>
 </head>
 
 
 <body>
+<!--  bootstrap结构
 <div class="form-horizontal" style="padding-left: 450px;padding-top: 200px">
     <div class="form-group">
         <label for="username" class="col-sm-2 control-label">账号</label>
@@ -47,8 +48,38 @@
             <button class="btn btn-default" onclick="toRegistered()">注册</button>
         </div>
     </div>
-</div>
+</div>-->
+<div style="padding-left: 550px;padding-top: 200px">
+    <form class="layui-form" action="" lay-filter="example" id="loginForm" method="post">
+        <div class="layui-form-item layui-col-xs5">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" id="username" lay-verify="required" autocomplete="off"
+                       placeholder="请输入账号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-col-xs5">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" id="password" lay-verify="required" placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label">登录选项</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="rememberMe" lay-skin="primary" title="记住我">
+            </div>
+        </div>
 
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="loginBtn">登录</button>
+                <button class="layui-btn layui-btn-primary" onclick="toRegistered()">注册</button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 
 </html>

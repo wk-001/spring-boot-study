@@ -32,12 +32,12 @@ public class LoginController {
 	//访问首页
 	@RequestMapping("/")
 	public String redirectIndex() {
-		/*Subject subject = SecurityUtils.getSubject();
-		if (subject.isAuthenticated()){*/
+		Subject subject = SecurityUtils.getSubject();
+		if (subject.isAuthenticated()){
 			return "index";
-		/*}else{
+		}else{
 			return "login";
-		}*/
+		}
 	}
 
 	@GetMapping("toRegister")
@@ -55,6 +55,9 @@ public class LoginController {
 	@PostMapping("login")
 	@ResponseBody
 	public Map<String,Object> login(String userName, String password, Boolean rememberMe, HttpServletRequest req){
+		if (rememberMe == null) {
+			rememberMe = false;
+		}
 		UsernamePasswordToken token = new UsernamePasswordToken(userName,password,rememberMe);
 		Subject subject = SecurityUtils.getSubject();
 		String msg = "";
