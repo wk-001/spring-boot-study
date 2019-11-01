@@ -73,8 +73,10 @@
         </div>
 
         <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="loginBtn">登录</button>
+            <div class="layui-input-block" style="margin-left: 180px">
+                <!--绑定button按钮作为提交按钮 必须加上lay-submit属性，绑定触发提交的元素，可以进行验证等操作
+                lay-filter ='任意字符'	事件过滤器（公用属性），主要用于事件的精确匹配-->
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="loginBtn">登录</button>
                 <button class="layui-btn layui-btn-primary" onclick="toRegistered()">注册</button>
             </div>
         </div>

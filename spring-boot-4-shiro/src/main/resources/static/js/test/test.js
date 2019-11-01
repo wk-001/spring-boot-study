@@ -44,7 +44,7 @@ layui.use(['element','jquery','laydate','form','layedit'], function(){
         });
     });
 
-    //常规用法
+    //绑定事件选择器
     laydate.render({
         elem: '#test1'      //指定元素 test1是input的id
         ,type: 'date'   //时间类型；year month date(default) time datetime
@@ -64,7 +64,7 @@ layui.use(['element','jquery','laydate','form','layedit'], function(){
         form.render("select");      //只渲染下拉框
         //form.render();              //渲染所有
     });
-    //表单赋值初始值,根据form表单的lay-filter和表单的name属性赋值
+    //表单赋值初始值,给lay-filter="userForm"的表单根据name属性赋值
     $("#btn2").click(function () {
         form.val("formTest",{
              "title":'tom'
