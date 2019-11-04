@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -17,6 +16,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.io.File;
 
 /**
  * https://blog.csdn.net/qq_34021712/article/details/84571067
@@ -69,5 +70,11 @@ public class SpringBoot4ShiroApplicationTests {
         System.out.println("encodedPassword = " + encodedPassword);
         System.out.println("salt = " + salt);
     }
+
+    @Test
+	public void filePath(){
+		File file = new File("D:\\uploadPhoto\\7a1129982855447180b8ea22323dbd55.jpg");
+		System.out.println("file = " + file.toString());
+	}
 
 }

@@ -14,12 +14,13 @@ function test() {
 //日期依赖laydate模块
 //表单依赖form模块
 //富文本依赖'layedit'模块
-layui.use(['element','jquery','laydate','form','layedit'], function(){
+layui.use(['element','jquery','laydate','form','layedit','upload'], function(){
     var $ = layui.jquery
     ,element = layui.element
     ,laydate = layui.laydate
     ,form = layui.form
     ,layedit = layui.layedit
+    ,upload = layui.upload;
     //创建一个编辑器，'LAY_demo_editor'是富文本编辑器文本域的ID
     var editIndex = layedit.build('LAY_demo_editor');
     $("#add").click(function () {
@@ -167,6 +168,112 @@ layui.use(['element','jquery','laydate','form','layedit'], function(){
             ,area: ['800px', '500px']     //弹窗宽高
             ,maxmin:true        //是否显示最大化最小化按钮，仅type=1 or type=2 有效
         });
+    });
+
+    //普通图片上传
+    var uploadInst = upload.render({
+        elem: '#uploadFile'
+        ,url: '/upload/'
+        ,accept:'images'        //指定允许上传时校验的文件类型,默认images
+        ,acceptMime: 'image/*'  //规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的
+        ,auto:true              //选完文件后自动上传
+        ,field:'file'           //表单的name属性值
+        ,before: function(obj){
+            //预读本地文件示例，不支持ie8
+            obj.preview(function(index, file, result){
+                $('#img1').attr('src', result); //图片链接（base64）
+            });
+        }
+        ,done: function(res){
+            //如果上传失败
+            if(res.code > 0){
+                return layer.msg('上传失败');
+            }
+            //上传成功
+            layer.msg('上传成功');
+        }
+        ,error: function(){
+            //演示失败状态，并实现重传
+            var demoText = $('#demoText');
+            demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+            demoText.find('.demo-reload').on('click', function(){
+                uploadInst.upload();
+            });
+        }
+    });
+
+    //多图片上传
+    upload.render({
+        elem: '#test2'
+        ,url: '/upload/'
+        ,multiple: true
+        ,before: function(obj){
+            //预读本地文件示例，不支持ie8
+            obj.preview(function(index, file, result){
+                $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+            });
+        }
+        ,done: function(res){
+            //上传完毕
+            layer.msg('上传成功');
+        }
+    });
+
+    //多文件列表示例
+    var demoListView = $('#demoList')
+        ,uploadListIns = upload.render({
+        elem: '#testList'
+        ,url: '/upload/'
+        ,accept: 'file'
+        ,multiple: true     //是否允许多文件上传
+        ,auto: false        //不自动上传
+        ,bindAction: '#testListAction'      //绑定上传按钮
+        ,choose: function(obj){
+            var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+            //读取本地文件
+            obj.preview(function(index, file, result){
+                var tr = $(['<tr id="upload-'+ index +'">'
+                    ,'<td>'+ file.name +'</td>'
+                    ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                    ,'<td>等待上传</td>'
+                    ,'<td>'
+                    ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                    ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                    ,'</td>'
+                    ,'</tr>'].join(''));
+
+                //单个重传
+                tr.find('.demo-reload').on('click', function(){
+                    obj.upload(index, file);
+                });
+
+                //删除
+                tr.find('.demo-delete').on('click', function(){
+                    delete files[index]; //删除对应的文件
+                    tr.remove();
+                    uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                });
+
+                demoListView.append(tr);
+            });
+        }
+        ,done: function(res, index, upload){
+            if(res.code == 0){ //上传成功
+                var tr = demoListView.find('tr#upload-'+ index)
+                    ,tds = tr.children();
+                tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                tds.eq(3).html(''); //清空操作
+                return delete this.files[index]; //删除文件队列已经上传成功的文件
+            }
+            this.error(index, upload);
+        }
+        ,error: function(index, upload){
+            layer.msg("服务器异常");
+            var tr = demoListView.find('tr#upload-'+ index)
+                ,tds = tr.children();
+            tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+            tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+        }
     });
 
 });

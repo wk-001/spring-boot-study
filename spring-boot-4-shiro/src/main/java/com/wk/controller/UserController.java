@@ -60,5 +60,18 @@ public class UserController {
 		return DataGrid.failed("未找到匹配数据！");
 	}
 
+	@RequestMapping("add")
+	@ResponseBody
+	public String addUser(User user){
+		System.out.println("user = " + user);
+		return "success";
+	}
+
+	@RequestMapping("update")
+	@ResponseBody
+	public String updateUser(User user){
+		System.out.println("user = " + user);
+		return "success";
+	}
 
 }

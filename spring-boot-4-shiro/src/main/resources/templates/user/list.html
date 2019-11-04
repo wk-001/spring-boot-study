@@ -73,7 +73,7 @@
 
             <div class="layui-form-item">
                 <div class="layui-input-block" style="padding-left: 900px">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal layui-icon layui-icon-search" id="doSearch">查询</button>
+                    <button type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-icon layui-icon-search" id="doSearch">查询</button>
                     <button type="reset" class="layui-btn layui-btn-sm layui-btn-warm layui-icon layui-icon-refresh">重置</button>
                 </div>
             </div>
@@ -99,7 +99,7 @@
 
         <!--添加修改弹出层-->
         <div style="display: none;padding: 20px" id="saveOrUpdate">
-            <form class="layui-form" action="" lay-filter="userForm" id="userForm">
+            <form class="layui-form" action="" lay-filter="userForm" id="userForm" method="post">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">用户名</label>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block" style="padding-left:180px">
-                        <button class="layui-btn layui-btn-normal layui-icon ayui-icon-add-1" lay-submit lay-filter="addUser" id="addUser">添加</button>
+                        <button type="button" class="layui-btn layui-btn-normal layui-icon ayui-icon-add-1" lay-submit lay-filter="addUser" id="addUser">添加</button>
                         <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
                     </div>
                 </div>

@@ -151,7 +151,7 @@ layui.use(['jquery','element','form','layer','table','laydate'], function(){
             ,success:function (index) {
                 //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                 $("#userForm")[0].reset();
-                url = "user/add";
+                url = "/user/add";
             }
         });
     }
@@ -167,20 +167,20 @@ layui.use(['jquery','element','form','layer','table','laydate'], function(){
             ,success:function (index) {         //弹窗成功后回调
                 //给lay-filter="userForm"的表单赋值,name相同可以直接赋值
                 form.val("userForm",data);
-                url = "user/update";
+                url = "/user/update";
             }
         });
     }
 
     //保存数据，监听submit
-    form.on('submit(addUser)', function(data) {
+    form.on('submit(addUser)', function(obj) {
         //序列化表单数据
         var params = $("#userForm").serialize();
-        lay.msg(params);
+        layer.msg(params);
         $.post(url,params,function (obj) {
-            lay.msg("save success");
+            layer.msg(obj);
             //关闭弹窗
-            lay.close(mainModel);
+            layer.close(mainModel);
             // 刷新数据表格
             tableIns.reload();      //在不刷新页面的情况刷新表格数据
         })

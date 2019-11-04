@@ -72,12 +72,19 @@ spring:
   devtools:
     restart:
       enabled: true
+  #设置上传文件大小,单位MB必须大写
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 
 logging:
   level:
     com.wk.dao: trace
   pattern:
     console: "[%d{HH:mm:ss.SSS}] %-5p [%c] - %m%n"
+
 
 #设置主键策略为数据库自增
 mybatis-plus:
