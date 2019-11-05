@@ -1,5 +1,6 @@
 {
-"status":{"code":200,"message":"操作成功"},
+"code":0,
+"msg":"操作成功",
 "data": [
   {"id":"001","title": "湖南省", "last": false, "parentId": "0","checkArr": [{"type": "0","checked": "0"}]},
   {"id":"002","title": "湖北省", "last": false, "parentId": "0","checkArr": [{"type": "0","checked": "0"}]},
