@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/plugin/layui-v2.5.5/layui/css/layui.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/eleTree.css}" type="text/css">
+    <script th:src="@{/plugin/layui-v2.5.5/layui/layui.js}" type="text/javascript"></script>
+</head>
+
+<script type="text/javascript">
+    layui.config({
+        base: "/plugin/layui-v2.5.5/layui/lay/mymodules/"
+    }).use(['jquery','table','eleTree','code','form','slider'], function() {
+        var $ = layui.jquery;
+        var eleTree = layui.eleTree;
+
+        var data = [
+            {
+                "id": 1,
+                "label": "安徽省",
+                "children": [
+                    {
+                        "id": 2,
+                        "label": "马鞍山市",
+                        "disabled": true,
+                        "children": [
+                            {
+                                "id": 3,
+                                "label": "和县"
+                            },
+                            {
+                                "id": 4,
+                                "label": "花山区",
+                                "checked": true
+                            }
+                        ]
+                    },
+                    {
+                        "id": 22,
+                        "label": "淮北市",
+                        "children": [
+                            {
+                                "id": 23,
+                                "label": "濉溪县"
+                            },
+                            {
+                                "id": 24,
+                                "label": "相山区",
+                                "checked": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "label": "河南省",
+                "children": [
+                    {
+                        "id": 6,
+                        "label": "郑州市"
+                    }
+                ]
+            },
+            {
+                "id": 10,
+                "label": "江苏省",
+                "children": [
+                    {
+                        "id": 11,
+                        "label": "苏州市"
+                    },
+                    {
+                        "id": 12,
+                        "label": "南京市",
+                        "children": [
+                            {
+                                "id": 13,
+                                "label": "姑苏区"
+                            },
+                            {
+                                "id": 14,
+                                "label": "相城区"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        var obj = {
+            elem: '.ele1',
+            data: data,
+            // url: "../eleTree/tree.json",
+            showCheckbox: true,     //节点是否可被选择
+            //accordion: true,        //是否每次只打开一个同级树节点展开（手风琴效果）
+            //draggable: true,        //是否开启拖拽节点功能
+            renderAfterExpand: true,    //是否在第一次展开某个树节点后才渲染其子节点
+            expandOnClickNode: true     //是否在点击节点的时候展开或者收缩节点
+        }
+
+        var el1 = eleTree.render(obj);
+    });
+</script>
+
+<body>
+<div class="eleTree ele1" lay-filter="data1"></div>
+</body>
+</html>

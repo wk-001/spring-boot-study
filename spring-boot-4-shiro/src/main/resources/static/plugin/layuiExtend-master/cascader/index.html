@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="layui扩展无限级联选择器cascader示例">
+    <meta name="keywords" content="cascader,layui扩展,hsiangleev">
+    <title>layui扩展无限级联选择器</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="cascader.css" media="all">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon.ico">
+</head>
+<body>
+    <button class="layui-btn">reload</button>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择框</label>
+        <div class="layui-input-block">
+            <input type="text" id="a" class="layui-input" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">懒加载示例</label>
+        <div class="layui-input-block">
+            <input type="text" id="b" class="layui-input" readonly="readonly">
+        </div>
+    </div>
+    
+    
+
+    <script src="../layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: "../layui/lay/mymodules/"
+        }).use(['form',"jquery","cascader","form"], function(){
+            var $ = layui.jquery;
+            var cascader = layui.cascader;
+            
+            var data = [
+                {
+                    value: 'A',
+                    label: 'a',
+                    children: [
+                        {
+                            value: 'AA1',
+                            label: 'aa1',
+                        },
+                        {
+                            value: 'BB1',
+                            label: 'bb1'
+                        }
+                    ]
+                },
+                {
+                    value: 'B',
+                    label: 'b',
+                    children: [
+                        {
+                            value: 'AA2',
+                            label: 'aa2',
+                            children: [
+                                {
+                                    value: 'AAA3',
+                                    label: 'aaa3',
+                                    children: [
+                                        {
+                                            value: 'AAA3',
+                                            label: 'aaa3',
+                                            children: [
+                                                {
+                                                    value: 'AAA3',
+                                                    label: 'aaa3',
+                                                },
+                                                {
+                                                    value: 'BBB3',
+                                                    label: 'bbb3'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    value: 'BBB3',
+                                    label: 'bbb3'
+                                }
+                            ]
+                        },
+                        {
+                            value: 'BB2',
+                            label: 'bb2',
+                            children: [
+                                {
+                                    value: 'AAA4',
+                                    label: 'aaa4',
+                                },
+                                {
+                                    value: 'BBB4',
+                                    label: 'bbb4'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: 'C',
+                    label: 'c',
+                }
+            ]
+            var cas=cascader({
+                elem: "#a",
+                data: data,
+                // url: "/aa",
+                // type: "post",
+                // triggerType: "change",
+                // showLastLevels: true,
+                // where: {
+                //     a: "aaa"
+                // },
+                value: ["B", "BB2", "BBB4"],
+                // changeOnSelect: true,
+                success: function (valData,labelData) {
+                    console.log(valData,labelData);
+                }
+            });
+
+            var reloadData=[
+                {
+                    value: 'A',
+                    label: 'a',
+                    children: [
+                        {
+                            value: 'AA1',
+                            label: 'aa1',
+                        },
+                        {
+                            value: 'BB1',
+                            label: 'bb1'
+                        }
+                    ]
+                }
+            ]
+            $(".layui-btn").on("click",function() {
+                cas.reload({
+                    data: reloadData,
+                    value:['A','BB1']
+                })
+            })
+
+
+            var id=1;
+            var cas2=cascader({
+                elem: "#b",
+                data: [
+                    {
+                        value: 'A',
+                        label: 'a'
+                    }
+                ],
+                lazy: true,
+                lazyLoad: function (node, callback) {
+                    setTimeout(() => {
+                        var arr=[];
+                        id++;
+                        for(var i=0;i<id;i++){
+                            arr.push({
+                                value: id+"-"+i,
+                                label: "选项"+id+"-"+i,
+                                leaf: id >= 3
+                            })
+                        }
+                        // node节点数据需要与新数据一并传递回去
+                        callback(arr,node);
+                    }, 1000);
+                },
+                success: function (valData,labelData) {
+                    console.log(valData,labelData);
+                }
+            });
+            
+        });
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?9e39de91fc206c680fb0266ab977e776";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+        
+</body>
+</html>
