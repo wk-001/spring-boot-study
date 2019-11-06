@@ -27,12 +27,42 @@ layui.extend({
 
         initLevel: 1,
         checkbar: true,
-        checkbarType: "all",
+        checkbarType: "no-all",// 默认就是all上下级联，其他的值为： no-all半选  p-casc   self  only
         skin: "layui"
     });
 
-    // 绑定节点点击
-    /*dtree.on("node('demoTree')" ,function(obj){
+    //监听父节点打开/关闭操作
+    dtree.on("changeTree('demoTree')" ,function(obj){
+        console.log(obj.param); // 点击当前节点传递的参数
+        console.log(obj.dom); // 当前节点的jquery对象
+        console.log(obj.show); // 节点展开为true，关闭为false
+    });
+
+    // 节点单击事件
+    dtree.on("node('demoTree')" ,function(obj){
         layer.msg(JSON.stringify(obj.param));
+        console.log(obj.param); // 点击当前节点传递的参数
+        console.log(obj.dom); // 当前节点的jquery对象
+        console.log(obj.childParams); // 当前节点的所有子节点参数
+        console.log(obj.parentParam); // 当前节点的父节点参数
+    });
+
+    /* 节点双击事件
+    dtree.on("nodedblclick('demoTree')" ,function(obj){
+        console.log(obj.param); // 点击当前节点传递的参数
+        console.log(obj.dom); // 当前节点的jquery对象
+        console.log(obj.childParams); // 当前节点的所有子节点参数
+        console.log(obj.parentParam); // 当前节点的父节点参数
     });*/
+
+    //选中指定节点
+    $("#btn1").click(function () {
+        var params = dtree.chooseDataInit("demoTree", "001001,002001");
+    });
+
+    //获取选中节点
+    $("#btn2").click(function () {
+        var params = dtree.getCheckbarNodesParam("demoTree");
+        console.log(params);
+    });
 });
