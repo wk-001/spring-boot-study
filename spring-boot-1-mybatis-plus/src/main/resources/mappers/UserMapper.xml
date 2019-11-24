@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.wk.pojo.User">
         <id column="id" property="id" />
-        <result column="user_name" property="userName" />
+        <result column="name" property="name" />
         <result column="age" property="age" />
         <result column="gender" property="gender" />
         <result column="email" property="email" />
@@ -16,7 +16,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_name, age, gender, email, birthday, version, deleted
+        id, name, age, gender, email, birthday, version, deleted
     </sql>
 
 </mapper>

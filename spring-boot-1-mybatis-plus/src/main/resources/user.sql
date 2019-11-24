@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `user_name` varchar(30) DEFAULT NULL COMMENT '姓名',
+  `name` varchar(30) DEFAULT NULL COMMENT '姓名',
   `age` int(11) DEFAULT NULL COMMENT '年龄',
   `gender` int(1) DEFAULT NULL COMMENT '性别 1：男，0：女',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱',

@@ -34,8 +34,7 @@ public class SpringBoot1MybatisPlusApplicationTests {
 
 		//根据数据库字段进行查询
 		Map<String,Object> map = new HashMap<>();
-		map.put("user_name","tom");
-		map.put("age","21");
+		map.put("name","张三");
 		Collection<User> users = userService.listByMap(map);
 		users.forEach(a-> System.out.println("a = " + a));
 	}
@@ -43,7 +42,7 @@ public class SpringBoot1MybatisPlusApplicationTests {
 	//添加；MyBatisPlus完成插入数据操作后自动将主键返回到对象中
 	@Test
 	public void addUser(){
-		User user = new User("张三",25,1,"1234@qq.com",new Date());
+		User user = new User("张三",25,1,"1234@qq.com");
 		userService.save(user);
 		System.out.println("user = " + user.getId());
 	}
@@ -52,6 +51,7 @@ public class SpringBoot1MybatisPlusApplicationTests {
 	@Test
 	public void pageTest(){
 		Page<User> page = new Page<>(0, 2);
+		//查询结果会放到page对象中
 		IPage<User> pages = userService.page(page);
 		/*查询出的分页数据*/
 		List<User> records = pages.getRecords();

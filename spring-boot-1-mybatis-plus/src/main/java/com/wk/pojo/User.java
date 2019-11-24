@@ -1,9 +1,6 @@
 package com.wk.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +33,7 @@ public class User extends Model<User> implements Serializable {
     /**
      * 姓名
      */
-    private String userName;
+    private String name;
 
     /**
      * 年龄
@@ -56,6 +53,7 @@ public class User extends Model<User> implements Serializable {
     /**
      * 生日
      */
+    @TableField(exist = false)      //实体类需要但是数据库没有的字段可以加上该注解在操作数据库时忽略改字段
     private Date birthday;
 
     /**
@@ -75,17 +73,16 @@ public class User extends Model<User> implements Serializable {
     public User() {
     }
 
-    public User(String userName, Integer age, Integer gender, String email, Date birthday) {
-        this.userName = userName;
+    public User(String name, Integer age, Integer gender, String email) {
+        this.name = name;
         this.age = age;
         this.gender = gender;
         this.email = email;
-        this.birthday = birthday;
     }
 
-    public User(Integer id, String userName, Integer age, Integer version) {
+    public User(Integer id, String name, Integer age, Integer version) {
         this.id = id;
-        this.userName = userName;
+        this.name = name;
         this.age = age;
         this.version = version;
     }

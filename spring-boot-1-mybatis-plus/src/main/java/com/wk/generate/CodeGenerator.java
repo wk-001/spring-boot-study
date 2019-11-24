@@ -53,14 +53,13 @@ public class CodeGenerator {
 		String projectPath = System.getProperty("user.dir");
 		gc.setOutputDir(projectPath + "/src/main/java");
 		gc.setAuthor(AUTHOR);//作者名称
-		gc.setOpen(false);
+		gc.setOpen(true);		//当代码生成完毕后是否打开代码所在的文件夹
 		// gc.setSwagger2(true); 实体属性 Swagger2 注解
 		gc.setFileOverride(true);	//第二次生成的文件覆盖第一次的
 		gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
 		gc.setEnableCache(false);// XML 二级缓存
 		gc.setBaseResultMap(true);// XML 生成ResultMap
 		gc.setBaseColumnList(true);// XML columList 生成基本的SQL片段
-		gc.setAuthor(AUTHOR);// 作者
 
 		// 自定义文件命名，注意 %s 会自动填充表实体属性！
 		gc.setControllerName("%sController");
@@ -90,53 +89,38 @@ public class CodeGenerator {
 		pc.setEntity("pojo");
 
 		// 自定义配置
-		InjectionConfig cfg = new InjectionConfig() {
+		/*InjectionConfig cfg = new InjectionConfig() {
 			@Override
 			public void initMap() {
 				// to do nothing
 			}
-		};
+		};*/
 
 		// 如果模板引擎是 freemarker
-		String templatePath = "/templates/mapper.xml.ftl";
+		//String templatePath = "/templates/mapper.xml.ftl";
 		// 如果模板引擎是 velocity
 		// String templatePath = "/templates/mapper.xml.vm";
 
 		// 自定义输出配置
-		List<FileOutConfig> focList = new ArrayList<>();
+		/*List<FileOutConfig> focList = new ArrayList<>();
 		// 自定义配置会被优先输出
 		focList.add(new FileOutConfig(templatePath) {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
 				// 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-               /* return projectPath + "/src/main/resources/mappers/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;*/
+               *//* return projectPath + "/src/main/resources/mappers/" + pc.getModuleName()
+                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;*//*
 				//根据自己的位置修改
 				return projectPath + INTERFACE_PATH +tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
 			}
 		});
-        /*
-        cfg.setFileCreate(new IFileCreate() {
-            @Override
-            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-                // 判断自定义文件夹是否需要创建
-                checkDir("调用默认方法创建的目录");
-                return false;
-            }
-        });
-        */
 		mpg.setPackageInfo(pc);
 		cfg.setFileOutConfigList(focList);
-		mpg.setCfg(cfg);
+		mpg.setCfg(cfg);*/
 
 		// 配置模板
 		TemplateConfig templateConfig = new TemplateConfig();
 
-		// 配置自定义输出模板
-		//指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-		// templateConfig.setEntity("templates/entity2.java");
-		// templateConfig.setService();
-		// templateConfig.setController();
 		//此处设置为null，就不会再java下创建xml的文件夹了
 		templateConfig.setXml(null);
 		mpg.setTemplate(templateConfig);
@@ -158,7 +142,7 @@ public class CodeGenerator {
 		//根据你的表名来建对应的类名，如果你的表名没有什么下划线，比如test，那么你就可以取消这一步
 //		strategy.setTablePrefix("t_");
 		mpg.setStrategy(strategy);
-		mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+		//mpg.setTemplateEngine(new FreemarkerTemplateEngine());
 		mpg.execute();
 	}
 

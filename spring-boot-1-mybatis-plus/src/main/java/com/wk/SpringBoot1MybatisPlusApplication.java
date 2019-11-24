@@ -25,7 +25,7 @@ public class SpringBoot1MybatisPlusApplication {
 	 * 分页插件
 	 * 设置每页获取最大数据量(默认500)，具体数据量在selectPage()参数中的Page对象中设置
 	 */
-	@Bean
+	/*@Bean
 	public PaginationInterceptor paginationInterceptor() {
 		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 		paginationInterceptor.setLimit(20);		//设置页面默认显示数据条数
@@ -36,15 +36,21 @@ public class SpringBoot1MybatisPlusApplication {
 			@Override
 			public void processDelete(Delete delete) {
 				// 如果你想自定义做点什么，可以重写父类方法像这样子
-				/*if ("user".equals(delete.getTable().getName())) {
+				*//*if ("user".equals(delete.getTable().getName())) {
 					// 自定义跳过某个表，其他关联表可以调用 delete.getTables() 判断
 					return ;
-				}*/
+				}*//*
 				super.processDelete(delete);
 			}
 		});
 		paginationInterceptor.setSqlParserList(sqlParserList);
 		return paginationInterceptor;
+	}*/
+
+	/*	只配置分页插件*/
+	@Bean
+	public PaginationInterceptor paginationInterceptor() {
+		return new PaginationInterceptor();
 	}
 
 	/*乐观锁插件
