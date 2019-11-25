@@ -101,8 +101,15 @@ public class UserRealm extends AuthorizingRealm {
 
 		//将用户的角色编码和资源标识放入认证信息，方便判断
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		info.addRoles(user.getRoles());
-		info.addStringPermissions(user.getPermissions());
+		List<String> roles = user.getRoles();
+		//如果为空会报错，所以必须进行非空验证
+		if (null != roles && roles.size()>0) {
+			info.addRoles(roles);
+		}
+		List<String> permissions = user.getPermissions();
+		if (null != permissions && permissions.size()>0) {
+			info.addStringPermissions(permissions);
+		}
 		log.info("用户："+user.getUser().getUserName()+"授权成功");
 		return info;
 	}
