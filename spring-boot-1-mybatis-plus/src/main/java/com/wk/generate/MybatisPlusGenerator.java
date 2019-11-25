@@ -17,16 +17,17 @@ public class MybatisPlusGenerator {
     /**
      * 数据库表名,多个表名用逗号隔开,如果生成整个数据库的表就不写
      */
-    private static final String TABLE_NAME = "user,user_role,role_resource";
+    private static final String TABLE_NAME = "sys_dept,sys_log_login,sys_notice,sys_permission,sys_role,sys_role_permission,sys_role_user,sys_user";
 
     /**
      * 数据库表前缀,多个前缀用逗号隔开,没有前缀就不写
      */
-    private static final String TABLE_PREFIX = "";
+    private static final String TABLE_PREFIX = "sys_";
 
     /**
      * 设置生成路径
      * System.getProperty("user.dir"):本项目生成
+     * 生成到其他项目，路径到项目的根目录即可D:\工作空间\项目所在文件夹
      */
     private static final String PROJECT_PATH = System.getProperty("user.dir");
 
@@ -41,25 +42,25 @@ public class MybatisPlusGenerator {
     private static final String AUTHOR = "wk";
 
     /**
-     * 接口生成位置
+     * 模块名,java代码和mapper文件的模块名保持一致,空串不影响生成结果
      */
-    private static final String INTERFACE_PATH = "/src/main/resources/mappers/";
+    private static final String MODULE_NAME = "";
 
     /**
-     *模块名
+     * 接口生成位置
      */
-    private static final String MODULE_NAME = null;
+    private static final String INTERFACE_PATH = "/src/main/resources/mappers/"+MODULE_NAME+"/";
 
     /**
      * 代码生成完毕后是否打开生成目录
      */
-    private static final boolean OPEN_FILE = true;
+    private static final boolean OPEN_FILE = false;
 
     /**
      * JDBC相关配置
      */
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/shiro?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&rewriteBatchedStatements=true";
+    private static final String URL = "jdbc:mysql://localhost:3306/warehouse_erp?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&rewriteBatchedStatements=true";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
