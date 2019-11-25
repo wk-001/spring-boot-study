@@ -1,6 +1,6 @@
-package com.wk.sys.common;
+package com.wk.util;
 
-import com.wk.sys.entity.User;
+import com.wk.pojo.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
