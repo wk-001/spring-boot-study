@@ -17,7 +17,7 @@ public class MybatisPlusGenerator {
     /**
      * 数据库表名,多个表名用逗号隔开,如果生成整个数据库的表就不写
      */
-    private static final String TABLE_NAME = "sys_dept,sys_log_login,sys_notice,sys_permission,sys_role,sys_role_permission,sys_role_user,sys_user";
+    private static final String[] TABLE_NAME = {};
 
     /**
      * 数据库表前缀,多个前缀用逗号隔开,没有前缀就不写
@@ -117,7 +117,7 @@ public class MybatisPlusGenerator {
                 .setColumnNaming(NamingStrategy.underline_to_camel) //字段下划线驼峰命名
                 .setEntityLombokModel(true)                         //是否使用lombok
                 .setRestControllerStyle(true)                       // 设置controller自动加RestController注解
-                .setInclude(TABLE_NAME.split(","))            //修改替换成你需要的表名，多个表名传数组,如果注释掉就生成库中所有的表
+                .setInclude(TABLE_NAME)                             //修改替换成你需要的表名，多个表名传数组,如果注释掉就生成库中所有的表
                 .setTablePrefix(TABLE_PREFIX.split(","));     // 此处可以修改为您的表前缀
         mpg.setStrategy(strategy);
 
