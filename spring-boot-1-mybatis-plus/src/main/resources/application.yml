@@ -83,4 +83,7 @@ mybatis-plus:
     #除mp之外的自定义方法，其他配置和之前的mybatis一样
   type-aliases-package: com.wk.pojo
   mapper-locations: classpath:mappers/*.xml
+  #mybatis打印SQL的配置，只打印SQL相关的信息，不显示具体的类名
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
