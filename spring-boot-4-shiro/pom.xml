@@ -60,18 +60,18 @@
             <version>2.0.0</version>
         </dependency>
 
-        <!-- 整合shiro和spring框架 -->
+        <!-- 整合shiro和spring框架 包含shiro-core -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
             <version>1.4.0</version>
         </dependency>
 
-        <!-- shiro-core -->
+        <!-- shiro-redis -->
         <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>1.4.0</version>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>3.2.3</version>
         </dependency>
 
         <!-- SpringBoot整合druid数据源 -->
@@ -98,16 +98,9 @@
 
         <!--MP 代码生成器需要的模板依赖-->
         <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.29</version>
-        </dependency>
-
-        <!-- shiro-redis -->
-        <dependency>
-            <groupId>org.crazycake</groupId>
-            <artifactId>shiro-redis</artifactId>
-            <version>3.2.3</version>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.1</version>
         </dependency>
 
         <dependency>
