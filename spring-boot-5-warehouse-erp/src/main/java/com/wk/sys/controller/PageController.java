@@ -21,6 +21,13 @@ public class PageController {
 		return path;
 	}
 
+	//跳转到目录下的页面，直接写/{fold}/{page}会报错
+	@RequestMapping("/toPages/{fold1}/{fold2}/{page}")
+	public String showPages(@PathVariable String fold1,@PathVariable String fold2, @PathVariable String page){
+		String path = fold1+"/"+fold2+"/"+page;
+		return path;
+	}
+
 	//跳转到未授权页面，只针对在shiroFilter中配置过得路径
 	@GetMapping("/403")
 	public String notAuthorized() {

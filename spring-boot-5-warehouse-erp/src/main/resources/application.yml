@@ -65,23 +65,35 @@ spring:
         min-idle: 0
         # 连接超时时间（毫秒）
         timeout: 0
+
   #关闭thymeleaf页面缓存
   thymeleaf:
     cache: false
+
   #开启热部署
   devtools:
     restart:
       enabled: true
+
   #设置上传文件大小,单位MB必须大写
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  #统一设置后台返回到前台显示的格式以及时区 如果只要日期格式 在对应属性上加@JsonFormat(pattern = "yyyy-MM-dd")注解
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  #设置前台传到后台数据的时间格式
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+
 
 logging:
   level:
-    com.wk.dao: trace
+    com.wk.sys.mapper: trace
   pattern:
     console: "[%d{HH:mm:ss.SSS}] %-5p [%c] - %m%n"
 
@@ -91,10 +103,17 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-      #table-prefix: tb_    设置统一数据库表前缀
-      #logic-delete-value: 0 # 逻辑已删除值(默认为 1)
-      #logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)
-    #除mp之外的自定义方法，其他配置和之前的mybatis一样
-  type-aliases-package: com.wk.pojo
-  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.wk.sys.entity
+  mapper-locations: classpath:mapper/*/*.xml
 
+#设置shiro
+shiro:
+  anon-urls:
+    - /
+    - /index.html
+    - /toLogin
+    - /login
+    - /druid/**
+    - /resources/**
+  authc-urls:
+    - /**
