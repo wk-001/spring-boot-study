@@ -9,4 +9,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class PermissionVo extends Permission {
+
+	private Integer page = 1;               //当前是第几页
+
+	private Integer limit = 10;             //每页多少条数据
 }

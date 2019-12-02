@@ -16,4 +16,12 @@
         id, name, remark, available, createtime
     </sql>
 
+    <delete id="deleteUserRoleByRid">
+      DELETE FROM `sys_role_user` where rid = #{id}
+    </delete>
+
+    <delete id="deleteRolePermissionByRid">
+      DELETE FROM `sys_role_permission` where rid = #{id}
+    </delete>
+
 </mapper>

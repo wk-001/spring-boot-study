@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -73,20 +72,6 @@ public class DeptController {
     public ResultObj delete(Integer id){
         try {
             deptService.removeById(id);
-            return ResultObj.DELETE_SUCCESS;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultObj.DELETE_ERROR;
-        }
-    }
-
-    /**
-     * 批量删除数据
-     */
-    @RequestMapping("batchDelete")
-    public ResultObj batchDelete(Integer[] ids){
-        try {
-            deptService.removeByIds(Arrays.asList(ids));
             return ResultObj.DELETE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();

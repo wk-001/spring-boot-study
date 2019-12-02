@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>公告管理</title>
+    <title>角色管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -26,27 +26,22 @@
     <form action="" method="post" id="searchForm" lay-filter="searchForm" class="layui-form">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">公告标题</label>
+                <label class="layui-form-label">角色名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="title"  autocomplete="off" class="layui-input">
+                    <input type="text" name="name"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">发布人</label>
+                <label class="layui-form-label">角色备注</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="opername"  autocomplete="off" class="layui-input">
+                    <input type="text" name="remark"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">开始时间</label>
+                <label class="layui-form-label">是否可用</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="startTime" id="startTime" readonly autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">结束时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="endTime" id="endTime" readonly autocomplete="off" class="layui-input">
+                    <input type="radio" name="available" value="1" title="可用" >
+                    <input type="radio" name="available" value="0" title="不可用" >
                 </div>
             </div>
             <div class="layui-inline">
@@ -61,7 +56,6 @@
 <!--表头工具栏按钮开始-->
 <div id="titleToolBar" style="display: none">
     <button type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-icon layui-icon-add-1" lay-event="add">添加</button>
-    <button type="button" class="layui-btn layui-btn-sm layui-btn-danger layui-icon layui-icon-delete" lay-event="batchDelete">批量删除</button>
     <button type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-icon layui-icon-list" lay-event="getSelect">获取选中行</button>
     <button type="button" class="layui-btn layui-btn-sm layui-btn-primary layui-icon layui-icon-refresh" lay-event="refreshTable">刷新表格</button>
 </div>
@@ -74,7 +68,7 @@
 <!--数据表格操作栏开始-->
 <div id="tableToolBar" style="display: none">
     <a class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-sm layui-icon layui-icon-layer" lay-event="show">查看</a>
+    <a class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-layer" lay-event="assignPermission">分配权限</a>
     <a class="layui-btn layui-btn-danger layui-btn-sm layui-icon layui-icon-delete" lay-event="del">删除</a>
 </div>
 <!--数据表格操作栏结束-->
@@ -83,16 +77,23 @@
 <div style="display: none;padding: 20px" id="saveOrUpdateDiv" >
     <form class="layui-form" method="post"  lay-filter="dataForm" id="dataForm">
         <div class="layui-form-item">
-            <label class="layui-form-label">公告标题:</label>
+            <label class="layui-form-label">角色名称:</label>
             <div class="layui-input-block">
                 <input type="hidden" name="id">     <!--修改时需要用到ID-->
-                <input type="text" name="title" lay-verify="required"  placeholder="请输入公告标题" autocomplete="off" class="layui-input">
+                <input type="text" name="name" lay-verify="required"  placeholder="请输入角色名称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公告内容:</label>
+            <label class="layui-form-label">角色备注:</label>
             <div class="layui-input-block">
-                <textarea class="layui-textarea" name="content" id="content"></textarea>
+                <input type="text" name="remark" lay-verify="required"  placeholder="请输入角色备注" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否可用</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="available" value="1" title="可用" checked>
+                <input type="radio" name="available" value="0" title="不可用" >
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center">
@@ -104,60 +105,40 @@
     </form>
 </div>
 <!--添加修改弹出层结束-->
-
-<!--查看公告内容div开始-->
-<div id="viewDiv" style="padding: 10px;display: none">
-    <h2 id="noticeTitle" style="text-align: center"></h2>
-    <hr>
-    <div style="text-align: right">
-        发布人：<span id="noticeOperName"></span><br>
-        发布时间：<span id="noticeCreateTime"></span>
-    </div>
-    <div id="noticeContent"></div>
-</div>
-<!--查看公告内容div结束-->
-
 </body>
 
+<script type="text/html" id="switchAvailable">
+    <input type="checkbox" name="available" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="availableSwitch" {{d.available==1?'checked':'' }}>
+</script>
+
 <script type="text/javascript">
-    layui.use(['jquery','form','layer','table','laydate','layedit'], function(){
+
+
+    layui.use(['jquery','form','layer','table'], function(){
         var $ = layui.jquery
             ,form = layui.form
             ,layer = layui.layer
             ,table = layui.table
-            ,laydate = layui.laydate
-            ,layedit = layui.layedit;
 
         var tableIns;       //定义全局变量
-        var editIndex;
-
-        //渲染时间组件
-        laydate.render({
-            elem:"#startTime",
-            type:"datetime"
-        })
-        laydate.render({
-            elem:"#endTime",
-            type:"datetime"
-        })
 
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
             ,height: 'full-190'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
-            ,url: "/notice/list"
+            ,url: "/role/list"
             ,page: true //开启分页
             ,toolbar:"#titleToolBar"     //引用表头工具栏 titleToolBar是div的ID
-            ,title: '用户登陆公告数据表'
+            ,title: '用户登陆角色数据表'
             ,even: true             //开启隔行背景
             ,cols: [ [      //两个[[和thymeleaf的语法冲突，必须在中间加一个空格！！！ [ [
-                {type:'checkbox', fixed: 'left'}    //fixed冻结列的位置
-                ,{field:'id', title:'ID',align:'center'}
-                ,{field:'title', title:'公告标题',align:'center'}
-                ,{field:'opername', title:'发布人',align:'center'}
-                ,{field:'createtime', title:'发布时间',align:'center'}
-                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center'}
+                {field:'id', title:'ID',align:'center'}
+                ,{field:'name', title:'角色名称',align:'center'}
+                ,{field:'remark', title:'角色备注',align:'center'}
+                ,{field:'available', title:'是否可用',align:'center',templet: '#switchAvailable', unresize: true}
+                ,{field:'createtime', title:'创建时间',align:'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center',width:'300'}
             ] ]
             ,done: function(res, curr, count){
                 //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
@@ -184,9 +165,6 @@
                 case 'add':
                     openAdd();
                     break;
-                case 'batchDelete':
-                    batchDelete();
-                    break;
                 case 'refreshTable':
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
                     break;
@@ -206,8 +184,8 @@
                 case 'del':
                     deleteById(data);
                     break;
-                case 'show':
-                    show(data);
+                case 'assignPermission':
+                    assignPermission(data);
                     break;
                 case 'edit':
                     openUpdate(data);
@@ -220,43 +198,36 @@
         function openAdd() {
             mainModel = layer.open({
                 type: 1
-                ,title:'添加公告'
+                ,title:'添加角色'
                 ,content:$("#saveOrUpdateDiv")
-                ,area: ['750px','450px']     //弹窗宽高
+                ,area: ['500px', '295px']     //弹窗宽高
                 ,success:function (index) {
-                    // 初始化富文本编辑器 content是textarea的ID;打开弹窗后再渲染富文本编辑器，否则无法使用菜单工具
-                    editIndex = layedit.build('content',{
-                        height: 200 //设置编辑器高度
-                    });
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
-                    url = "/notice/saveOrUpdate";
+                    url = "/role/saveOrUpdate";
                 }
             });
         }
 
-        //打开修改公告弹出框
+        //打开修改角色弹出框
         function openUpdate(data) {
             mainModel = layer.open({
                 type: 1
-                , title: '修改公告信息'
+                , title: '修改角色信息'
                 , content: $("#saveOrUpdateDiv")
-                , area: ['750px', '450px']     //弹窗宽高
+                , area: ['500px', '295px']     //弹窗宽高
                 ,success:function (index) {         //弹窗成功后回调
-                    editIndex = layedit.build('content',{
-                        height: 200 //设置编辑器高度
-                    });      //初始化富文本编辑器
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    url = "/notice/saveOrUpdate";
+                    url = "/role/saveOrUpdate";
                 }
             });
         }
 
         function deleteById(data) {
-            layer.confirm('确定删除公告['+data.title+']吗？', {icon: 3, title:'提示'}, function(index){
+            layer.confirm('确定删除角色['+data.name+']吗？', {icon: 3, title:'提示'}, function(index){
                 //向服务端发送删除指令
-                $.post("/notice/delete",{"id":data.id},function (result) {
+                $.post("/role/delete",{"id":data.id},function (result) {
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
                     layer.msg(result.msg);
                 })
@@ -264,34 +235,8 @@
             });
         }
 
-        //批量删除
-        function batchDelete(){
-            //得到选中的数据ID
-            var checkStatus = table.checkStatus('dataTable');
-            var dataLength=checkStatus.data.length;
-            if(dataLength>0) {
-                var list = "";
-                for (var i = 0; i < checkStatus.data.length; i++) {
-                    list += ',' + checkStatus.data[i].id;
-                }
-                list = list.substr(1);      //删除第一个","
-                layer.confirm('确定删除选中公告吗？', {icon: 3, title:'提示'}, function (index) {
-                    layer.close(index);
-                    //向服务端发送删除指令
-                    $.post("/notice/batchDelete", {"ids": list}, function (result) {
-                        tableIns.reload();      //在不刷新页面的情况刷新表格数据
-                        layer.msg(result.msg);
-                    })
-                });
-            }else{
-                layer.msg("请选中操作行");
-            }
-        }
-
         //保存数据，监听submit
         form.on('submit(doSubmit)', function(obj) {
-            //将重新渲染出来的富文本编辑器中的值同步到textarea文本域中
-            layedit.sync(editIndex);
             //序列化表单数据
             var params = $("#dataForm").serialize();
             $.post(url,params,function (obj) {
@@ -303,29 +248,18 @@
             })
         });
 
-        //重置富文本编辑框的内容
-        $("#dataFormReset").click(function () {
-            layedit.setContent(editIndex,"");
-        });
-
-        //查看公告内容
-        function show(data){
-            mainModel = layer.open({
-                  type: 1
-                , title: '查看公告内容'
-                , maxmin: true       //最大化/最小化
-                , content: $("#viewDiv")
-                , area: ['750px', '450px']     //弹窗宽高
-                , success:function (index) {         //弹窗成功后回调
-                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
-                    index.find('.layui-layer-min').remove();
-                    $("#noticeTitle").html(data.title);
-                    $("#noticeOperName").html(data.opername);
-                    $("#noticeCreateTime").html(data.createtime);
-                    $("#noticeContent").html(data.content);
-                }
+        //监听是否可用操作
+        form.on('switch(availableSwitch)', function(obj){
+            var state;
+            if(obj.elem.checked){
+                state = 1;
+            }else{
+                state = 0;
+            }
+            $.post("/role/saveOrUpdate",{id:this.value,available:state},function () {
+                tableIns.reload();
             });
-        }
+        });
 
     });
 </script>

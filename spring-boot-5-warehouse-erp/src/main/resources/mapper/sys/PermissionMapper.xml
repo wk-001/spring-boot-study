@@ -22,4 +22,12 @@
         id, pid, type, title, percode, icon, href, target, open, ordernum, available
     </sql>
 
+    <select id="getMaxOrderNum" resultType="java.lang.Integer">
+        SELECT max(ordernum) FROM `sys_permission`
+    </select>
+
+    <delete id="deleteRolePermissionByPid">
+        DELETE FROM `sys_role_permission` where pid = #{id}
+    </delete>
+
 </mapper>

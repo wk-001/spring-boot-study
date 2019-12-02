@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface PermissionMapper extends BaseMapper<Permission> {
 
+	Integer getMaxOrderNum();
+
+	void deleteRolePermissionByPid(Integer id);
 }

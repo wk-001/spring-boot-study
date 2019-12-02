@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RoleMapper extends BaseMapper<Role> {
 
+	void deleteUserRoleByRid(Integer id);
+
+	void deleteRolePermissionByRid(Integer id);
 }

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wk.sys.entity.Dept;
 import com.wk.sys.mapper.DeptMapper;
 import com.wk.sys.service.DeptService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -24,11 +23,6 @@ import java.io.Serializable;
 @CacheConfig(cacheNames = "dept")       //抽取缓存公共配置 指定统一缓存组件名称；和value作用一样
 @Service
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements DeptService {
-
-    @Autowired
-    private DeptMapper deptMapper;
-
-    //为了使用缓存更方便，重写查询、修改、删除方法
 
     /**
      * @Cacheable 将方法的运行结果进行缓存，需要相同的数据直接取缓存中取，避免重复查库
@@ -63,7 +57,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
     @Override
     public int getMaxOrderNum() {
-        int maxOrderNum = deptMapper.getMaxOrderNum();
+        int maxOrderNum = this.getBaseMapper().getMaxOrderNum();
         if (maxOrderNum>0){
             return maxOrderNum+1;
         }else {

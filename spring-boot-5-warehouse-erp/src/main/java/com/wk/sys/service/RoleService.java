@@ -13,4 +13,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RoleService extends IService<Role> {
 
+	/**
+	 * 根据角色ID删除角色、用户角色、角色权限的对应数据
+	 */
+	void removeRoleById(Integer id);
 }

@@ -13,4 +13,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PermissionService extends IService<Permission> {
 
+	/**
+	 * 获取最大的排序码
+	 */
+	Integer getMaxOrderNum();
+
+	/**
+	 * 根据ID删除资源表和角色资源表的数据
+	 */
+	void deleteMenuById(Integer id);
 }
