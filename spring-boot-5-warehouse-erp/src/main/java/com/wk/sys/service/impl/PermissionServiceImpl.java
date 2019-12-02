@@ -7,6 +7,8 @@ import com.wk.sys.service.PermissionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -30,4 +32,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 		super.removeById(id);
 		this.getBaseMapper().deleteRolePermissionByPid(id);
 	}
+
+    @Override
+    public List<Integer> queryHasResources(Integer roleId) {
+        return this.getBaseMapper().queryHasResources(roleId);
+    }
 }

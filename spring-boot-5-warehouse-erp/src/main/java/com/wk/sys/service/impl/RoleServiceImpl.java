@@ -1,10 +1,17 @@
 package com.wk.sys.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wk.sys.common.ResultObj;
 import com.wk.sys.entity.Role;
 import com.wk.sys.mapper.RoleMapper;
+import com.wk.sys.mapper.RolePermissionMapper;
 import com.wk.sys.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,6 +22,7 @@ import org.springframework.stereotype.Service;
  * @since 2019-11-29
  */
 @Service
+@Transactional
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
 	@Override
@@ -23,4 +31,5 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 		this.getBaseMapper().deleteUserRoleByRid(id);
 		this.getBaseMapper().deleteRolePermissionByRid(id);
 	}
+
 }

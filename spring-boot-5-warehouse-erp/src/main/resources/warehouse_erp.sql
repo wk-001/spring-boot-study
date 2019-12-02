@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 01/12/2019 23:10:04
+ Date: 02/12/2019 22:46:43
 */
 
 SET NAMES utf8mb4;
@@ -214,7 +214,7 @@ CREATE TABLE `sys_dept`  (
   `ordernum` int(11) DEFAULT NULL COMMENT '排序码【为了调事显示顺序】',
   `createtime` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -421,7 +421,7 @@ CREATE TABLE `sys_loginfo`  (
   `loginip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `logintime` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 267 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 270 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_loginfo
@@ -642,6 +642,9 @@ INSERT INTO `sys_loginfo` VALUES (263, '超级管理员-system', '0:0:0:0:0:0:0:
 INSERT INTO `sys_loginfo` VALUES (264, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-01 19:52:45');
 INSERT INTO `sys_loginfo` VALUES (265, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-01 20:28:30');
 INSERT INTO `sys_loginfo` VALUES (266, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-01 21:34:41');
+INSERT INTO `sys_loginfo` VALUES (267, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-02 20:05:37');
+INSERT INTO `sys_loginfo` VALUES (268, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-02 21:02:20');
+INSERT INTO `sys_loginfo` VALUES (269, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-02 22:01:17');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -654,7 +657,7 @@ CREATE TABLE `sys_notice`  (
   `createtime` datetime(0) DEFAULT NULL,
   `opername` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_notice
@@ -692,18 +695,18 @@ INSERT INTO `sys_permission` VALUES (3, 1, 'menu', '进货管理', NULL, '&#xe64
 INSERT INTO `sys_permission` VALUES (4, 1, 'menu', '销售管理', NULL, '&#xe611;', '', '', 0, 4, 1);
 INSERT INTO `sys_permission` VALUES (5, 1, 'menu', '系统管理', NULL, '&#xe614;', '', '', 1, 5, 1);
 INSERT INTO `sys_permission` VALUES (6, 1, 'menu', '其它管理', NULL, '&#xe628;', '', '', 0, 6, 1);
-INSERT INTO `sys_permission` VALUES (7, 2, 'menu', '客户管理', NULL, '&#xe651;', '/bus/toCustomerManager', '', 0, 7, 1);
-INSERT INTO `sys_permission` VALUES (8, 2, 'menu', '供应商管理', NULL, '&#xe658;', '/bus/toProviderManager', '', 0, 8, 1);
-INSERT INTO `sys_permission` VALUES (9, 2, 'menu', '商品管理', NULL, '&#xe657;', '/bus/toGoodsManager', '', 0, 9, 1);
-INSERT INTO `sys_permission` VALUES (10, 3, 'menu', '商品进货', NULL, '&#xe756;', '/bus/toInportManager', '', 0, 10, 1);
-INSERT INTO `sys_permission` VALUES (11, 3, 'menu', '商品退货查询', NULL, '&#xe65a;', '/bus/toOutportManager', '', 0, 11, 1);
+INSERT INTO `sys_permission` VALUES (7, 2, 'menu', '客户管理', NULL, '&#xe651;', '/toPages/system/', '', 0, 7, 1);
+INSERT INTO `sys_permission` VALUES (8, 2, 'menu', '供应商管理', NULL, '&#xe658;', '/toPages/system/', '', 0, 8, 1);
+INSERT INTO `sys_permission` VALUES (9, 2, 'menu', '商品管理', NULL, '&#xe657;', '/toPages/system/', '', 0, 9, 1);
+INSERT INTO `sys_permission` VALUES (10, 3, 'menu', '商品进货', NULL, '&#xe756;', '/toPages/system/', '', 0, 10, 1);
+INSERT INTO `sys_permission` VALUES (11, 3, 'menu', '商品退货查询', NULL, '&#xe65a;', '/toPages/system/', '', 0, 11, 1);
 INSERT INTO `sys_permission` VALUES (12, 4, 'menu', '商品销售', NULL, '&#xe65b;', '', '', 0, 12, 1);
 INSERT INTO `sys_permission` VALUES (13, 4, 'menu', '销售退货查询', NULL, '&#xe770;', '', '', 0, 13, 1);
 INSERT INTO `sys_permission` VALUES (14, 5, 'menu', '部门管理', NULL, '&#xe770;', '/toPages/system/dept/deptManager', '', 0, 14, 1);
-INSERT INTO `sys_permission` VALUES (15, 5, 'menu', '菜单管理', NULL, '&#xe857;', '/sys/toMenuManager', '', 0, 15, 1);
-INSERT INTO `sys_permission` VALUES (16, 5, 'menu', '权限管理', '', '&#xe857;', '/sys/toPermissionManager', '', 0, 16, 1);
-INSERT INTO `sys_permission` VALUES (17, 5, 'menu', '角色管理', '', '&#xe650;', '/sys/toRoleManager', '', 0, 17, 1);
-INSERT INTO `sys_permission` VALUES (18, 5, 'menu', '用户管理', '', '&#xe612;', '/sys/toUserManager', '', 0, 18, 1);
+INSERT INTO `sys_permission` VALUES (15, 5, 'menu', '菜单管理', NULL, '&#xe857;', '/toPages/system/menu/menuManager', '', 0, 15, 1);
+INSERT INTO `sys_permission` VALUES (16, 5, 'menu', '权限管理', '', '&#xe857;', '/toPages/system/permission/permissionManager', '', 0, 16, 1);
+INSERT INTO `sys_permission` VALUES (17, 5, 'menu', '角色管理', '', '&#xe650;', '/toPages/system/role/roleManager', '', 0, 17, 1);
+INSERT INTO `sys_permission` VALUES (18, 5, 'menu', '用户管理', '', '&#xe612;', '/toPages/system/', '', 0, 18, 1);
 INSERT INTO `sys_permission` VALUES (21, 6, 'menu', '登陆日志', NULL, '&#xe675;', '/toPages/system/loginfo/loginfoManager', '', 0, 21, 1);
 INSERT INTO `sys_permission` VALUES (22, 6, 'menu', '系统公告', NULL, '&#xe756;', '/toPages/system/notice/noticeManager', NULL, 0, 22, 1);
 INSERT INTO `sys_permission` VALUES (23, 6, 'menu', '图标管理', NULL, '&#xe670;', '/resources/page/icon.html', NULL, 0, 23, 1);
@@ -730,22 +733,22 @@ INSERT INTO `sys_permission` VALUES (54, 15, 'permission', '菜单查询', 'menu
 INSERT INTO `sys_permission` VALUES (55, 16, 'permission', '权限查询', 'permission:view', NULL, NULL, NULL, 0, 50, 1);
 INSERT INTO `sys_permission` VALUES (56, 17, 'permission', '角色查询', 'role:view', NULL, NULL, NULL, 0, 51, 1);
 INSERT INTO `sys_permission` VALUES (57, 18, 'permission', '用户查询', 'user:view', NULL, NULL, NULL, 0, 52, 1);
-INSERT INTO `sys_permission` VALUES (68, 7, 'permission', '客户查询', 'customer:view', NULL, NULL, NULL, NULL, 60, 1);
-INSERT INTO `sys_permission` VALUES (69, 7, 'permission', '客户添加', 'customer:create', NULL, NULL, NULL, NULL, 61, 1);
-INSERT INTO `sys_permission` VALUES (70, 7, 'permission', '客户修改', 'customer:update', NULL, NULL, NULL, NULL, 62, 1);
-INSERT INTO `sys_permission` VALUES (71, 7, 'permission', '客户删除', 'customer:delete', NULL, NULL, NULL, NULL, 63, 1);
-INSERT INTO `sys_permission` VALUES (73, 21, 'permission', '日志查询', 'info:view', NULL, NULL, NULL, NULL, 65, 1);
-INSERT INTO `sys_permission` VALUES (74, 21, 'permission', '日志删除', 'info:delete', NULL, NULL, NULL, NULL, 66, 1);
-INSERT INTO `sys_permission` VALUES (75, 21, 'permission', '日志批量删除', 'info:batchdelete', NULL, NULL, NULL, NULL, 67, 1);
-INSERT INTO `sys_permission` VALUES (76, 22, 'permission', '公告查询', 'notice:view', NULL, NULL, NULL, NULL, 68, 1);
-INSERT INTO `sys_permission` VALUES (77, 22, 'permission', '公告添加', 'notice:create', NULL, NULL, NULL, NULL, 69, 1);
-INSERT INTO `sys_permission` VALUES (78, 22, 'permission', '公告修改', 'notice:update', NULL, NULL, NULL, NULL, 70, 1);
-INSERT INTO `sys_permission` VALUES (79, 22, 'permission', '公告删除', 'notice:delete', NULL, NULL, NULL, NULL, 71, 1);
-INSERT INTO `sys_permission` VALUES (81, 8, 'permission', '供应商查询', 'provider:view', NULL, NULL, NULL, NULL, 73, 1);
-INSERT INTO `sys_permission` VALUES (82, 8, 'permission', '供应商添加', 'provider:create', NULL, NULL, NULL, NULL, 74, 1);
-INSERT INTO `sys_permission` VALUES (83, 8, 'permission', '供应商修改', 'provider:update', NULL, NULL, NULL, NULL, 75, 1);
-INSERT INTO `sys_permission` VALUES (84, 8, 'permission', '供应商删除', 'provider:delete', NULL, NULL, NULL, NULL, 76, 1);
-INSERT INTO `sys_permission` VALUES (86, 22, 'permission', '公告查看', 'notice:viewnotice', NULL, NULL, NULL, NULL, 78, 1);
+INSERT INTO `sys_permission` VALUES (68, 7, 'permission', '客户查询', 'customer:view', NULL, NULL, NULL, 0, 60, 1);
+INSERT INTO `sys_permission` VALUES (69, 7, 'permission', '客户添加', 'customer:create', NULL, NULL, NULL, 0, 61, 1);
+INSERT INTO `sys_permission` VALUES (70, 7, 'permission', '客户修改', 'customer:update', NULL, NULL, NULL, 0, 62, 1);
+INSERT INTO `sys_permission` VALUES (71, 7, 'permission', '客户删除', 'customer:delete', NULL, NULL, NULL, 0, 63, 1);
+INSERT INTO `sys_permission` VALUES (73, 21, 'permission', '日志查询', 'info:view', NULL, NULL, NULL, 0, 65, 1);
+INSERT INTO `sys_permission` VALUES (74, 21, 'permission', '日志删除', 'info:delete', NULL, NULL, NULL, 0, 66, 1);
+INSERT INTO `sys_permission` VALUES (75, 21, 'permission', '日志批量删除', 'info:batchdelete', NULL, NULL, NULL, 0, 67, 1);
+INSERT INTO `sys_permission` VALUES (76, 22, 'permission', '公告查询', 'notice:view', NULL, NULL, NULL, 0, 68, 1);
+INSERT INTO `sys_permission` VALUES (77, 22, 'permission', '公告添加', 'notice:create', NULL, NULL, NULL, 0, 69, 1);
+INSERT INTO `sys_permission` VALUES (78, 22, 'permission', '公告修改', 'notice:update', NULL, NULL, NULL, 0, 70, 1);
+INSERT INTO `sys_permission` VALUES (79, 22, 'permission', '公告删除', 'notice:delete', NULL, NULL, NULL, 0, 71, 1);
+INSERT INTO `sys_permission` VALUES (81, 8, 'permission', '供应商查询', 'provider:view', NULL, NULL, NULL, 0, 73, 1);
+INSERT INTO `sys_permission` VALUES (82, 8, 'permission', '供应商添加', 'provider:create', NULL, NULL, NULL, 0, 74, 1);
+INSERT INTO `sys_permission` VALUES (83, 8, 'permission', '供应商修改', 'provider:update', NULL, NULL, NULL, 0, 75, 1);
+INSERT INTO `sys_permission` VALUES (84, 8, 'permission', '供应商删除', 'provider:delete', NULL, NULL, NULL, 0, 76, 1);
+INSERT INTO `sys_permission` VALUES (86, 22, 'permission', '公告查看', 'notice:viewnotice', NULL, NULL, NULL, 0, 78, 1);
 INSERT INTO `sys_permission` VALUES (91, 9, 'permission', '商品查询', 'goods:view', NULL, NULL, NULL, 0, 79, 1);
 INSERT INTO `sys_permission` VALUES (92, 9, 'permission', '商品添加', 'goods:create', NULL, NULL, NULL, 0, 80, 1);
 INSERT INTO `sys_permission` VALUES (94, 9, 'permission', '商品修改', 'goods:update', NULL, 'goods:update', NULL, 0, 81, 1);
@@ -869,16 +872,53 @@ INSERT INTO `sys_role_permission` VALUES (4, 91);
 INSERT INTO `sys_role_permission` VALUES (4, 92);
 INSERT INTO `sys_role_permission` VALUES (4, 94);
 INSERT INTO `sys_role_permission` VALUES (5, 1);
+INSERT INTO `sys_role_permission` VALUES (5, 2);
 INSERT INTO `sys_role_permission` VALUES (5, 3);
-INSERT INTO `sys_role_permission` VALUES (5, 4);
+INSERT INTO `sys_role_permission` VALUES (5, 5);
+INSERT INTO `sys_role_permission` VALUES (5, 7);
+INSERT INTO `sys_role_permission` VALUES (5, 8);
+INSERT INTO `sys_role_permission` VALUES (5, 9);
 INSERT INTO `sys_role_permission` VALUES (5, 10);
 INSERT INTO `sys_role_permission` VALUES (5, 11);
-INSERT INTO `sys_role_permission` VALUES (5, 12);
-INSERT INTO `sys_role_permission` VALUES (5, 13);
-INSERT INTO `sys_role_permission` VALUES (6, 1);
-INSERT INTO `sys_role_permission` VALUES (6, 4);
-INSERT INTO `sys_role_permission` VALUES (6, 12);
-INSERT INTO `sys_role_permission` VALUES (6, 13);
+INSERT INTO `sys_role_permission` VALUES (5, 14);
+INSERT INTO `sys_role_permission` VALUES (5, 15);
+INSERT INTO `sys_role_permission` VALUES (5, 16);
+INSERT INTO `sys_role_permission` VALUES (5, 17);
+INSERT INTO `sys_role_permission` VALUES (5, 18);
+INSERT INTO `sys_role_permission` VALUES (5, 30);
+INSERT INTO `sys_role_permission` VALUES (5, 31);
+INSERT INTO `sys_role_permission` VALUES (5, 32);
+INSERT INTO `sys_role_permission` VALUES (5, 34);
+INSERT INTO `sys_role_permission` VALUES (5, 35);
+INSERT INTO `sys_role_permission` VALUES (5, 36);
+INSERT INTO `sys_role_permission` VALUES (5, 38);
+INSERT INTO `sys_role_permission` VALUES (5, 39);
+INSERT INTO `sys_role_permission` VALUES (5, 40);
+INSERT INTO `sys_role_permission` VALUES (5, 42);
+INSERT INTO `sys_role_permission` VALUES (5, 43);
+INSERT INTO `sys_role_permission` VALUES (5, 44);
+INSERT INTO `sys_role_permission` VALUES (5, 46);
+INSERT INTO `sys_role_permission` VALUES (5, 47);
+INSERT INTO `sys_role_permission` VALUES (5, 48);
+INSERT INTO `sys_role_permission` VALUES (5, 49);
+INSERT INTO `sys_role_permission` VALUES (5, 51);
+INSERT INTO `sys_role_permission` VALUES (5, 52);
+INSERT INTO `sys_role_permission` VALUES (5, 53);
+INSERT INTO `sys_role_permission` VALUES (5, 54);
+INSERT INTO `sys_role_permission` VALUES (5, 55);
+INSERT INTO `sys_role_permission` VALUES (5, 56);
+INSERT INTO `sys_role_permission` VALUES (5, 57);
+INSERT INTO `sys_role_permission` VALUES (5, 68);
+INSERT INTO `sys_role_permission` VALUES (5, 69);
+INSERT INTO `sys_role_permission` VALUES (5, 70);
+INSERT INTO `sys_role_permission` VALUES (5, 71);
+INSERT INTO `sys_role_permission` VALUES (5, 81);
+INSERT INTO `sys_role_permission` VALUES (5, 82);
+INSERT INTO `sys_role_permission` VALUES (5, 83);
+INSERT INTO `sys_role_permission` VALUES (5, 84);
+INSERT INTO `sys_role_permission` VALUES (5, 91);
+INSERT INTO `sys_role_permission` VALUES (5, 92);
+INSERT INTO `sys_role_permission` VALUES (5, 94);
 INSERT INTO `sys_role_permission` VALUES (7, 1);
 INSERT INTO `sys_role_permission` VALUES (7, 5);
 INSERT INTO `sys_role_permission` VALUES (7, 6);

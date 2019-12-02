@@ -15,10 +15,12 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 public class UserRealm extends AuthorizingRealm {
 
 	@Autowired
+	@Lazy		//使用的时候才会加载
 	private UserService userService;
 
 	@Autowired

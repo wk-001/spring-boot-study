@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author wk
- * @since 2019-11-29
+ * @since 2019-12-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,10 +24,9 @@ public class RolePermission implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "rid", type = IdType.INPUT)
+    @TableId(value = "rid", type = IdType.AUTO)
     private Integer rid;
 
-    @TableId(value = "pid", type = IdType.INPUT)
     private Integer pid;
 
 

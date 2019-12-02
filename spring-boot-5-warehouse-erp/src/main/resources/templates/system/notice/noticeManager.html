@@ -274,7 +274,7 @@
                 for (var i = 0; i < checkStatus.data.length; i++) {
                     list += ',' + checkStatus.data[i].id;
                 }
-                list = list.substr(1);      //删除第一个","
+                list = list.substr(1);      //删除第一个逗号","
                 layer.confirm('确定删除选中公告吗？', {icon: 3, title:'提示'}, function (index) {
                     layer.close(index);
                     //向服务端发送删除指令

@@ -13,6 +13,8 @@
     <link rel="icon" href="/resources/favicon.ico">
     <link rel="stylesheet" href="/resources/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="/resources/css/public.css" media="all" >
+    <link rel="stylesheet" href="/resources/layui_ext/dtree/dtree.css">
+    <link rel="stylesheet" href="/resources/layui_ext/dtree/font/dtreefont.css">
     <script type="text/javascript"  src="/resources/layui/layui.js"></script>
 </head>
 
@@ -105,6 +107,13 @@
     </form>
 </div>
 <!--添加修改弹出层结束-->
+
+<!--分配权限弹出层开始-->
+<div style="display:none" id="assignResourcesDiv">
+    <ul id="resourceTree" class="dtree" data-id="0"></ul>
+</div>
+<!--分配权限弹出层结束-->
+
 </body>
 
 <script type="text/html" id="switchAvailable">
@@ -113,12 +122,14 @@
 
 <script type="text/javascript">
 
-
-    layui.use(['jquery','form','layer','table'], function(){
+    layui.extend({
+        dtree: '/resources/layui_ext/dtree/dtree'   // dtree.js所在位置；{/}的意思即代表采用自有路径，即不跟随 base 路径
+    }).use(['jquery','form','layer','table','dtree'], function(){
         var $ = layui.jquery
             ,form = layui.form
             ,layer = layui.layer
             ,table = layui.table
+            ,dtree = layui.dtree
 
         var tableIns;       //定义全局变量
 
@@ -261,6 +272,49 @@
             });
         });
 
+        //分配权限的弹窗
+        function assignPermission(data) {
+            mainModel = layer.open({
+                type: 1
+                , title: '分配【'+data.name+'】的权限'
+                , content: $("#assignResourcesDiv")
+                , area: ['310px', '500px']     //弹窗宽高
+                ,btnAlign: 'c'                  //按钮位置
+                ,btn: ['<div class="layui-icon layui-icon-ok">保存</div>', '<div class="layui-icon layui-icon-close">关闭</div>']
+                ,yes: function(index, layero){  //第一个按钮的回调，关闭弹窗不用回调
+                    //获取所有的复选框选中值
+                    var nodes = dtree.getCheckbarNodesParam("resourceTree");
+                    var list = "";
+                    var roleId = data.id;       //获取节点ID
+                    for (var i = 0; i < nodes.length; i++) {
+                        list += ',' + nodes[i].nodeId;      //选中的权限ID
+                    }
+                    list = list.substr(1);      //删除第一个逗号","
+                    console.log(roleId);
+                    console.log(list);
+                    $.post("/role/assignPermission",{roleId:roleId,ids:list},function (obj) {
+                        layer.msg(obj.msg);
+                        //关闭弹窗
+                        layer.close(mainModel);
+                    })
+                }
+                ,success:function (index) {         //弹窗成功后回调
+                    //根据角色ID查询权限和菜单
+                    dtree.render({
+                        elem: "#resourceTree",
+                        url: "/role/queryPermissionByRoleid?roleId="+data.id,
+                        dataStyle: "layuiStyle",  //使用layui风格的数据格式
+                        dataFormat: "list",  //配置data的风格为list
+                        response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
+                        checkbar: true,         //复选框
+                        checkbarType: "all",     // 默认就是all上下级联，其他的值为： no-all半选  p-casc   self  only
+                        skin: "layui",          //layui风格皮肤
+                        ficon: 8,               //设置节点图标
+                        accordion:true         //开启手风琴模式
+                    });
+                }
+            });
+        }
     });
 </script>
 

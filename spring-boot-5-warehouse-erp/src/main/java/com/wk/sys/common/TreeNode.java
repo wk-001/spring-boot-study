@@ -32,7 +32,7 @@ public class TreeNode {
 
 	private List<TreeNode> children = new ArrayList<>();	//存放子节点
 	
-	private String checkArr="0";							//0代表不选中  1代表选中
+	private String checkArr="0";							//0代表不选中  1代表选中 必须有默认值，否则除复选树之外的其他树无法加载
 	
 	/**
 	 * 首页左侧导航树的构造器

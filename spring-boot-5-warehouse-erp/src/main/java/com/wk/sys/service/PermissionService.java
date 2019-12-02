@@ -3,6 +3,8 @@ package com.wk.sys.service;
 import com.wk.sys.entity.Permission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -22,4 +24,9 @@ public interface PermissionService extends IService<Permission> {
 	 * 根据ID删除资源表和角色资源表的数据
 	 */
 	void deleteMenuById(Integer id);
+
+	/**
+	 * 根据角色ID查询角色拥有的权限id
+	 */
+	List<Integer> queryHasResources(Integer roleId);
 }

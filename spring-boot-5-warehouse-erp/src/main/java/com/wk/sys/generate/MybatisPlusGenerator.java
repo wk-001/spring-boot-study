@@ -19,15 +19,8 @@ public class MybatisPlusGenerator {
      * 数据库表名,多个表名用逗号隔开,如果生成整个数据库的表就不写
      */
     private static final String[] TABLE_NAME = {
-            "sys_dept",
-            "sys_log_login",
-            "sys_loginfo",
-            "sys_notice",
-            "sys_permission",
-            "sys_role",
             "sys_role_permission",
-            "sys_role_user",
-            "sys_user"};
+            "sys_role_user"};
 
     /**
      * 数据库表前缀,多个前缀用逗号隔开,没有前缀就不写

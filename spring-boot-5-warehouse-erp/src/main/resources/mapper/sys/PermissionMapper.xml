@@ -30,4 +30,15 @@
         DELETE FROM `sys_role_permission` where pid = #{id}
     </delete>
 
+    <select id="queryHasResources" resultType="java.lang.Integer">
+        SELECT
+            id
+        FROM
+            sys_permission sp,
+            sys_role_permission srp
+        WHERE
+            srp.pid = sp.id
+            AND srp.rid = #{roleId}
+    </select>
+
 </mapper>
