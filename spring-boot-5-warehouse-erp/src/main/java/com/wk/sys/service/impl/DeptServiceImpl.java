@@ -34,13 +34,23 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     }
 
     /**
-     * @CachePut 调用方法同时更新缓存数据
+     * @CachePut 缓存的是方法的返回值 每次都会真实调用函数
      * 缓存默认key是参数；查询方法的参数是id，修改方法的参数是对象 为了避免取到的缓存不一致的问题，统一指定key
      */
     @CachePut(key = "#eneity.id")
     @Override
     public boolean updateById(Dept entity) {
         return super.updateById(entity);
+    }
+
+    /**
+     * @CachePut 缓存的是方法的返回值 每次都会真实调用函数
+     * 缓存默认key是参数；查询方法的参数是id，修改方法的参数是对象 为了避免取到的缓存不一致的问题，统一指定key
+     */
+    @CachePut(key = "#eneity.id")
+    @Override
+    public boolean save(Dept entity) {
+        return super.save(entity);
     }
 
     /**
