@@ -1,12 +1,12 @@
 package com.wk;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wk.sys.entity.User;
 import com.wk.sys.service.UserService;
+import com.wk.sys.vo.UserVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class SpringBoot5WarehouseErpApplicationTests {
@@ -16,10 +16,10 @@ class SpringBoot5WarehouseErpApplicationTests {
 
     @Test
     void contextLoads() {
-        List<User> list = userService.list();
-        for (User user : list) {
-            System.out.println("user = " + user);
-        }
+        Page<User> page = new Page<>(0, 3);
+        UserVo userVo = new UserVo();
+        userService.queryList(page,userVo );
+        System.out.println("page = " + page.getRecords());
     }
 
 }

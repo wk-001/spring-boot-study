@@ -1,13 +1,15 @@
 package com.wk.sys.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -62,5 +64,17 @@ public class User implements Serializable {
 
     private String salt;
 
+    /**
+     * 上级领导
+     *  该属性对应数据库的mgr，在数据库没有具体字段，所以要加上@TableField(exist = false)注解
+     */
+    @TableField(exist = false)
+    private String leaderName;
 
+    /**
+     * 部门名称
+     * 该属性对应数据库的deptid，在数据库没有具体字段，所以要加上@TableField(exist = false)注解
+     */
+    @TableField(exist = false)
+    private String deptName;
 }

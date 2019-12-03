@@ -25,5 +25,27 @@
     <sql id="Base_Column_List">
         id, name, loginname, address, sex, remark, pwd, deptid, hiredate, mgr, available, ordernum, type, imgpath, salt
     </sql>
+    <select id="queryList" resultType="com.wk.sys.entity.User">
+        SELECT
+            u1.*,
+            u2.NAME leaderName,
+            d.title deptName
+        FROM
+            sys_user u1
+            LEFT JOIN sys_user u2 ON u1.mgr = u2.id,
+            sys_dept d
+        WHERE
+            u1.deptid = d.id
+        AND type = 1
+        <if test="name!=''and name!=null">
+            AND (name like #{name} or loginname=#{name})
+        </if>
+        <if test="address!=''and address!=null">
+            AND address like #{address}
+        </if>
+        <if test="deptid!=null">
+            AND deptid like #{deptid}
+        </if>
+    </select>
 
 </mapper>
