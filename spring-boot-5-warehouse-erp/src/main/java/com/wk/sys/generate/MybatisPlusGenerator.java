@@ -32,7 +32,7 @@ public class MybatisPlusGenerator {
      * System.getProperty("user.dir"):本项目生成
      * 生成到其他项目，路径到项目的根目录即可D:\工作空间\项目所在文件夹
      */
-    private static final String PROJECT_PATH = "E:/ideaspace/spring-boot-study/spring-boot-5-warehouse-erp";
+    private static final String PROJECT_PATH = System.getProperty("user.dir");
 
     /**
      * 包名

@@ -1,8 +1,7 @@
 package com.wk.sys.service;
 
-import com.wk.sys.common.ResultObj;
-import com.wk.sys.entity.RolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wk.sys.entity.RolePermission;
 
 /**
  * <p>

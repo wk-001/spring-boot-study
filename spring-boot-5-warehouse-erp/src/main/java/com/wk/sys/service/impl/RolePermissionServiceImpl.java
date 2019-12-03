@@ -1,10 +1,9 @@
 package com.wk.sys.service.impl;
 
-import com.wk.sys.common.ResultObj;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wk.sys.entity.RolePermission;
 import com.wk.sys.mapper.RolePermissionMapper;
 import com.wk.sys.service.RolePermissionService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,9 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
         map.put("rid",roleId);
         this.getBaseMapper().deleteByMap(map);
         //再重新添加角色和权限的关系
-        this.getBaseMapper().insertRolePermission(roleId,ids);
+        if(ids.length>0){
+            this.getBaseMapper().insertRolePermission(roleId,ids);
+        }
     }
 
 }
