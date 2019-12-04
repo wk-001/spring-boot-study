@@ -24,7 +24,12 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
 	@Override
 	public Integer getMaxOrderNum() {
-		return this.getBaseMapper().getMaxOrderNum();
+		int maxOrderNum = this.getBaseMapper().getMaxOrderNum();
+		if (maxOrderNum>0){
+			return maxOrderNum+1;
+		}else {
+			return 1;
+		}
 	}
 
 	@Override

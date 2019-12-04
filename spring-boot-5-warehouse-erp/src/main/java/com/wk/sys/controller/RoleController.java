@@ -9,18 +9,18 @@ import com.wk.sys.common.ResultObj;
 import com.wk.sys.common.TreeNode;
 import com.wk.sys.entity.Permission;
 import com.wk.sys.entity.Role;
+import com.wk.sys.entity.RoleUser;
 import com.wk.sys.service.PermissionService;
 import com.wk.sys.service.RolePermissionService;
 import com.wk.sys.service.RoleService;
+import com.wk.sys.service.RoleUserService;
 import com.wk.sys.vo.RoleVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -42,6 +42,9 @@ public class RoleController {
 
 	@Autowired
 	private RolePermissionService rolePermissionService;
+
+	@Autowired
+	private RoleUserService roleUserService;
 
 	/**
 	 * 带条件查询所有角色
@@ -129,6 +132,48 @@ public class RoleController {
 			return ResultObj.DISPATCH_ERROR;
 		}
 	}
-	
+
+	/**
+	 * 根据用户ID查询该用户拥有的角色
+	 */
+	@RequestMapping("getRoleByUserId")
+	public DataGridView getRoleByUserId(Integer userId){
+		//查询所有可用的角色
+		QueryWrapper<Role> wrapper = new QueryWrapper<Role>()
+				.eq("available",Constast.AVAILABLE_TRUE);
+		List<Map<String, Object>> maps = roleService.listMaps(wrapper);
+
+		//查询当前用户拥有的角色
+		Map<String,Object> param = new HashMap<>();
+		param.put("uid",userId);
+		Collection<RoleUser> roleUsers = roleUserService.listByMap(param);
+		for (Map<String, Object> map : maps) {
+			boolean LAY_CHECKED = false;		//表格复选框是否选中
+			Integer roleId = (Integer) map.get("id");
+			for (RoleUser roleUser : roleUsers) {		//如果用户拥有的角色和角色列表中的角色匹配就选中
+				if(roleId.equals(roleUser.getRid())){
+					LAY_CHECKED = true;
+					break;
+				}
+			}
+			map.put("LAY_CHECKED",LAY_CHECKED);
+
+		}
+		return new DataGridView((long) maps.size(),maps);
+	}
+
+	/**
+	 * 为用户分配角色
+	 */
+	@RequestMapping("editUserRole")
+	public ResultObj editUserRole(Integer userId,Integer[] ids){
+		try {
+			roleUserService.editUserRole(userId,ids);
+			return ResultObj.DISPATCH_SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultObj.DISPATCH_ERROR;
+		}
+	}
 }
 

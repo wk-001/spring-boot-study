@@ -3,6 +3,8 @@ package com.wk.sys.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wk.sys.common.Constast;
+import com.wk.sys.common.PasswordUtils;
 import com.wk.sys.entity.User;
 import com.wk.sys.mapper.RoleUserMapper;
 import com.wk.sys.mapper.UserMapper;
@@ -90,6 +92,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 	@Override
 	public Integer getMaxOrderNum() {
-		return this.getBaseMapper().getMaxOrderNum();
+		int maxOrderNum = this.getBaseMapper().getMaxOrderNum();
+		if (maxOrderNum>0){
+			return maxOrderNum+1;
+		}else {
+			return 1;
+		}
+	}
+
+	@Override
+	public void resetPwd(Integer id) {
+		User user = new User();
+		user.setId(id);
+		user.setPwd(Constast.USER_DEFAULT_PWD);
+		user = PasswordUtils.encryptPassword(user);
+		this.getBaseMapper().updateById(user);
 	}
 }

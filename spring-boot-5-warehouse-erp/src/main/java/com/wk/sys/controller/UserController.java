@@ -59,6 +59,7 @@ public class UserController {
 	public ResultObj saveOrUpdate(User user){
 		try {
 			if(user.getId()==null){
+				user.setPwd(Constast.USER_DEFAULT_PWD);
 				user = PasswordUtils.encryptPassword(user);
 				user.setType(Constast.USER_TYPE_NORMAL);
 				user.setHiredate(new Date());
@@ -104,5 +105,28 @@ public class UserController {
 			return "";
 		}
 	}
+
+	/**
+	 * 根据ID获取用户信息
+	 */
+	@RequestMapping("getById")
+	public User getById(Integer id){
+		return userService.getById(id);
+	}
+
+	/**
+	 * 重置用户密码
+	 */
+	@RequestMapping("resetPwd")
+	public ResultObj resetPwd(Integer id){
+		try {
+			userService.resetPwd(id);
+			return ResultObj.RESET_SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultObj.RESET_ERROR;
+		}
+	}
+
 }
 

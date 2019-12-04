@@ -170,6 +170,13 @@
                             </form>
                         </div>
                         <!--添加修改弹出层结束-->
+
+                        <!-- 用户分配角色的弹出层开始 -->
+                        <div style="display: none;padding: 10px" id="selectUserRole">
+                            <table class="layui-hide" id="roleTable" lay-filter="roleTable"></table>
+                        </div>
+                        <!-- 用户分配角色的弹出层结束 -->
+
                     </div>
                 </div>
             </div>
@@ -235,11 +242,11 @@
                  {field:'id', title:'ID',align:'center'}
                 ,{field:'name', title:'用户名称',align:'center',width:100}
                 ,{field:'loginname', title:'登录名',align:'center',width:100}
-                ,{field:'address', title:'用户地址',align:'center',width:100}
-                ,{field:'leaderName', title:'直属领导',align:'center',width:90}
                 ,{field:'deptName', title:'所属部门',align:'center',width:100}
-                ,{field:'remark', title:'用户备注',align:'center',width:100}
+                ,{field:'leaderName', title:'直属领导',align:'center',width:90}
                 ,{field:'sex', title:'性别',align:'center',templet: '#switchSex', unresize: true,width:80}
+                ,{field:'address', title:'用户地址',align:'center',width:100}
+                ,{field:'remark', title:'用户备注',align:'center',width:100}
                 ,{field:'ordernum', title:'排序码',align:'center',width:80}
                 ,{field:'hiredate', title:'入职时间',align:'center',width:160}
                 ,{field:'imgpath', title:'用户头像',align:'center',width:160}
@@ -271,12 +278,6 @@
                 case 'add':
                     openAdd();
                     break;
-                case 'assignRole':      //分配角色
-                    assignRole();
-                    break;
-                case 'resetPwd':        //重置密码
-                    resetPwd();
-                    break;
                 case 'refreshTable':
                     tableIns.reload({
                         url: "/user/list",
@@ -302,6 +303,12 @@
                 case 'edit':
                     openUpdate(data);
                     break;
+                case 'assignRole':      //分配角色
+                    assignRole(data);
+                    break;
+                case 'resetPwd':        //重置密码
+                    resetPwd(data);
+                    break;
             }
         });
 
@@ -322,6 +329,7 @@
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
                     $("#deptid").val("");      //点击修改后隐藏域有值，再点添加需要清空
+                    $("#id").val("");      //点击修改后隐藏域有值，再点添加需要清空
                     url = "/user/saveOrUpdate";
                     //打开添加弹窗清空数据
                     var html = "<option value='0' hidden>请选择直属领导</option>";
@@ -343,9 +351,34 @@
                 , success:function (index) {         //弹窗成功后回调
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    //回显上级用户 nodeId=data.pid;
-                    dtree.dataInit("downTree", data.pid);
+                    //回显所属部门
+                    dtree.dataInit("downTree", data.deptid);
                     dtree.setSelectValue("downTree");
+
+                    //获取当前用户的领导ID
+                    var leaderId = data.mgr;
+                    //回显领导部门,根据领导ID去数据库查询领导对应的部门
+                    $.get("/user/getById",{id:leaderId},function (res) {
+                        dtree.dataInit("leaderDeptTree", res.deptid);
+                        dtree.setSelectValue("leaderDeptTree");
+
+                        //回显该部门下所有领导名称
+                        $.get("/user/getUserByDeptId",{deptId:res.deptid},function (res) {
+                            //查询数据
+                            var users = res.data;
+                            //组装数据
+                            var html = "<option value='0' hidden>请选择直属领导</option>";
+                            $.each(users, function (index, item) {
+                                html+="<option value='"+item.id+"'>"+item.name+"</option>"
+                            });
+                            //追加数据
+                            $("#mgr").html(html);
+                            //回显领导ID
+                            $("#mgr").val(leaderId);
+                            //重新渲染下拉框数据
+                            form.render("select");
+                        })
+                    });
 
                     url = "/user/saveOrUpdate";
                 }
@@ -353,7 +386,7 @@
         }
 
         function deleteById(data) {
-            layer.confirm('确定删除用户['+data.title+']吗？', {icon: 3, title:'提示'}, function(index){
+            layer.confirm('确定删除用户【'+data.title+'】吗？', {icon: 3, title:'提示'}, function(index){
                 //向服务端发送删除指令
                 $.post("/user/delete",{"id":data.id},function (result) {
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
@@ -367,7 +400,6 @@
         form.on('submit(doSubmit)', function(obj) {
             //序列化表单数据
             var params = $("#dataForm").serialize();
-            console.log(params);
             $.post(url,params,function (obj) {
                 //在不刷新页面的情况刷新表格数据
                 tableIns.reload();
@@ -438,6 +470,7 @@
             ficon: 8,               //设置节点图标
             accordion:true          //开启手风琴模式
         });
+
         //将上级菜单的ID赋值给隐藏域
         dtree.on("node('leaderDeptTree')" ,function(obj){
             var deptId = obj.param.nodeId;
@@ -465,6 +498,64 @@
                 $("#loginname").val(res);
             })
         })
+
+        function resetPwd(data) {
+            layer.confirm('确定重置用户【'+data.name+'】的密码吗？', {icon: 3, title:'提示'}, function(index){
+                //向服务端发送删除指令
+                $.post("/user/resetPwd",{"id":data.id},function (result) {
+                    layer.msg(result.msg);
+                })
+                layer.close(index);
+            });
+        }
+
+        //分配角色弹出层
+        function assignRole(data) {
+            mainModel = layer.open({
+                type: 1
+                , title: '分配用户['+data.name+']的角色'
+                , content: $("#selectUserRole")
+                , area: ['500px', '370px']     //弹窗宽高
+                ,btnAlign: 'c'
+                ,btn: ['<div class="layui-icon layui-icon-ok">保存</div>', '<div class="layui-icon layui-icon-close">关闭</div>']
+                ,yes: function(index, layero){
+                    //得到选中的数据ID
+                    var checkStatus = table.checkStatus('roleTable');
+                    console.log(checkStatus.data);
+                    var list="";
+                    for(var i=0;i<checkStatus.data.length;i++){
+                        list+=','+checkStatus.data[i].id;
+                    }
+                    list = list.substr(1);
+                    var userId = data.id;
+                    console.log(userId);
+                    console.log(list);
+                    $.post("/role/editUserRole",{"userId":userId,"ids":list},function (obj) {
+                        layer.msg(obj.msg);
+                        //关闭弹窗
+                        layer.close(mainModel);
+                    })
+                }
+                ,success:function (index) {         //弹窗成功后回调
+                    initRoles(data);
+                }
+            });
+        }
+
+
+        //初始化角色列表
+        function initRoles(data) {
+            table.render({
+                elem: '#roleTable'      //渲染目标对象 数据表格对应ID
+                , url: "/role/getRoleByUserId?userId="+data.id
+                , even: true             //开启隔行背景
+                , cols: [ [      //两个[[和thymeleaf的语法冲突，必须在中间加一个空格！！！ [ [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'name', title: '角色名称', align: 'center'}
+                    , {field: 'remark', title: '角色备注', align: 'center'}
+                ] ]
+            })
+        }
     });
 
 

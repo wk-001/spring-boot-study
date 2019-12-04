@@ -2,6 +2,7 @@ package com.wk.sys.mapper;
 
 import com.wk.sys.entity.RoleUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RoleUserMapper extends BaseMapper<RoleUser> {
 
+    void batchInsert(@Param("userId") Integer userId,@Param("ids") Integer[] ids);
 }

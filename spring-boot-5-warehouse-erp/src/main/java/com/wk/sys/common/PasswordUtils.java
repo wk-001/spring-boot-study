@@ -14,8 +14,8 @@ public class PasswordUtils {
 	public static User encryptPassword(User user) {
 		String salt = new SecureRandomNumberGenerator().nextBytes().toString();
 		int times = 2;
-//		String algorithmName = "md5";
-		String encodedPassword = new SimpleHash("md5", user.getPwd(), salt, times).toString();
+		String algorithmName = "MD5";
+		String encodedPassword = new SimpleHash(algorithmName, user.getPwd(), salt, times).toString();
 		user.setPwd(encodedPassword);
 		user.setSalt(salt);
 		return user;

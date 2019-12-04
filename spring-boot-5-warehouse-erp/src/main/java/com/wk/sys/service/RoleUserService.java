@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RoleUserService extends IService<RoleUser> {
 
+    void editUserRole(Integer userId, Integer[] ids);
 }

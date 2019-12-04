@@ -1,12 +1,12 @@
 package com.wk;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wk.sys.entity.User;
 import com.wk.sys.service.UserService;
-import com.wk.sys.vo.UserVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 class SpringBoot5WarehouseErpApplicationTests {
@@ -16,11 +16,15 @@ class SpringBoot5WarehouseErpApplicationTests {
 
     @Test
     void contextLoads() {
-        Page<User> page = new Page<>(0, 3);
+       /* Page<User> page = new Page<>(0, 3);
         UserVo userVo = new UserVo();
         userVo.setName("王五");
         userService.queryList(page,userVo);
-        System.out.println("page = " + page.getRecords());
+        System.out.println("page = " + page.getRecords());*/
+        List<Map<String, Object>> maps = userService.listMaps();
+        for (Map<String, Object> map : maps) {
+            System.out.println("map = " + map);
+        }
     }
 
 }

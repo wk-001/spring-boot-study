@@ -21,4 +21,6 @@ public interface UserService extends IService<User> {
 	void deleteUserById(Integer id);
 
 	Integer getMaxOrderNum();
+
+    void resetPwd(Integer id);
 }
