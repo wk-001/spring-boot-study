@@ -27,6 +27,7 @@ public class MenuController {
 
     /**
      * 查询主页面左侧菜单
+     * 把代码移动到service层并加入缓存功能!!!
      */
     @RequestMapping("leftMenuJson")
     public DataGridView leftMenuJson(PermissionVo permissionVo){

@@ -17,4 +17,8 @@ import com.wk.sys.vo.UserVo;
 public interface UserService extends IService<User> {
 
 	IPage<User> queryList(Page<User> page, UserVo userVo);
+
+	void deleteUserById(Integer id);
+
+	Integer getMaxOrderNum();
 }

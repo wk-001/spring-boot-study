@@ -36,16 +36,20 @@
             sys_dept d
         WHERE
             u1.deptid = d.id
-        AND type = 1
-        <if test="name!=''and name!=null">
-            AND (name like #{name} or loginname=#{name})
+        AND u1.type = 1
+        <if test="userVo.name!='' and userVo.name!=null">
+            <bind name="userVo.name" value="'%'+userVo.name+'%'"/>
+            AND (u1.name like #{userVo.name} or u1.loginname=#{userVo.name})
         </if>
-        <if test="address!=''and address!=null">
-            AND address like #{address}
+        <if test="userVo.address!=''and userVo.address!=null">
+            AND u1.address like #{userVo.address}
         </if>
-        <if test="deptid!=null">
-            AND deptid like #{deptid}
+        <if test="userVo.deptid!=null">
+            AND u1.deptid like #{userVo.deptid}
         </if>
+    </select>
+    <select id="getMaxOrderNum" resultType="java.lang.Integer">
+        SELECT max(ordernum) FROM sys_user
     </select>
 
 </mapper>

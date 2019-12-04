@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wk.sys.entity.User;
+import com.wk.sys.mapper.RoleUserMapper;
 import com.wk.sys.mapper.UserMapper;
 import com.wk.sys.service.UserService;
 import com.wk.sys.vo.UserVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -14,6 +16,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,6 +30,9 @@ import java.io.Serializable;
 @CacheConfig(cacheNames = "user")       //抽取缓存公共配置 指定统一缓存组件名称；和value作用一样
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+	@Autowired
+	private RoleUserMapper roleUserMapper;
 
 	/**
 	 * @Cacheable 将方法的运行结果进行缓存，需要相同的数据直接取缓存中取，避免重复查库
@@ -71,5 +78,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Override
 	public IPage<User> queryList(Page<User> page, UserVo userVo) {
 		return this.getBaseMapper().queryList(page, userVo);
+	}
+
+	@Override
+	public void deleteUserById(Integer id) {
+		Map<String,Object> param = new HashMap<>();
+		param.put("uid", id);
+		this.getBaseMapper().deleteById(id);
+		roleUserMapper.deleteByMap(param);
+	}
+
+	@Override
+	public Integer getMaxOrderNum() {
+		return this.getBaseMapper().getMaxOrderNum();
 	}
 }

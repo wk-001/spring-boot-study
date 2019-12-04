@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>菜单管理</title>
+    <title>用户管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -41,9 +41,15 @@
                             <form action="" method="post" id="searchForm" lay-filter="searchForm" class="layui-form">
                                 <div class="layui-form-item">
                                     <div class="layui-inline">
-                                        <label class="layui-form-label">菜单名称</label>
+                                        <label class="layui-form-label">用户名称</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="title"  autocomplete="off" class="layui-input">
+                                            <input type="text" name="name"  autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">用户地址</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="address"  autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-inline">
@@ -70,7 +76,9 @@
                         <!--数据表格操作栏开始-->
                         <div id="tableToolBar" style="display: none">
                             <a class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</a>
-                            <a class="layui-btn layui-btn-danger layui-btn-sm layui-icon layui-icon-delete" lay-event="del">删除</a>
+                            <a class="layui-btn layui-btn-sm layui-icon layui-btn-normal layui-icon-user" lay-event="assignRole">分配角色</a>
+                            <a class="layui-btn layui-btn-sm layui-icon layui-btn-warm layui-icon-refresh-3" lay-event="resetPwd">重置密码</a>
+                            <a class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del">删除</a>
                         </div>
                         <!--数据表格操作栏结束-->
 
@@ -78,54 +86,70 @@
                         <div style="display: none;padding: 20px" id="saveOrUpdateDiv" >
                             <form class="layui-form" method="post"  lay-filter="dataForm" id="dataForm">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">上级菜单:</label>
-                                    <div class="layui-input-block">
-                                        <input type="hidden" name="pid" id="pid" lay-verify="required">
-                                        <ul id="downTree" class="dtree" data-id="0" data-value="请选择上级菜单"></ul>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">菜单名称:</label>
-                                    <div class="layui-input-block">
-                                        <input type="hidden" name="id">     <!--修改时需要用到ID-->
-                                        <input type="text" name="title" lay-verify="required"  placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">菜单地址:</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="href" placeholder="请输入菜单地址" autocomplete="off" class="layui-input" >
-                                    </div>
-                                </div>
-
-                                <div class="layui-form-item">
                                     <div class="layui-inline">
-                                        <label class="layui-form-label">菜单图标</label>
+                                        <label class="layui-form-label">选择部门:</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="icon" placeholder="请输入菜单图标" autocomplete="off" class="layui-input" >
+                                            <input type="hidden" name="deptid" id="deptid" lay-verify="required">
+                                            <ul id="downTree" class="dtree" data-id="0" data-value="请选择部门"></ul>
                                         </div>
                                     </div>
                                     <div class="layui-inline">
-                                        <label class="layui-form-label">TARGET</label>
+                                        <label class="layui-form-label">排序码:</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="target" placeholder="请输入菜单TARGET" autocomplete="off" class="layui-input" >
+                                            <input type="hidden" name="id">     <!--修改时需要用到ID-->
+                                            <input type="text" lay-verify="required|number" id="ordernum" name="ordernum" placeholder="请输入大于0的排序码" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">排序码:</label>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">领导部门:</label>
+                                        <div class="layui-input-inline">
+                                            <ul id="leaderDeptTree" class="dtree" data-id="0" data-value="请选择部门"></ul>
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">直属领导:</label>
+                                        <div class="layui-input-inline">
+                                            <select name="mgr" id="mgr">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">用户名称:</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="name" id="name" lay-verify="required"  placeholder="请输入用户名称" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">登录名:</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="loginname" id="loginname" lay-verify="required"  placeholder="请输入登录名" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户地址:</label>
                                     <div class="layui-input-block">
-                                        <input type="text" lay-verify="required|number" id="ordernum" name="ordernum" placeholder="请输入大于0的排序码" autocomplete="off" class="layui-input">
+                                        <input type="text" lay-verify="required" name="address" placeholder="请输入用户地址" autocomplete="off" class="layui-input" >
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户备注:</label>
+                                    <div class="layui-input-block">
+                                        <textarea type="text" lay-verify="required" name="remark" placeholder="请输入用户备注" autocomplete="off" class="layui-textarea"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="layui-form-item">
                                     <div class="layui-inline">
-                                        <label class="layui-form-label">是否展开</label>
+                                        <label class="layui-form-label">性别:</label>
                                         <div class="layui-input-inline">
-                                            <input type="radio" name="open" value="1" title="展开" >
-                                            <input type="radio" name="open" value="0" title="不展开" checked="">
+                                            <input type="radio" name="sex" value="1" title="男" checked="">
+                                            <input type="radio" name="sex" value="0" title="女">
                                         </div>
                                     </div>
                                     <div class="layui-inline">
@@ -153,8 +177,8 @@
     </div>
 </body>
 
-<script type="text/html" id="switchOpen">
-    <input type="checkbox" name="open" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="openSwitch" {{d.open==1?'checked':'' }}>
+<script type="text/html" id="switchSex">
+    <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="男|女" lay-filter="sexSwitch" {{d.sex==1?'checked':'' }}>
 </script>
 
 <script type="text/html" id="switchAvailable">
@@ -174,10 +198,10 @@
 
         var dTree;
         var tableIns;
-        // 初始化树
+        // 初始化左侧部门树
         dTree = dtree.render({
             elem: "#dataTree",  //页面容器
-            url: "/menu/leftMenuTree",
+            url: "/dept/leftMenuTree",
             /*layui+list集合数据格式（dataStyle + dataFormat）*/
             dataStyle: "layuiStyle",  //使用layui风格的数据格式
             dataFormat: "list",   //使用list风格的数据格式,从数据库查出的数据可以直接使用
@@ -191,7 +215,7 @@
         dtree.on("node('dataTree')" ,function(obj){
             var id = obj.param.nodeId;
             tableIns.reload({
-                url:"/menu/list?id="+id,
+                url:"/user/list?deptid="+id,
                 page:{curr:1}           //每次查询从第一页开始
             });
             return false;
@@ -200,25 +224,27 @@
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
-            ,height: 'full-215'            //数据表格高度 可用高度-指定高度
+            ,height: 'full-260'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
-            ,url: "/menu/list"
+            ,url: "/user/list"
             ,page: true //开启分页
             ,toolbar:"#titleToolBar"     //引用表头工具栏 titleToolBar是div的ID
-            ,title: '菜单数据表'
+            ,title: '用户数据表'
             ,even: true             //开启隔行背景
             ,cols: [ [      //两个[[和thymeleaf的语法冲突，必须在中间加一个空格！！！ [ [
                  {field:'id', title:'ID',align:'center'}
-                ,{field:'title', title:'菜单名称',align:'center'}
-                ,{field:'pid', title:'上级菜单',align:'center'}
-                ,{field:'href', title:'菜单地址',align:'center'}
-                ,{field:'icon', title:'菜单图标',align:'center',templet:function (d) {
-                        return "<div class='layui-icon'>"+d.icon+"</div>";
-                    }}
-                ,{field:'open', title:'是否展开',align:'center',templet: '#switchOpen', unresize: true}
-                ,{field:'available', title:'是否可用',align:'center',templet: '#switchAvailable', unresize: true}
-                ,{field:'ordernum', title:'排序码',align:'center'}
-                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center',width:180}
+                ,{field:'name', title:'用户名称',align:'center',width:100}
+                ,{field:'loginname', title:'登录名',align:'center',width:100}
+                ,{field:'address', title:'用户地址',align:'center',width:100}
+                ,{field:'leaderName', title:'直属领导',align:'center',width:90}
+                ,{field:'deptName', title:'所属部门',align:'center',width:100}
+                ,{field:'remark', title:'用户备注',align:'center',width:100}
+                ,{field:'sex', title:'性别',align:'center',templet: '#switchSex', unresize: true,width:80}
+                ,{field:'ordernum', title:'排序码',align:'center',width:80}
+                ,{field:'hiredate', title:'入职时间',align:'center',width:160}
+                ,{field:'imgpath', title:'用户头像',align:'center',width:160}
+                ,{field:'available', title:'是否可用',align:'center',templet: '#switchAvailable', unresize: true,width:90}
+                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center',width:400}
             ] ]
             ,done: function(res, curr, count){
                 //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
@@ -245,8 +271,17 @@
                 case 'add':
                     openAdd();
                     break;
+                case 'assignRole':      //分配角色
+                    assignRole();
+                    break;
+                case 'resetPwd':        //重置密码
+                    resetPwd();
+                    break;
                 case 'refreshTable':
-                    tableIns.reload();      //在不刷新页面的情况刷新表格数据
+                    tableIns.reload({
+                        url: "/user/list",
+                        page:{curr:1}           //每次查询从第一页开始
+                    });      //在不刷新页面的情况刷新表格数据
                     break;
                 case 'getSelect':   //获取checkbox选中行的数据
                     var checkStatus = table.checkStatus('dataTable'); //dataTable:数据表格的ID
@@ -276,61 +311,56 @@
         function openAdd() {
             mainModel = layer.open({
                 type: 1
-                ,title:'添加菜单'
+                ,title:'添加用户'
                 ,content:$("#saveOrUpdateDiv")
-                ,area: ['700px', '465px']     //弹窗宽高
+                ,area: ['710px', '540px']     //弹窗宽高
                 ,success:function (index) {
                     //打开添加窗口添加一个默认最大的排序码
-                    $.get("/menu/getMaxOrderNum",function (result) {
+                    $.get("/user/getMaxOrderNum",function (result) {
                         $("#ordernum").val(result);
                     })
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
-                    $("#pid").val("");      //点击修改后隐藏域有值，再点添加需要清空
-                    url = "/menu/saveOrUpdate";
+                    $("#deptid").val("");      //点击修改后隐藏域有值，再点添加需要清空
+                    url = "/user/saveOrUpdate";
+                    //打开添加弹窗清空数据
+                    var html = "<option value='0' hidden>请选择直属领导</option>";
+                    //追加数据
+                    $("#mgr").html(html);
+                    //重新渲染下拉框数据
+                    form.render("select");
                 }
             });
         }
 
-        //打开修改菜单弹出框
+        //打开修改用户弹出框
         function openUpdate(data) {
             mainModel = layer.open({
                   type: 1
-                , title: '修改菜单信息'
+                , title: '修改用户信息'
                 , content: $("#saveOrUpdateDiv")
-                , area: ['700px', '465px']     //弹窗宽高
+                , area: ['710px', '540px']     //弹窗宽高
                 , success:function (index) {         //弹窗成功后回调
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    //回显上级菜单 nodeId=data.pid;
+                    //回显上级用户 nodeId=data.pid;
                     dtree.dataInit("downTree", data.pid);
                     dtree.setSelectValue("downTree");
 
-                    url = "/menu/saveOrUpdate";
+                    url = "/user/saveOrUpdate";
                 }
             });
         }
 
         function deleteById(data) {
-            $.get("/menu/hasSubMenu",{id:data.id},function (result) {
-                if(result>0){
-                    layer.msg("当前菜单有子菜单，请先删除子菜单！")
-                }else{
-                    layer.confirm('确定删除菜单['+data.title+']吗？', {icon: 3, title:'提示'}, function(index){
-                        //向服务端发送删除指令
-                        $.post("/menu/delete",{"id":data.id},function (result) {
-                            tableIns.reload();      //在不刷新页面的情况刷新表格数据
-                            layer.msg(result.msg);
-                        })
-                        layer.close(index);
-                        //刷新菜单树
-                        dtree.reload('dataTree');
-                        //刷新下拉树
-                        downTree.reload();
-                    });
-                }
-            })
-
+            layer.confirm('确定删除用户['+data.title+']吗？', {icon: 3, title:'提示'}, function(index){
+                //向服务端发送删除指令
+                $.post("/user/delete",{"id":data.id},function (result) {
+                    tableIns.reload();      //在不刷新页面的情况刷新表格数据
+                    layer.msg(result.msg);
+                })
+                layer.close(index);
+            });
         }
 
         //保存数据，监听submit
@@ -344,24 +374,19 @@
                 layer.msg(obj.msg);
                 //关闭弹窗
                 layer.close(mainModel);
-                //刷新菜单树
-                dtree.reload('dataTree');
-                //刷新下拉树
-                downTree.reload();
             })
         });
 
-        //监听是否展开操作
-        form.on('switch(openSwitch)', function(obj){
+        //监听改变性别操作
+        form.on('switch(sexSwitch)', function(obj){
             var state;
             if(obj.elem.checked){
                 state = 1;
             }else{
                 state = 0;
             }
-            $.post("/menu/saveOrUpdate",{id:this.value,open:state},function () {
-                //刷新菜单树
-                dtree.reload('dataTree');
+            $.post("/user/saveOrUpdate",{id:this.value,sex:state},function () {
+                //刷新表格
                 tableIns.reload();
             });
         });
@@ -374,17 +399,17 @@
             }else{
                 state = 0;
             }
-            $.post("/menu/saveOrUpdate",{id:this.value,available:state},function () {
-                //刷新菜单树
-                dtree.reload('dataTree');
+            $.post("/user/saveOrUpdate",{id:this.value,available:state},function () {
+                //刷新表格
                 tableIns.reload();
             });
         });
 
-        //初始化下拉树
+        //初始化用户所属部门下拉树
         var downTree = dtree.renderSelect({
             elem: "#downTree",
-            url: "/menu/leftMenuTree",
+            width: "100%", // 可以在这里指定树的宽度来填满div
+            url: "/dept/leftMenuTree",
             dataStyle: "layuiStyle",  //使用layui风格的数据格式
             dataFormat: "list",  //配置data的风格为list
             response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
@@ -392,13 +417,57 @@
             // checkbar: true,     //复选框
             skin: "layui",          //layui风格皮肤
             ficon: 8,               //设置节点图标
-            accordion:true         //开启手风琴模式
+            accordion:true          //开启手风琴模式
         });
         //将上级菜单的ID赋值给隐藏域
         dtree.on("node('downTree')" ,function(obj){
-            $("#pid").val(obj.param.nodeId)
+            $("#deptid").val(obj.param.nodeId)
         });
+
+        //初始化用户领导所属部门下拉树
+        var leaderDeptTree = dtree.renderSelect({
+            elem: "#leaderDeptTree",
+            width: "100%", // 可以在这里指定树的宽度来填满div
+            url: "/dept/leftMenuTree",
+            dataStyle: "layuiStyle",  //使用layui风格的数据格式
+            dataFormat: "list",  //配置data的风格为list
+            response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
+            //menubar: true, //开启菜单栏
+            // checkbar: true,     //复选框
+            skin: "layui",          //layui风格皮肤
+            ficon: 8,               //设置节点图标
+            accordion:true          //开启手风琴模式
+        });
+        //将上级菜单的ID赋值给隐藏域
+        dtree.on("node('leaderDeptTree')" ,function(obj){
+            var deptId = obj.param.nodeId;
+            $.get("/user/getUserByDeptId",{deptId:deptId},function (res) {
+                //查询数据
+                var users = res.data;
+                //组装数据
+                var html = "<option value='0' hidden>请选择直属领导</option>";
+                $.each(users, function (index, item) {
+                    html+="<option value='"+item.id+"'>"+item.name+"</option>"
+                });
+                //追加数据
+                $("#mgr").html(html);
+                //重新渲染下拉框数据
+                form.render("select");
+            })
+        });
+
+        //监听用户名失去焦点事件，将用户名转成拼音
+        $("#name").on("blur",function () {
+            //获取用户输入的值
+            var name = $(this).val();
+            //传递到后台进行处理
+            $.get("/user/changeLanguage",{name:name},function (res) {
+                $("#loginname").val(res);
+            })
+        })
     });
+
+
 </script>
 
 </html>

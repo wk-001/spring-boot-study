@@ -18,7 +18,8 @@ class SpringBoot5WarehouseErpApplicationTests {
     void contextLoads() {
         Page<User> page = new Page<>(0, 3);
         UserVo userVo = new UserVo();
-        userService.queryList(page,userVo );
+        userVo.setName("王五");
+        userService.queryList(page,userVo);
         System.out.println("page = " + page.getRecords());
     }
 
