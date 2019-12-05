@@ -3,6 +3,8 @@ package com.wk.sys.mapper;
 import com.wk.sys.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -16,4 +18,6 @@ public interface RoleMapper extends BaseMapper<Role> {
 	void deleteUserRoleByRid(Integer id);
 
 	void deleteRolePermissionByRid(Integer id);
+
+    List<String> getCodeByUserId(Integer id);
 }

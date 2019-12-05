@@ -1,9 +1,9 @@
 package com.wk.sys.service;
 
-import com.wk.sys.common.DataGridView;
-import com.wk.sys.common.ResultObj;
-import com.wk.sys.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wk.sys.entity.Role;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +20,8 @@ public interface RoleService extends IService<Role> {
 	 */
 	void removeRoleById(Integer id);
 
+	/**
+	 * 根据用户ID查询该用户拥有的角色编码
+	 */
+    List<String> getCodeByUserId(Integer id);
 }

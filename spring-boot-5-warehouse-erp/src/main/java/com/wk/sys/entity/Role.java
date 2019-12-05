@@ -1,13 +1,14 @@
 package com.wk.sys.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -30,11 +31,12 @@ public class Role implements Serializable {
 
     private String name;
 
+    private String rolecode;
+
     private String remark;
 
     private Integer available;
 
     private Date createtime;
-
 
 }

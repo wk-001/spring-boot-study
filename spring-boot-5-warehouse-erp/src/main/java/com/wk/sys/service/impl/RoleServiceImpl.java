@@ -7,6 +7,8 @@ import com.wk.sys.service.RoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -24,6 +26,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 		super.removeById(id);
 		this.getBaseMapper().deleteUserRoleByRid(id);
 		this.getBaseMapper().deleteRolePermissionByRid(id);
+	}
+
+	@Override
+	public List<String> getCodeByUserId(Integer id) {
+		return this.getBaseMapper().getCodeByUserId(id);
 	}
 
 }

@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 02/12/2019 22:46:43
+ Date: 05/12/2019 22:00:37
 */
 
 SET NAMES utf8mb4;
@@ -421,7 +421,7 @@ CREATE TABLE `sys_loginfo`  (
   `loginip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `logintime` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 270 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 290 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_loginfo
@@ -645,6 +645,26 @@ INSERT INTO `sys_loginfo` VALUES (266, '超级管理员-system', '0:0:0:0:0:0:0:
 INSERT INTO `sys_loginfo` VALUES (267, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-02 20:05:37');
 INSERT INTO `sys_loginfo` VALUES (268, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-02 21:02:20');
 INSERT INTO `sys_loginfo` VALUES (269, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-02 22:01:17');
+INSERT INTO `sys_loginfo` VALUES (270, '超级管理员-system', '127.0.0.1', '2019-12-03 09:53:15');
+INSERT INTO `sys_loginfo` VALUES (271, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-03 22:04:05');
+INSERT INTO `sys_loginfo` VALUES (272, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-04 20:01:43');
+INSERT INTO `sys_loginfo` VALUES (273, '张三-zhangsan', '0:0:0:0:0:0:0:1', '2019-12-04 20:04:11');
+INSERT INTO `sys_loginfo` VALUES (274, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-04 20:04:36');
+INSERT INTO `sys_loginfo` VALUES (275, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-04 20:44:01');
+INSERT INTO `sys_loginfo` VALUES (276, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-04 21:57:28');
+INSERT INTO `sys_loginfo` VALUES (277, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-04 23:10:11');
+INSERT INTO `sys_loginfo` VALUES (278, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-05 20:36:26');
+INSERT INTO `sys_loginfo` VALUES (279, '李四-ls', '0:0:0:0:0:0:0:1', '2019-12-05 20:48:16');
+INSERT INTO `sys_loginfo` VALUES (280, '孙七-sq', '0:0:0:0:0:0:0:1', '2019-12-05 20:48:41');
+INSERT INTO `sys_loginfo` VALUES (281, '赵六-zl', '0:0:0:0:0:0:0:1', '2019-12-05 20:51:41');
+INSERT INTO `sys_loginfo` VALUES (282, '超级管理员-system', '0:0:0:0:0:0:0:1', '2019-12-05 20:51:47');
+INSERT INTO `sys_loginfo` VALUES (283, '李四-ls', '0:0:0:0:0:0:0:1', '2019-12-05 21:35:30');
+INSERT INTO `sys_loginfo` VALUES (284, '李四-ls', '0:0:0:0:0:0:0:1', '2019-12-05 21:43:33');
+INSERT INTO `sys_loginfo` VALUES (285, '赵六-zl', '0:0:0:0:0:0:0:1', '2019-12-05 21:45:35');
+INSERT INTO `sys_loginfo` VALUES (286, '小李-xiaoli', '0:0:0:0:0:0:0:1', '2019-12-05 21:47:00');
+INSERT INTO `sys_loginfo` VALUES (287, '赵六-zl', '0:0:0:0:0:0:0:1', '2019-12-05 21:49:19');
+INSERT INTO `sys_loginfo` VALUES (288, '小明-xiaoming', '0:0:0:0:0:0:0:1', '2019-12-05 21:51:51');
+INSERT INTO `sys_loginfo` VALUES (289, '小明-xiaoming', '0:0:0:0:0:0:0:1', '2019-12-05 21:54:14');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -706,7 +726,7 @@ INSERT INTO `sys_permission` VALUES (14, 5, 'menu', '部门管理', NULL, '&#xe7
 INSERT INTO `sys_permission` VALUES (15, 5, 'menu', '菜单管理', NULL, '&#xe857;', '/toPages/system/menu/menuManager', '', 0, 15, 1);
 INSERT INTO `sys_permission` VALUES (16, 5, 'menu', '权限管理', '', '&#xe857;', '/toPages/system/permission/permissionManager', '', 0, 16, 1);
 INSERT INTO `sys_permission` VALUES (17, 5, 'menu', '角色管理', '', '&#xe650;', '/toPages/system/role/roleManager', '', 0, 17, 1);
-INSERT INTO `sys_permission` VALUES (18, 5, 'menu', '用户管理', '', '&#xe612;', '/toPages/system/', '', 0, 18, 1);
+INSERT INTO `sys_permission` VALUES (18, 5, 'menu', '用户管理', '', '&#xe612;', '/toPages/system/user/userManager', '', 0, 18, 1);
 INSERT INTO `sys_permission` VALUES (21, 6, 'menu', '登陆日志', NULL, '&#xe675;', '/toPages/system/loginfo/loginfoManager', '', 0, 21, 1);
 INSERT INTO `sys_permission` VALUES (22, 6, 'menu', '系统公告', NULL, '&#xe756;', '/toPages/system/notice/noticeManager', NULL, 0, 22, 1);
 INSERT INTO `sys_permission` VALUES (23, 6, 'menu', '图标管理', NULL, '&#xe670;', '/resources/page/icon.html', NULL, 0, 23, 1);
@@ -761,6 +781,7 @@ DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `rolecode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `available` int(11) DEFAULT NULL,
   `createtime` datetime(0) DEFAULT NULL,
@@ -770,11 +791,11 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '超级管理员', '拥有所有菜单权限', 1, '2019-04-10 14:06:32');
-INSERT INTO `sys_role` VALUES (4, '基础数据管理员', '基础数据管理员', 1, '2019-04-10 14:06:32');
-INSERT INTO `sys_role` VALUES (5, '仓库管理员', '仓库管理员', 1, '2019-04-10 14:06:32');
-INSERT INTO `sys_role` VALUES (6, '销售管理员', '销售管理员', 1, '2019-04-10 14:06:32');
-INSERT INTO `sys_role` VALUES (7, '系统管理员', '系统管理员', 1, '2019-04-10 14:06:32');
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 'admin', '拥有所有菜单权限', 1, '2019-04-10 14:06:32');
+INSERT INTO `sys_role` VALUES (4, '基础数据管理员', 'dataer', '基础数据管理员', 1, '2019-04-10 14:06:32');
+INSERT INTO `sys_role` VALUES (5, '仓库管理员', 'warehouser', '仓库管理员', 1, '2019-04-10 14:06:32');
+INSERT INTO `sys_role` VALUES (6, '销售管理员', 'sale', '销售管理员', 1, '2019-04-10 14:06:32');
+INSERT INTO `sys_role` VALUES (7, '系统管理员', 'system', '系统管理员', 1, '2019-04-10 14:06:32');
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -857,68 +878,41 @@ INSERT INTO `sys_role_permission` VALUES (1, 92);
 INSERT INTO `sys_role_permission` VALUES (1, 94);
 INSERT INTO `sys_role_permission` VALUES (4, 1);
 INSERT INTO `sys_role_permission` VALUES (4, 2);
+INSERT INTO `sys_role_permission` VALUES (4, 6);
 INSERT INTO `sys_role_permission` VALUES (4, 7);
 INSERT INTO `sys_role_permission` VALUES (4, 8);
 INSERT INTO `sys_role_permission` VALUES (4, 9);
+INSERT INTO `sys_role_permission` VALUES (4, 21);
+INSERT INTO `sys_role_permission` VALUES (4, 22);
+INSERT INTO `sys_role_permission` VALUES (4, 23);
 INSERT INTO `sys_role_permission` VALUES (4, 68);
 INSERT INTO `sys_role_permission` VALUES (4, 69);
 INSERT INTO `sys_role_permission` VALUES (4, 70);
 INSERT INTO `sys_role_permission` VALUES (4, 71);
+INSERT INTO `sys_role_permission` VALUES (4, 73);
+INSERT INTO `sys_role_permission` VALUES (4, 74);
+INSERT INTO `sys_role_permission` VALUES (4, 75);
+INSERT INTO `sys_role_permission` VALUES (4, 76);
+INSERT INTO `sys_role_permission` VALUES (4, 77);
+INSERT INTO `sys_role_permission` VALUES (4, 78);
+INSERT INTO `sys_role_permission` VALUES (4, 79);
 INSERT INTO `sys_role_permission` VALUES (4, 81);
 INSERT INTO `sys_role_permission` VALUES (4, 82);
 INSERT INTO `sys_role_permission` VALUES (4, 83);
 INSERT INTO `sys_role_permission` VALUES (4, 84);
+INSERT INTO `sys_role_permission` VALUES (4, 86);
 INSERT INTO `sys_role_permission` VALUES (4, 91);
 INSERT INTO `sys_role_permission` VALUES (4, 92);
 INSERT INTO `sys_role_permission` VALUES (4, 94);
+INSERT INTO `sys_role_permission` VALUES (4, 95);
 INSERT INTO `sys_role_permission` VALUES (5, 1);
-INSERT INTO `sys_role_permission` VALUES (5, 2);
 INSERT INTO `sys_role_permission` VALUES (5, 3);
-INSERT INTO `sys_role_permission` VALUES (5, 5);
-INSERT INTO `sys_role_permission` VALUES (5, 7);
-INSERT INTO `sys_role_permission` VALUES (5, 8);
-INSERT INTO `sys_role_permission` VALUES (5, 9);
 INSERT INTO `sys_role_permission` VALUES (5, 10);
 INSERT INTO `sys_role_permission` VALUES (5, 11);
-INSERT INTO `sys_role_permission` VALUES (5, 14);
-INSERT INTO `sys_role_permission` VALUES (5, 15);
-INSERT INTO `sys_role_permission` VALUES (5, 16);
-INSERT INTO `sys_role_permission` VALUES (5, 17);
-INSERT INTO `sys_role_permission` VALUES (5, 18);
-INSERT INTO `sys_role_permission` VALUES (5, 30);
-INSERT INTO `sys_role_permission` VALUES (5, 31);
-INSERT INTO `sys_role_permission` VALUES (5, 32);
-INSERT INTO `sys_role_permission` VALUES (5, 34);
-INSERT INTO `sys_role_permission` VALUES (5, 35);
-INSERT INTO `sys_role_permission` VALUES (5, 36);
-INSERT INTO `sys_role_permission` VALUES (5, 38);
-INSERT INTO `sys_role_permission` VALUES (5, 39);
-INSERT INTO `sys_role_permission` VALUES (5, 40);
-INSERT INTO `sys_role_permission` VALUES (5, 42);
-INSERT INTO `sys_role_permission` VALUES (5, 43);
-INSERT INTO `sys_role_permission` VALUES (5, 44);
-INSERT INTO `sys_role_permission` VALUES (5, 46);
-INSERT INTO `sys_role_permission` VALUES (5, 47);
-INSERT INTO `sys_role_permission` VALUES (5, 48);
-INSERT INTO `sys_role_permission` VALUES (5, 49);
-INSERT INTO `sys_role_permission` VALUES (5, 51);
-INSERT INTO `sys_role_permission` VALUES (5, 52);
-INSERT INTO `sys_role_permission` VALUES (5, 53);
-INSERT INTO `sys_role_permission` VALUES (5, 54);
-INSERT INTO `sys_role_permission` VALUES (5, 55);
-INSERT INTO `sys_role_permission` VALUES (5, 56);
-INSERT INTO `sys_role_permission` VALUES (5, 57);
-INSERT INTO `sys_role_permission` VALUES (5, 68);
-INSERT INTO `sys_role_permission` VALUES (5, 69);
-INSERT INTO `sys_role_permission` VALUES (5, 70);
-INSERT INTO `sys_role_permission` VALUES (5, 71);
-INSERT INTO `sys_role_permission` VALUES (5, 81);
-INSERT INTO `sys_role_permission` VALUES (5, 82);
-INSERT INTO `sys_role_permission` VALUES (5, 83);
-INSERT INTO `sys_role_permission` VALUES (5, 84);
-INSERT INTO `sys_role_permission` VALUES (5, 91);
-INSERT INTO `sys_role_permission` VALUES (5, 92);
-INSERT INTO `sys_role_permission` VALUES (5, 94);
+INSERT INTO `sys_role_permission` VALUES (6, 1);
+INSERT INTO `sys_role_permission` VALUES (6, 4);
+INSERT INTO `sys_role_permission` VALUES (6, 12);
+INSERT INTO `sys_role_permission` VALUES (6, 13);
 INSERT INTO `sys_role_permission` VALUES (7, 1);
 INSERT INTO `sys_role_permission` VALUES (7, 5);
 INSERT INTO `sys_role_permission` VALUES (7, 6);
@@ -940,7 +934,6 @@ INSERT INTO `sys_role_permission` VALUES (7, 39);
 INSERT INTO `sys_role_permission` VALUES (7, 40);
 INSERT INTO `sys_role_permission` VALUES (7, 42);
 INSERT INTO `sys_role_permission` VALUES (7, 43);
-INSERT INTO `sys_role_permission` VALUES (7, 44);
 INSERT INTO `sys_role_permission` VALUES (7, 46);
 INSERT INTO `sys_role_permission` VALUES (7, 47);
 INSERT INTO `sys_role_permission` VALUES (7, 48);
@@ -982,10 +975,15 @@ INSERT INTO `sys_role_user` VALUES (4, 3);
 INSERT INTO `sys_role_user` VALUES (4, 8);
 INSERT INTO `sys_role_user` VALUES (5, 4);
 INSERT INTO `sys_role_user` VALUES (5, 8);
+INSERT INTO `sys_role_user` VALUES (5, 10);
 INSERT INTO `sys_role_user` VALUES (6, 5);
+INSERT INTO `sys_role_user` VALUES (6, 6);
 INSERT INTO `sys_role_user` VALUES (6, 8);
+INSERT INTO `sys_role_user` VALUES (6, 10);
+INSERT INTO `sys_role_user` VALUES (6, 11);
 INSERT INTO `sys_role_user` VALUES (7, 6);
 INSERT INTO `sys_role_user` VALUES (7, 8);
+INSERT INTO `sys_role_user` VALUES (7, 11);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1010,17 +1008,20 @@ CREATE TABLE `sys_user`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_3rrcpvho2w1mx1sfiuuyir1h`(`deptid`) USING BTREE,
   CONSTRAINT `sys_user_ibfk_1` FOREIGN KEY (`deptid`) REFERENCES `sys_dept` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, '超级管理员', 'system', '系统深处的男人', 1, '超级管理员', '532ac00e86893901af5f0be6b704dbc7', 1, '2018-06-25 11:06:34', NULL, 1, 1, 0, '../resources/images/defaultusertitle.jpg', '04A93C74C8294AA09A8B974FD1F4ECBB');
 INSERT INTO `sys_user` VALUES (2, '李四', 'ls', '武汉', 0, 'KING', 'b07b848d69e0553b80e601d31571797e', 1, '2018-06-25 11:06:36', NULL, 1, 2, 1, '../resources/images/defaultusertitle.jpg', 'FC1EE06AE4354D3FBF7FDD15C8FCDA71');
-INSERT INTO `sys_user` VALUES (3, '王五', 'ww', '武汉', 1, '管理员', '3c3f971eae61e097f59d52360323f1c8', 3, '2018-06-25 11:06:38', 2, 1, 3, 1, '../resources/images/defaultusertitle.jpg', '3D5F956E053C4E85B7D2681386E235D2');
+INSERT INTO `sys_user` VALUES (3, '小李', 'xiaoli', '反赛奥矿', 1, '反复戳我', '3c3f971eae61e097f59d52360323f1c8', 5, '2018-06-25 11:06:38', 5, 1, 13, 1, '../resources/images/defaultusertitle.jpg', '3D5F956E053C4E85B7D2681386E235D2');
 INSERT INTO `sys_user` VALUES (4, '赵六', 'zl', '武汉', 1, '程序员', '2e969742a7ea0c7376e9551d578e05dd', 4, '2018-06-25 11:06:40', 3, 1, 4, 1, '../resources/images/defaultusertitle.jpg', '6480EE1391E34B0886ACADA501E31145');
 INSERT INTO `sys_user` VALUES (5, '孙七', 'sq', '武汉', 1, '程序员', '47b4c1ad6e4b54dd9387a09cb5a03de1', 2, '2018-06-25 11:06:43', 4, 1, 5, 1, '../resources/images/defaultusertitle.jpg', 'FE3476C3E3674E5690C737C269FCBF8E');
 INSERT INTO `sys_user` VALUES (6, '刘八', 'lb', '深圳', 1, '程序员', 'bcee2b05b4b591106829aec69a094806', 4, '2018-08-06 11:21:12', 3, 1, 6, 1, '../resources/images/defaultusertitle.jpg', 'E6CCF54A09894D998225878BBD139B20');
-INSERT INTO `sys_user` VALUES (8, '习大大', 'xidada', '北京', 1, '北京', '83c6312d3124527c06f9f32c9f0f4122', 7, '2019-09-25 08:47:38', 3, 1, 7, 1, NULL, '9A77217BD788418683C5D69CDC85B4AA');
+INSERT INTO `sys_user` VALUES (8, '小明', 'xiaoming', '河北', 1, '去玩儿额无', '2c55e16d72662fccdb50876a96691de1', 5, '2019-09-25 08:47:38', 5, 1, 9, 1, NULL, 'sk7m+hUWn74HZEtQGizUGA==');
+INSERT INTO `sys_user` VALUES (9, '张三', 'zhangsan', '北京昌平', 0, '哈哈哈嗝', 'fc7f99a2d644d8c28afc68123f830a03', 3, '2019-12-04 20:03:13', 5, 1, 8, 1, NULL, '2+rv5XkWg72x00yd/VkP9g==');
+INSERT INTO `sys_user` VALUES (10, '王陆', 'wanglu', '返矿撒', 1, '个飞蛾', 'f265c5827041927027abe1ceb8905778', 5, '2019-12-04 21:17:28', 5, 1, 14, 1, NULL, 'hD/Q2+agbZZK/9lcRfy2iw==');
+INSERT INTO `sys_user` VALUES (11, '哈哈1', 'haha1', '嘿嘿2', 1, '霍霍2', '405915cb5b2e04ce92baecf83b41f17a', 7, '2019-12-04 21:21:51', 9, 1, 15, 1, NULL, '5yAXUbaaRKIvSlciSrW1cw==');
 
 SET FOREIGN_KEY_CHECKS = 1;

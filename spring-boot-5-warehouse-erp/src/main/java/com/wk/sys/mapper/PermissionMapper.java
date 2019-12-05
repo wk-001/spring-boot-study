@@ -1,7 +1,7 @@
 package com.wk.sys.mapper;
 
-import com.wk.sys.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wk.sys.entity.Permission;
 
 import java.util.List;
 
@@ -25,4 +25,9 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 	 * 根据角色ID查询角色拥有的权限
 	 */
 	List<Permission> queryPermissionByUserId(Integer id);
+
+	/**
+	 * 根据角色ID查询角色拥有的权限编码
+	 */
+	List<String> getCodeByUserId(Integer id);
 }

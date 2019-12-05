@@ -55,4 +55,19 @@
             AND ru.uid = #{id}
     </select>
 
+    <select id="getCodeByUserId" resultType="java.lang.String">
+        SELECT
+            p.percode
+        FROM
+            sys_permission p,
+            sys_role_permission rp,
+            sys_role_user ru
+        WHERE
+            p.id = rp.pid
+            AND rp.rid = ru.rid
+            AND p.type = 'permission'
+            AND p.available = 1
+            AND ru.uid = #{id}
+    </select>
+
 </mapper>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>角色管理</title>
@@ -57,7 +57,7 @@
 
 <!--表头工具栏按钮开始-->
 <div id="titleToolBar" style="display: none">
-    <button type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-icon layui-icon-add-1" lay-event="add">添加</button>
+    <button type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-icon layui-icon-add-1" lay-event="add" shiro:hasPermission="role:create">添加</button>
     <button type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-icon layui-icon-list" lay-event="getSelect">获取选中行</button>
     <button type="button" class="layui-btn layui-btn-sm layui-btn-primary layui-icon layui-icon-refresh" lay-event="refreshTable">刷新表格</button>
 </div>
@@ -69,9 +69,9 @@
 
 <!--数据表格操作栏开始-->
 <div id="tableToolBar" style="display: none">
-    <a class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-sm layui-icon layui-btn-normal layui-icon-layer" lay-event="assignPermission">分配权限</a>
-    <a class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del">删除</a>
+    <button type="button" class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit" shiro:hasPermission="role:update">编辑</button>
+    <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-normal layui-icon-layer" lay-event="assignPermission" shiro:hasPermission="role:selectPermission">分配权限</button>
+    <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del" shiro:hasPermission="role:delete">删除</button>
 </div>
 <!--数据表格操作栏结束-->
 

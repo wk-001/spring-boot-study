@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>用户管理</title>
@@ -63,7 +63,7 @@
 
                         <!--表头工具栏按钮开始-->
                         <div id="titleToolBar" style="display: none">
-                            <button type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-icon layui-icon-add-1" lay-event="add">添加</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-icon layui-icon-add-1" lay-event="add" shiro:hasPermission="user:create">添加</button>
                             <button type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-icon layui-icon-list" lay-event="getSelect">获取选中行</button>
                             <button type="button" class="layui-btn layui-btn-sm layui-btn-primary layui-icon layui-icon-refresh" lay-event="refreshTable">刷新表格</button>
                         </div>
@@ -75,10 +75,10 @@
 
                         <!--数据表格操作栏开始-->
                         <div id="tableToolBar" style="display: none">
-                            <a class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</a>
-                            <a class="layui-btn layui-btn-sm layui-icon layui-btn-normal layui-icon-user" lay-event="assignRole">分配角色</a>
-                            <a class="layui-btn layui-btn-sm layui-icon layui-btn-warm layui-icon-refresh-3" lay-event="resetPwd">重置密码</a>
-                            <a class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del">删除</a>
+                            <button type="button" class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-normal layui-icon-user" lay-event="assignRole" shiro:hasPermission="user:selectRole">分配角色</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-warm layui-icon-refresh-3" lay-event="resetPwd" shiro:hasPermission="user:resetPwd">重置密码</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del" shiro:hasRole="admin">删除</button>
                         </div>
                         <!--数据表格操作栏结束-->
 

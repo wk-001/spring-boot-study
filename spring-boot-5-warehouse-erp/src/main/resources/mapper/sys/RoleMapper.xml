@@ -23,5 +23,15 @@
     <delete id="deleteRolePermissionByRid">
       DELETE FROM `sys_role_permission` where rid = #{id}
     </delete>
+    <select id="getCodeByUserId" resultType="java.lang.String">
+        SELECT
+            r.rolecode
+        FROM
+            sys_role r,
+            sys_role_user ru
+        WHERE
+            r.id = ru.rid
+            AND ru.uid = #{id}
+    </select>
 
 </mapper>
