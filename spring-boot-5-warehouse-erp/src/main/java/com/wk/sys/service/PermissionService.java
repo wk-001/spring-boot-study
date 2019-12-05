@@ -1,7 +1,9 @@
 package com.wk.sys.service;
 
-import com.wk.sys.entity.Permission;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wk.sys.common.DataGridView;
+import com.wk.sys.entity.Permission;
+import com.wk.sys.entity.User;
 
 import java.util.List;
 
@@ -29,4 +31,9 @@ public interface PermissionService extends IService<Permission> {
 	 * 根据角色ID查询角色拥有的权限id
 	 */
 	List<Integer> queryHasResources(Integer roleId);
+
+	/**
+	 * 根据角色ID查询角色拥有的权限
+	 */
+	DataGridView menuList(User user);
 }

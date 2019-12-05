@@ -40,5 +40,19 @@
             srp.pid = sp.id
             AND srp.rid = #{roleId}
     </select>
+    <select id="queryPermissionByUserId" resultType="com.wk.sys.entity.Permission">
+        SELECT
+            p.*
+        FROM
+            sys_permission p,
+            sys_role_permission rp,
+            sys_role_user ru
+        WHERE
+            p.id = rp.pid
+            AND rp.rid = ru.rid
+            AND p.type = 'menu'
+            AND p.available = 1
+            AND ru.uid = #{id}
+    </select>
 
 </mapper>

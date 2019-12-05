@@ -20,4 +20,9 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 	void deleteRolePermissionByPid(Integer id);
 
     List<Integer> queryHasResources(Integer roleId);
+
+	/**
+	 * 根据角色ID查询角色拥有的权限
+	 */
+	List<Permission> queryPermissionByUserId(Integer id);
 }
