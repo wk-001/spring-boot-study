@@ -45,7 +45,7 @@
             AND u1.address like #{userVo.address}
         </if>
         <if test="userVo.deptid!=null">
-            AND u1.deptid like #{userVo.deptid}
+            AND u1.deptid = #{userVo.deptid}
         </if>
     </select>
     <select id="getMaxOrderNum" resultType="java.lang.Integer">

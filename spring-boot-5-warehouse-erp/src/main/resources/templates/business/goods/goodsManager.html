@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>公告管理</title>
+    <title>商品管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -26,29 +26,46 @@
     <form action="" method="post" id="searchForm" lay-filter="searchForm" class="layui-form">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">公告标题</label>
+                <label class="layui-form-label">供应商</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="title"  autocomplete="off" class="layui-input">
+                    <select name="providerid" id="search_providerid">
+                        <option value="">请选择供应商</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">发布人</label>
+                <label class="layui-form-label">商品名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="opername"  autocomplete="off" class="layui-input">
+                    <input type="text" name="goodsname"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">开始时间</label>
+                <label class="layui-form-label">生产批号</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="startTime" id="startTime" readonly autocomplete="off" class="layui-input">
+                    <input type="text" name="productcode"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">批准文号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="promitcode"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">结束时间</label>
+                <label class="layui-form-label">商品描述</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="endTime" id="endTime" readonly autocomplete="off" class="layui-input">
+                    <input type="text" name="description"  autocomplete="off" class="layui-input">
                 </div>
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">商品规格</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="size"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
             <div class="layui-inline">
                 <button type="button" class="layui-btn layui-btn-normal layui-icon layui-icon-search" lay-submit="" lay-filter="doSearch">查询</button>
                 <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
@@ -74,7 +91,6 @@
 <!--数据表格操作栏开始-->
 <div id="tableToolBar" style="display: none">
     <button class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</button>
-    <button class="layui-btn layui-btn-sm layui-icon layui-icon-layer" lay-event="show">查看</button>
     <button class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del">删除</button>
 </div>
 <!--数据表格操作栏结束-->
@@ -82,19 +98,95 @@
 <!--添加修改弹出层开始-->
 <div style="display: none;padding: 20px" id="saveOrUpdateDiv" >
     <form class="layui-form" method="post"  lay-filter="dataForm" id="dataForm">
-        <div class="layui-form-item">
-            <label class="layui-form-label">公告标题:</label>
-            <div class="layui-input-block">
-                <input type="hidden" name="id">     <!--修改时需要用到ID-->
-                <input type="text" name="title" lay-verify="required"  placeholder="请输入公告标题" autocomplete="off" class="layui-input">
+        <div class="layui-col-md12 layui-col-xs12">
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-md9 layui-col-xs7">
+                    <div class="layui-form-item magt3">
+                        <label class="layui-form-label">供应商</label>
+                        <div class="layui-input-block">
+                            <select name="providerid" id="providerid">
+                                <option value="0">请选择供应商</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品名称</label>
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id">
+                            <input type="text" class="layui-input" name="goodsname" lay-verify="required" placeholder="请输入商品名称">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" name="description" lay-verify="required" placeholder="请输入商品描述">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3 layui-col-xs5">
+                    <div class="layui-upload-list thumbBox mag0 magt3">
+                        <input type="hidden" name="goodsimg" id="goodsimg" value="images/defaultgoodsimg.png">
+                        <img class="layui-upload-img thumbImg" src="/file/showImageByPath?path=images/defaultgoodsimg.png">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">公告内容:</label>
-            <div class="layui-input-block">
-                <textarea class="layui-textarea" name="content" id="content"></textarea>
+            <div class="layui-form-item magb0">
+                <div class="layui-inline">
+                    <label class="layui-form-label">产地</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="produceplace" lay-verify="" placeholder="请输入商品产地">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">包装</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="goodspackage" lay-verify="" placeholder="请输入商品包装">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">规格</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="size" lay-verify="" placeholder="请输入商品规格">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">生产批号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="productcode" lay-verify="" placeholder="请输入商品生产批号">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">批准文号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="promitcode" lay-verify="" placeholder="请输入商品批准文号">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">销售价格</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="price" lay-verify="" placeholder="请输入商品销售价格">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">库存量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="number" lay-verify="" placeholder="请输入商品库存量">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">预警值</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="dangernum" lay-verify="" placeholder="请输入商品预警值">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">是否可用</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="available" value="1" title="可用" checked="">
+                        <input type="radio" name="available" value="0" title="不可用" >
+                    </div>
+                </div>
             </div>
-        </div>
         <div class="layui-form-item" style="text-align: center">
             <div class="layui-input-block">
                 <button type="button" class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-release" lay-filter="doSubmit" lay-submit="">提交</button>
@@ -105,59 +197,48 @@
 </div>
 <!--添加修改弹出层结束-->
 
-<!--查看公告内容div开始-->
-<div id="viewDiv" style="padding: 10px;display: none">
-    <h2 id="noticeTitle" style="text-align: center"></h2>
-    <hr>
-    <div style="text-align: right">
-        发布人：<span id="noticeOperName"></span><br>
-        发布时间：<span id="noticeCreateTime"></span>
-    </div>
-    <div id="noticeContent"></div>
-</div>
-<!--查看公告内容div结束-->
-
 </body>
 
 <script type="text/javascript">
-    layui.use(['jquery','form','layer','table','laydate','layedit'], function(){
+    layui.use(['jquery','form','layer','table'], function(){
         var $ = layui.jquery
             ,form = layui.form
             ,layer = layui.layer
             ,table = layui.table
-            ,laydate = layui.laydate
-            ,layedit = layui.layedit;
 
         var tableIns;       //定义全局变量
-        var editIndex;
-
-        //渲染时间组件
-        laydate.render({
-            elem:"#startTime",
-            type:"datetime"
-        })
-        laydate.render({
-            elem:"#endTime",
-            type:"datetime"
-        })
 
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
             ,height: 'full-190'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
-            ,url: "/notice/list"
+            ,url: "/goods/list"
             ,page: true //开启分页
             ,toolbar:"#titleToolBar"     //引用表头工具栏 titleToolBar是div的ID
-            ,title: '用户登陆公告数据表'
+            ,title: '用户登陆商品数据表'
             ,even: true             //开启隔行背景
             ,cols: [ [      //两个[[和thymeleaf的语法冲突，必须在中间加一个空格！！！ [ [
-                {type:'checkbox', fixed: 'left'}    //fixed冻结列的位置
-                ,{field:'id', title:'ID',align:'center'}
-                ,{field:'title', title:'公告标题',align:'center'}
-                ,{field:'opername', title:'发布人',align:'center'}
-                ,{field:'createtime', title:'发布时间',align:'center'}
-                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center'}
+                {type:'checkbox',align:'center'}
+                ,{field:'id', title:'ID',align:'center' ,width:'80'}
+                ,{field:'goodsname', title:'商品名称',align:'center',width:'150'}
+                ,{field:'providername', title:'供应商',align:'center',width:'120'}
+                ,{field:'produceplace', title:'产地',align:'center',width:'120'}
+                ,{field:'size', title:'商品规格',align:'center',width:'120'}
+                ,{field:'goodspackage', title:'商品包装',align:'center',width:'120'}
+                ,{field:'productcode', title:'生产批号',align:'center',width:'100'}
+                ,{field:'promitcode', title:'批准文号',align:'center',width:'100'}
+                ,{field:'description', title:'商品描述',align:'center',width:'120'}
+                ,{field:'price', title:'商品价格',align:'center',width:'100'}
+                ,{field:'number', title:'库存量',align:'center',width:'100'}
+                ,{field:'dangernum', title:'预警库存',align:'center',width:'100'}
+                ,{field:'goodsimg', title:'商品图片',align:'center',width:'100', templet:function(d){
+                        return '<img width=40 height=40 src=/file/showImageByPath?path='+d.goodsimg+ ' />';
+                    }}
+                ,{field:'available', title:'是否可用',align:'center',width:'100',templet:function(d){
+                        return d.available==1?'<div style="color: blue">可用</div>':'<div style="color: red">不可用</div>';
+                    }}
+                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center',width:'180'}
             ] ]
             ,done: function(res, curr, count){
                 //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
@@ -168,6 +249,20 @@
                 }
             }
         });
+        //加载查询条件下拉框
+        $.get("/provider/queryName",function (res) {
+            //查询数据
+            var datas = res.data;
+            //组装数据
+            var html = "<option value='' hidden>请选择供应商</option>";
+            $.each(datas, function (index, item) {
+                html+="<option value='"+item.id+"'>"+item.providername+"</option>"
+            });
+            //追加数据
+            $("#search_providerid").html(html);
+            //重新渲染下拉框数据
+            form.render("select");
+        })
 
         //模糊查询
         form.on("submit(doSearch)",function (data) {
@@ -206,9 +301,6 @@
                 case 'del':
                     deleteById(data);
                     break;
-                case 'show':
-                    show(data);
-                    break;
                 case 'edit':
                     openUpdate(data);
                     break;
@@ -220,43 +312,36 @@
         function openAdd() {
             mainModel = layer.open({
                 type: 1
-                ,title:'添加公告'
+                ,title:'添加商品'
                 ,content:$("#saveOrUpdateDiv")
-                ,area: ['750px','450px']     //弹窗宽高
+                ,area: ['705px','480px']     //弹窗宽高
                 ,success:function (index) {
-                    // 初始化富文本编辑器 content是textarea的ID;打开弹窗后再渲染富文本编辑器，否则无法使用菜单工具
-                    editIndex = layedit.build('content',{
-                        height: 200 //设置编辑器高度
-                    });
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
-                    url = "/notice/saveOrUpdate";
+                    url = "/goods/saveOrUpdate";
                 }
             });
         }
 
-        //打开修改公告弹出框
+        //打开修改商品弹出框
         function openUpdate(data) {
             mainModel = layer.open({
                 type: 1
-                , title: '修改公告信息'
+                , title: '修改商品信息'
                 , content: $("#saveOrUpdateDiv")
-                , area: ['750px', '450px']     //弹窗宽高
+                , area: ['705px', '480px']     //弹窗宽高
                 ,success:function (index) {         //弹窗成功后回调
-                    editIndex = layedit.build('content',{
-                        height: 200 //设置编辑器高度
-                    });      //初始化富文本编辑器
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    url = "/notice/saveOrUpdate";
+                    url = "/goods/saveOrUpdate";
                 }
             });
         }
 
         function deleteById(data) {
-            layer.confirm('确定删除公告['+data.title+']吗？', {icon: 3, title:'提示'}, function(index){
+            layer.confirm('确定删除商品['+data.goodsname+']吗？', {icon: 3, title:'提示'}, function(index){
                 //向服务端发送删除指令
-                $.post("/notice/delete",{"id":data.id},function (result) {
+                $.post("/goods/delete",{"id":data.id},function (result) {
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
                     layer.msg(result.msg);
                 })
@@ -275,10 +360,10 @@
                     list += ',' + checkStatus.data[i].id;
                 }
                 list = list.substr(1);      //删除第一个逗号","
-                layer.confirm('确定删除选中公告吗？', {icon: 3, title:'提示'}, function (index) {
+                layer.confirm('确定删除选中商品吗？', {icon: 3, title:'提示'}, function (index) {
                     layer.close(index);
                     //向服务端发送删除指令
-                    $.post("/notice/batchDelete", {"ids": list}, function (result) {
+                    $.post("/goods/batchDelete", {"ids": list}, function (result) {
                         tableIns.reload();      //在不刷新页面的情况刷新表格数据
                         layer.msg(result.msg);
                     })
@@ -290,8 +375,6 @@
 
         //保存数据，监听submit
         form.on('submit(doSubmit)', function(obj) {
-            //将重新渲染出来的富文本编辑器中的值同步到textarea文本域中
-            layedit.sync(editIndex);
             //序列化表单数据
             var params = $("#dataForm").serialize();
             $.post(url,params,function (obj) {
@@ -302,30 +385,6 @@
                 layer.close(mainModel);
             })
         });
-
-        //重置富文本编辑框的内容
-        $("#dataFormReset").click(function () {
-            layedit.setContent(editIndex,"");
-        });
-
-        //查看公告内容
-        function show(data){
-            mainModel = layer.open({
-                  type: 1
-                , title: '查看公告内容'
-                , maxmin: true       //最大化/最小化
-                , content: $("#viewDiv")
-                , area: ['750px', '450px']     //弹窗宽高
-                , success:function (index) {         //弹窗成功后回调
-                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
-                    index.find('.layui-layer-min').remove();
-                    $("#noticeTitle").html(data.title);
-                    $("#noticeOperName").html(data.opername);
-                    $("#noticeCreateTime").html(data.createtime);
-                    $("#noticeContent").html(data.content);
-                }
-            });
-        }
 
     });
 </script>

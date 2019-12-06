@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>公告管理</title>
+    <title>客户管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -26,27 +26,21 @@
     <form action="" method="post" id="searchForm" lay-filter="searchForm" class="layui-form">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">公告标题</label>
+                <label class="layui-form-label">客户名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="title"  autocomplete="off" class="layui-input">
+                    <input type="text" name="customername"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">发布人</label>
+                <label class="layui-form-label">联系人</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="opername"  autocomplete="off" class="layui-input">
+                    <input type="text" name="connectionperson"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">开始时间</label>
+                <label class="layui-form-label">联系方式</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="startTime" id="startTime" readonly autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">结束时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="endTime" id="endTime" readonly autocomplete="off" class="layui-input">
+                    <input type="text" name="phone"  autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
@@ -74,7 +68,6 @@
 <!--数据表格操作栏开始-->
 <div id="tableToolBar" style="display: none">
     <button class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</button>
-    <button class="layui-btn layui-btn-sm layui-icon layui-icon-layer" lay-event="show">查看</button>
     <button class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del">删除</button>
 </div>
 <!--数据表格操作栏结束-->
@@ -83,16 +76,82 @@
 <div style="display: none;padding: 20px" id="saveOrUpdateDiv" >
     <form class="layui-form" method="post"  lay-filter="dataForm" id="dataForm">
         <div class="layui-form-item">
-            <label class="layui-form-label">公告标题:</label>
+            <div class="layui-inline">
+                <label class="layui-form-label">客户名称</label>
+                <div class="layui-input-inline">
+                    <input style="display: none;" name="id">
+                    <input type="text" name="customername" lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">公司电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="telephone" lay-verify="required" autocomplete="off" placeholder="请输入公司电话" class="layui-input">
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司地址</label>
             <div class="layui-input-block">
-                <input type="hidden" name="id">     <!--修改时需要用到ID-->
-                <input type="text" name="title" lay-verify="required"  placeholder="请输入公告标题" autocomplete="off" class="layui-input">
+                <input type="text" name="address" autocomplete="off" placeholder="请输入公司地址" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公告内容:</label>
-            <div class="layui-input-block">
-                <textarea class="layui-textarea" name="content" id="content"></textarea>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系人</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="connectionperson" lay-verify="required" autocomplete="off" placeholder="请输入联系人" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系人电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="phone" lay-verify="required" autocomplete="off" placeholder="请输入联系人电话" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" lay-verify="required" autocomplete="off" placeholder="请输入客户邮箱" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">传真</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="fax" lay-verify="required" autocomplete="off" placeholder="请输入客户传真" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">开户银行</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="bank" lay-verify="required" autocomplete="off" placeholder="请输入开户银行" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">帐号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="account" lay-verify="required" autocomplete="off" placeholder="请输入客户帐号" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">邮编</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="zip"  autocomplete="off" placeholder="请输入客户邮编" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否可用</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="available" value="1" title="可用" checked="">
+                    <input type="radio" name="available" value="0" title="不可用" >
+                </div>
             </div>
         </div>
         <div class="layui-form-item" style="text-align: center">
@@ -105,59 +164,44 @@
 </div>
 <!--添加修改弹出层结束-->
 
-<!--查看公告内容div开始-->
-<div id="viewDiv" style="padding: 10px;display: none">
-    <h2 id="noticeTitle" style="text-align: center"></h2>
-    <hr>
-    <div style="text-align: right">
-        发布人：<span id="noticeOperName"></span><br>
-        发布时间：<span id="noticeCreateTime"></span>
-    </div>
-    <div id="noticeContent"></div>
-</div>
-<!--查看公告内容div结束-->
-
 </body>
 
 <script type="text/javascript">
-    layui.use(['jquery','form','layer','table','laydate','layedit'], function(){
+    layui.use(['jquery','form','layer','table'], function(){
         var $ = layui.jquery
             ,form = layui.form
             ,layer = layui.layer
             ,table = layui.table
-            ,laydate = layui.laydate
-            ,layedit = layui.layedit;
 
         var tableIns;       //定义全局变量
-        var editIndex;
-
-        //渲染时间组件
-        laydate.render({
-            elem:"#startTime",
-            type:"datetime"
-        })
-        laydate.render({
-            elem:"#endTime",
-            type:"datetime"
-        })
 
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
             ,height: 'full-190'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
-            ,url: "/notice/list"
+            ,url: "/customer/list"
             ,page: true //开启分页
             ,toolbar:"#titleToolBar"     //引用表头工具栏 titleToolBar是div的ID
-            ,title: '用户登陆公告数据表'
+            ,title: '用户登陆客户数据表'
             ,even: true             //开启隔行背景
             ,cols: [ [      //两个[[和thymeleaf的语法冲突，必须在中间加一个空格！！！ [ [
-                {type:'checkbox', fixed: 'left'}    //fixed冻结列的位置
-                ,{field:'id', title:'ID',align:'center'}
-                ,{field:'title', title:'公告标题',align:'center'}
-                ,{field:'opername', title:'发布人',align:'center'}
-                ,{field:'createtime', title:'发布时间',align:'center'}
-                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center'}
+                {type:'checkbox',align:'center'}
+                ,{field:'id', title:'ID',align:'center' ,width:'80'}
+                ,{field:'customername', title:'客户名称',align:'center',width:'120'}
+                ,{field:'zip', title:'邮编',align:'center',width:'110'}
+                ,{field:'address', title:'客户地址',align:'center',width:'100'}
+                ,{field:'telephone', title:'客户电话',align:'center',width:'150'}
+                ,{field:'connectionperson', title:'联系人',align:'center',width:'110'}
+                ,{field:'phone', title:'联系方式',align:'center',width:'150'}
+                ,{field:'bank', title:'开户行',align:'center',width:'120'}
+                ,{field:'account', title:'账号',align:'center',width:'170'}
+                ,{field:'email', title:'邮箱',align:'center',width:'150'}
+                ,{field:'fax', title:'传真',align:'center',width:'100'}
+                ,{field:'available', title:'是否可用',align:'center',width:'100',templet:function(d){
+                        return d.available==1?'<div style="color: blue">可用</div>':'<div style="color: red">不可用</div>';
+                    }}
+                ,{fixed: 'right', title:'操作', toolbar: '#tableToolBar',align:'center',width:'180'}
             ] ]
             ,done: function(res, curr, count){
                 //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
@@ -206,9 +250,6 @@
                 case 'del':
                     deleteById(data);
                     break;
-                case 'show':
-                    show(data);
-                    break;
                 case 'edit':
                     openUpdate(data);
                     break;
@@ -220,43 +261,36 @@
         function openAdd() {
             mainModel = layer.open({
                 type: 1
-                ,title:'添加公告'
+                ,title:'添加客户'
                 ,content:$("#saveOrUpdateDiv")
-                ,area: ['750px','450px']     //弹窗宽高
+                ,area: ['705px','480px']     //弹窗宽高
                 ,success:function (index) {
-                    // 初始化富文本编辑器 content是textarea的ID;打开弹窗后再渲染富文本编辑器，否则无法使用菜单工具
-                    editIndex = layedit.build('content',{
-                        height: 200 //设置编辑器高度
-                    });
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
-                    url = "/notice/saveOrUpdate";
+                    url = "/customer/saveOrUpdate";
                 }
             });
         }
 
-        //打开修改公告弹出框
+        //打开修改客户弹出框
         function openUpdate(data) {
             mainModel = layer.open({
                 type: 1
-                , title: '修改公告信息'
+                , title: '修改客户信息'
                 , content: $("#saveOrUpdateDiv")
-                , area: ['750px', '450px']     //弹窗宽高
+                , area: ['705px', '480px']     //弹窗宽高
                 ,success:function (index) {         //弹窗成功后回调
-                    editIndex = layedit.build('content',{
-                        height: 200 //设置编辑器高度
-                    });      //初始化富文本编辑器
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    url = "/notice/saveOrUpdate";
+                    url = "/customer/saveOrUpdate";
                 }
             });
         }
 
         function deleteById(data) {
-            layer.confirm('确定删除公告['+data.title+']吗？', {icon: 3, title:'提示'}, function(index){
+            layer.confirm('确定删除客户['+data.customername+']吗？', {icon: 3, title:'提示'}, function(index){
                 //向服务端发送删除指令
-                $.post("/notice/delete",{"id":data.id},function (result) {
+                $.post("/customer/delete",{"id":data.id},function (result) {
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
                     layer.msg(result.msg);
                 })
@@ -275,10 +309,10 @@
                     list += ',' + checkStatus.data[i].id;
                 }
                 list = list.substr(1);      //删除第一个逗号","
-                layer.confirm('确定删除选中公告吗？', {icon: 3, title:'提示'}, function (index) {
+                layer.confirm('确定删除选中客户吗？', {icon: 3, title:'提示'}, function (index) {
                     layer.close(index);
                     //向服务端发送删除指令
-                    $.post("/notice/batchDelete", {"ids": list}, function (result) {
+                    $.post("/customer/batchDelete", {"ids": list}, function (result) {
                         tableIns.reload();      //在不刷新页面的情况刷新表格数据
                         layer.msg(result.msg);
                     })
@@ -290,8 +324,6 @@
 
         //保存数据，监听submit
         form.on('submit(doSubmit)', function(obj) {
-            //将重新渲染出来的富文本编辑器中的值同步到textarea文本域中
-            layedit.sync(editIndex);
             //序列化表单数据
             var params = $("#dataForm").serialize();
             $.post(url,params,function (obj) {
@@ -302,30 +334,6 @@
                 layer.close(mainModel);
             })
         });
-
-        //重置富文本编辑框的内容
-        $("#dataFormReset").click(function () {
-            layedit.setContent(editIndex,"");
-        });
-
-        //查看公告内容
-        function show(data){
-            mainModel = layer.open({
-                  type: 1
-                , title: '查看公告内容'
-                , maxmin: true       //最大化/最小化
-                , content: $("#viewDiv")
-                , area: ['750px', '450px']     //弹窗宽高
-                , success:function (index) {         //弹窗成功后回调
-                    //在弹出层加载成功后的回调方法中去掉最小化按钮；
-                    index.find('.layui-layer-min').remove();
-                    $("#noticeTitle").html(data.title);
-                    $("#noticeOperName").html(data.opername);
-                    $("#noticeCreateTime").html(data.createtime);
-                    $("#noticeContent").html(data.content);
-                }
-            });
-        }
 
     });
 </script>

@@ -26,9 +26,7 @@ import java.util.List;
  * @since 2019-11-29
  */
 @Service
-@Transactional
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
-
 
 	@Override
 	public Integer getMaxOrderNum() {
@@ -40,6 +38,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 		}
 	}
 
+	@Transactional
 	@Override
 	public void deleteMenuById(Integer id) {
 		super.removeById(id);

@@ -36,47 +36,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Autowired
 	private RoleUserMapper roleUserMapper;
 
-	/**
-	 * @Cacheable 将方法的运行结果进行缓存，需要相同的数据直接取缓存中取，避免重复查库
-	 */
-	@Cacheable
-	@Override
-	public User getById(Serializable id) {
-		return super.getById(id);
-	}
-
-	/**
-	 * @CachePut 缓存的是方法的返回值 每次都会真实调用函数
-	 * 缓存默认key是参数；查询方法的参数是id，修改方法的参数是对象 为了避免取到的缓存不一致的问题，统一指定key
-	 */
-	@CachePut(key = "#eneity.id")
-	@Override
-	public boolean updateById(User entity) {
-		return super.updateById(entity);
-	}
-
-	/**
-	 * @CachePut 缓存的是方法的返回值 每次都会真实调用函数
-	 * 缓存默认key是参数；查询方法的参数是id，修改方法的参数是对象 为了避免取到的缓存不一致的问题，统一指定key
-	 */
-	@CachePut(key = "#eneity.id")
-	@Override
-	public boolean save(User entity) {
-		return super.save(entity);
-	}
-
-	/**
-	 *
-	 * @CacheEvict 清除缓存
-	 * beforeInvocation = true：方法执行之前清除缓存，无论方法是否执行成功都会清除缓存
-	 * 默认是在方法执行之后清除缓存，如果方法异常，缓存不会清除
-	 */
-	@CacheEvict(beforeInvocation = true)
-	@Override
-	public boolean removeById(Serializable id) {
-		return super.removeById(id);
-	}
-	
 	@Override
 	public IPage<User> queryList(Page<User> page, UserVo userVo) {
 		return this.getBaseMapper().queryList(page, userVo);

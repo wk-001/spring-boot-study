@@ -19,13 +19,19 @@ public class MybatisPlusGenerator {
      * 数据库表名,多个表名用逗号隔开,如果生成整个数据库的表就不写
      */
     private static final String[] TABLE_NAME = {
-            "sys_role_permission",
-            "sys_role_user"};
+            "bus_customer"
+            ,"bus_goods"
+            ,"bus_inport"
+            ,"bus_outport"
+            ,"bus_provider"
+            ,"bus_sales"
+            ,"bus_salesback"
+    };
 
     /**
      * 数据库表前缀,多个前缀用逗号隔开,没有前缀就不写
      */
-    private static final String TABLE_PREFIX = "sys_";
+    private static final String TABLE_PREFIX = "bus_";
 
     /**
      * 设置生成路径
@@ -47,7 +53,7 @@ public class MybatisPlusGenerator {
     /**
      * 模块名,java代码和mapper文件的模块名保持一致,空串不影响生成结果
      */
-    private static final String MODULE_NAME = "sys";
+    private static final String MODULE_NAME = "business";
 
     /**
      * 接口生成位置

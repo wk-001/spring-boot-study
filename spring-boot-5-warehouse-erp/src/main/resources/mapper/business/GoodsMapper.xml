@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wk.business.mapper.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wk.business.entity.Goods">
+        <id column="id" property="id" />
+        <result column="goodsname" property="goodsname" />
+        <result column="produceplace" property="produceplace" />
+        <result column="size" property="size" />
+        <result column="goodspackage" property="goodspackage" />
+        <result column="productcode" property="productcode" />
+        <result column="promitcode" property="promitcode" />
+        <result column="description" property="description" />
+        <result column="price" property="price" />
+        <result column="number" property="number" />
+        <result column="dangernum" property="dangernum" />
+        <result column="goodsimg" property="goodsimg" />
+        <result column="available" property="available" />
+        <result column="providerid" property="providerid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, goodsname, produceplace, size, goodspackage, productcode, promitcode, description, price, number, dangernum, goodsimg, available, providerid
+    </sql>
+    <select id="queryList" resultType="com.wk.business.entity.Goods">
+        SELECT
+            g.*,
+            p.providername
+        FROM
+            bus_goods g,
+            bus_provider p
+        WHERE
+            g.providerid = p.id
+        <if test="goods.goodsname!=''and goods.goodsname!=null">
+            AND g.goodsname like #{goods.goodsname}
+        </if>
+        <if test="goods.productcode!=''and goods.productcode!=null">
+            AND g.productcode like #{goods.productcode}
+        </if>
+        <if test="goods.promitcode!=''and goods.promitcode!=null">
+            AND g.promitcode like #{goods.promitcode}
+        </if>
+        <if test="goods.description!=''and goods.description!=null">
+            AND g.description like #{goods.description}
+        </if>
+        <if test="goods.size!=''and goods.size!=null">
+            AND g.size like #{goods.size}
+        </if>
+        <if test="goods.providerid!=null">
+            AND g.providerid = #{goods.providerid}
+        </if>
+    </select>
+          
+</mapper>

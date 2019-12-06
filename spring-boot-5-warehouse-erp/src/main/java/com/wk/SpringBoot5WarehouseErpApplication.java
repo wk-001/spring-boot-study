@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching     //开启基于注解的缓存
-@MapperScan(basePackages = {"com.wk.sys.mapper","com.wk.bus.mapper"})
+@MapperScan(basePackages = {"com.wk.*.mapper"})
 @SpringBootApplication
 public class SpringBoot5WarehouseErpApplication {
 
