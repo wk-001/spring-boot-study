@@ -41,4 +41,6 @@ public interface PermissionService extends IService<Permission> {
 	 * 根据角色ID查询角色拥有的权限编码
 	 */
 	List<String> getCodeByUserId(Integer id);
+
+	DataGridView menuTree();
 }

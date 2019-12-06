@@ -1,6 +1,7 @@
 package com.wk.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wk.sys.common.DataGridView;
 import com.wk.sys.entity.Dept;
 
 /**
@@ -14,4 +15,6 @@ import com.wk.sys.entity.Dept;
 public interface DeptService extends IService<Dept> {
 
     int getMaxOrderNum();
+
+	DataGridView deptTree();
 }

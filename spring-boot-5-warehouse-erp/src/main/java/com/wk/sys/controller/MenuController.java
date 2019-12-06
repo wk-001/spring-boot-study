@@ -2,7 +2,10 @@ package com.wk.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wk.sys.common.*;
+import com.wk.sys.common.Constast;
+import com.wk.sys.common.DataGridView;
+import com.wk.sys.common.ResultObj;
+import com.wk.sys.common.WebUtils;
 import com.wk.sys.entity.Permission;
 import com.wk.sys.entity.User;
 import com.wk.sys.service.PermissionService;
@@ -11,9 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 菜单管理控制器
@@ -36,18 +36,10 @@ public class MenuController {
         return permissionService.menuList(user);
     }
 
-    //菜单管理左侧菜单树
-    @RequestMapping("leftMenuTree")
+    //菜单管理左侧菜单树 查询所有菜单 有菜单管理权限的用户才能操作
+    @RequestMapping("menuTree")
     public DataGridView leftMenuTree(){
-        //只查询菜单
-        QueryWrapper<Permission> wrapper = new QueryWrapper<Permission>()
-                .eq("type", Constast.TYPE_MNEU);
-        List<Permission> list = permissionService.list(wrapper);
-        List<TreeNode> nodes = new ArrayList<>();
-        for (Permission permission : list) {
-            nodes.add(new TreeNode(permission.getId(),permission.getPid(),permission.getTitle(),permission.getOpen()==1));
-        }
-        return new DataGridView(nodes);
+        return permissionService.menuTree();
     }
 
     /**

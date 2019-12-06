@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wk.sys.common.DataGridView;
 import com.wk.sys.common.ResultObj;
-import com.wk.sys.common.TreeNode;
 import com.wk.sys.entity.Dept;
 import com.wk.sys.service.DeptService;
 import com.wk.sys.vo.DeptVo;
@@ -14,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * <p>
@@ -36,14 +33,9 @@ public class DeptController {
     /**
      * 加载部门管理左侧菜单树
      */
-    @RequestMapping("leftMenuTree")
+    @RequestMapping("deptTree")
     public DataGridView leftMenuTree(){
-        List<Dept> list = deptService.list();
-        List<TreeNode> nodes = new ArrayList<>();
-        for (Dept dept : list) {
-            nodes.add(new TreeNode(dept.getId(),dept.getPid(),dept.getTitle(),dept.getOpen()==1));
-        }
-        return new DataGridView(nodes);
+        return deptService.deptTree();
     }
 
     /**

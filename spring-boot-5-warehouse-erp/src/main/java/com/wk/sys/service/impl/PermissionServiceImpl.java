@@ -10,6 +10,7 @@ import com.wk.sys.entity.Permission;
 import com.wk.sys.entity.User;
 import com.wk.sys.mapper.PermissionMapper;
 import com.wk.sys.service.PermissionService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +51,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return this.getBaseMapper().queryHasResources(roleId);
     }
 
-
+	@Cacheable(value = Constast.TYPE_MNEU,key = "#user.id")
 	@Override
 	public DataGridView menuList(User user) {
 		//查询所有可用的菜单
@@ -85,6 +86,20 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 	@Override
 	public List<String> getCodeByUserId(Integer id) {
 		return this.getBaseMapper().getCodeByUserId(id);
+	}
+
+	@Cacheable(cacheNames = "menuTree")
+	@Override
+	public DataGridView menuTree() {
+		//只查询菜单
+		QueryWrapper<Permission> wrapper = new QueryWrapper<Permission>()
+				.eq("type", Constast.TYPE_MNEU);
+		List<Permission> list = getBaseMapper().selectList(wrapper);
+		List<TreeNode> nodes = new ArrayList<>();
+		for (Permission permission : list) {
+			nodes.add(new TreeNode(permission.getId(),permission.getPid(),permission.getTitle(),permission.getOpen()==1));
+		}
+		return new DataGridView(nodes);
 	}
 
 }

@@ -19,7 +19,7 @@
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <mybatisplus.version>3.2.0</mybatisplus.version>
         <shiro.version>1.4.1</shiro.version>
-        <druid.version>1.1.18</druid.version>
+        <druid.version>1.1.10</druid.version>
         <log4j.version>1.2.17</log4j.version>
         <hutool.version>4.6.6</hutool.version>
         <lang3.version>3.9</lang3.version>
@@ -117,7 +117,7 @@
             <version>2.0.0</version>
         </dependency>
 
-        <!-- 引入druid的依赖 -->
+        <!-- 引入druid的依赖 1.1.10版本可以进入监控页面 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
