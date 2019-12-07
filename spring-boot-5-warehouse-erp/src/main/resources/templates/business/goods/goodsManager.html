@@ -65,7 +65,6 @@
                     <input type="text" name="size"  autocomplete="off" class="layui-input">
                 </div>
             </div>
-        </div>
             <div class="layui-inline">
                 <button type="button" class="layui-btn layui-btn-normal layui-icon layui-icon-search" lay-submit="" lay-filter="doSearch">查询</button>
                 <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
@@ -100,7 +99,7 @@
     <form class="layui-form" method="post"  lay-filter="dataForm" id="dataForm">
         <div class="layui-col-md12 layui-col-xs12">
             <div class="layui-row layui-col-space10">
-                <div class="layui-col-md9 layui-col-xs7">
+                <div class="layui-col-md8 layui-col-xs7">
                     <div class="layui-form-item magt3">
                         <label class="layui-form-label">供应商</label>
                         <div class="layui-input-block">
@@ -124,13 +123,13 @@
                     </div>
                 </div>
                 <div class="layui-col-md3 layui-col-xs5">
-                    <div class="layui-upload-list thumbBox mag0 magt3">
+                    <div class="layui-upload-list thumbBox mag0 magt3" style="width: 170px;height: 143px;">
                         <input type="hidden" name="goodsimg" id="goodsimg" value="images/defaultgoodsimg.png">
                         <img class="layui-upload-img thumbImg" src="/file/showImageByPath?path=images/defaultgoodsimg.png">
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item magb0">
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">产地</label>
                     <div class="layui-input-inline">
@@ -143,6 +142,8 @@
                         <input type="text" class="layui-input" name="goodspackage" lay-verify="" placeholder="请输入商品包装">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">规格</label>
                     <div class="layui-input-inline">
@@ -155,6 +156,8 @@
                         <input type="text" class="layui-input" name="productcode" lay-verify="" placeholder="请输入商品生产批号">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">批准文号</label>
                     <div class="layui-input-inline">
@@ -167,6 +170,8 @@
                         <input type="text" class="layui-input" name="price" lay-verify="" placeholder="请输入商品销售价格">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">库存量</label>
                     <div class="layui-input-inline">
@@ -179,6 +184,8 @@
                         <input type="text" class="layui-input" name="dangernum" lay-verify="" placeholder="请输入商品预警值">
                     </div>
                 </div>
+            </div>
+            <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">是否可用</label>
                     <div class="layui-input-inline">
@@ -186,6 +193,7 @@
                         <input type="radio" name="available" value="0" title="不可用" >
                     </div>
                 </div>
+            </div>
             </div>
         <div class="layui-form-item" style="text-align: center">
             <div class="layui-input-block">
@@ -200,18 +208,19 @@
 </body>
 
 <script type="text/javascript">
-    layui.use(['jquery','form','layer','table'], function(){
+    layui.use(['jquery','form','layer','table','upload'], function(){
         var $ = layui.jquery
             ,form = layui.form
             ,layer = layui.layer
             ,table = layui.table
+            ,upload=layui.upload;
 
         var tableIns;       //定义全局变量
 
         //渲染数据表格
         tableIns = table.render({
             elem: '#dataTable'      //渲染目标对象 数据表格对应ID
-            ,height: 'full-190'            //数据表格高度 可用高度-指定高度
+            ,height: 'full-240'            //数据表格高度 可用高度-指定高度
             ,method: 'post'
             ,url: "/goods/list"
             ,page: true //开启分页
@@ -249,20 +258,6 @@
                 }
             }
         });
-        //加载查询条件下拉框
-        $.get("/provider/queryName",function (res) {
-            //查询数据
-            var datas = res.data;
-            //组装数据
-            var html = "<option value='' hidden>请选择供应商</option>";
-            $.each(datas, function (index, item) {
-                html+="<option value='"+item.id+"'>"+item.providername+"</option>"
-            });
-            //追加数据
-            $("#search_providerid").html(html);
-            //重新渲染下拉框数据
-            form.render("select");
-        })
 
         //模糊查询
         form.on("submit(doSearch)",function (data) {
@@ -314,11 +309,28 @@
                 type: 1
                 ,title:'添加商品'
                 ,content:$("#saveOrUpdateDiv")
-                ,area: ['705px','480px']     //弹窗宽高
+                ,area: ['705px','595px']     //弹窗宽高
                 ,success:function (index) {
                     //打开弹窗清空整个form表单,jquery对象获取的是所有对象的数组，数组中是dom对象，dom对象才有reset();方法
                     $("#dataForm")[0].reset();
-                    url = "/goods/saveOrUpdate";
+                    url = "/goods/save";
+                    //加载查询条件下拉框
+                    $.get("/provider/queryName",function (res) {
+                        //查询数据
+                        var datas = res.data;
+                        //组装数据
+                        var html = "<option value='' hidden>请选择供应商</option>";
+                        $.each(datas, function (index, item) {
+                            html+="<option value='"+item.id+"'>"+item.providername+"</option>"
+                        });
+                        //追加数据
+                        $("#providerid").html(html);
+                        //重新渲染下拉框数据
+                        form.render("select");
+                    });
+                    //打开添加页面显示默认图片
+                    $('.thumbImg').attr('src','/file/showImageByPath?path=images/defaultgoodsimg.png');
+                    $("#goodsimg").val('images/defaultgoodsimg.png')
                 }
             });
         }
@@ -329,11 +341,32 @@
                 type: 1
                 , title: '修改商品信息'
                 , content: $("#saveOrUpdateDiv")
-                , area: ['705px', '480px']     //弹窗宽高
+                , area: ['705px','595px']     //弹窗宽高
                 ,success:function (index) {         //弹窗成功后回调
                     //给lay-filter="dataForm"的表单赋值,name相同可以直接赋值
                     form.val("dataForm",data);
-                    url = "/goods/saveOrUpdate";
+                    url = "/goods/update";
+                    //加载查询条件下拉框
+                    $.get("/provider/queryName",function (res) {
+                        //查询数据
+                        var datas = res.data;
+                        //组装数据
+                        var html = "<option value='' hidden>请选择供应商</option>";
+                        $.each(datas, function (index, item) {
+                            //如果选中商品的供应商ID和下拉框的ID相同
+                            if(data.providerid===item.id){
+                                html+="<option value='"+item.id+"' selected>"+item.providername+"</option>"
+                            }else {
+                                html+="<option value='"+item.id+"'>"+item.providername+"</option>"
+                            }
+                        });
+                        //追加数据
+                        $("#providerid").html(html);
+                        //重新渲染下拉框数据
+                        form.render("select");
+                    });
+                    //回显图片
+                    $('.thumbImg').attr('src','/file/showImageByPath?path='+data.goodsimg);
                 }
             });
         }
@@ -341,7 +374,7 @@
         function deleteById(data) {
             layer.confirm('确定删除商品['+data.goodsname+']吗？', {icon: 3, title:'提示'}, function(index){
                 //向服务端发送删除指令
-                $.post("/goods/delete",{"id":data.id},function (result) {
+                $.post("/goods/delete",{"id":data.id,"goodsimg":data.goodsimg},function (result) {
                     tableIns.reload();      //在不刷新页面的情况刷新表格数据
                     layer.msg(result.msg);
                 })
@@ -386,6 +419,35 @@
             })
         });
 
+        //加载供应商下拉框
+        $.get("/provider/queryName",function (res) {
+            //查询数据
+            var datas = res.data;
+            //组装数据
+            var html = "<option value='' hidden>请选择供应商</option>";
+            $.each(datas, function (index, item) {
+                html+="<option value='"+item.id+"'>"+item.providername+"</option>"
+            });
+            //追加数据
+            $("#search_providerid").html(html);
+            //重新渲染下拉框数据
+            form.render("select");
+        });
+
+        //文件上传
+        upload.render({
+            elem: '.thumbBox',
+            url: '/file/uploadFile',
+            acceptMime:'image/*',       //只显示图片
+            field:'mf',                 //和controller接受的值对应
+            method : "post",
+            done: function(res, index, upload){
+                var path=res.path;              //获得上传文件的路径
+                $('.thumbImg').attr('src','/file/showImageByPath?path='+path);      //回显图片
+                $('.thumbBox').css("background","#fff");                            //设置背景色
+                $("#goodsimg").val(path);//给隐藏域赋值
+            }
+        });
     });
 </script>
 

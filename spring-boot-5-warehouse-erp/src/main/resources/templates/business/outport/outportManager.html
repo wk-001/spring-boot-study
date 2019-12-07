@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>退货管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="/resources/favicon.ico">
+    <link rel="stylesheet" href="/resources/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/resources/css/public.css" media="all" >
+    <script type="text/javascript"  src="/resources/layui/layui.js"></script>
+</head>
+
+<body class="childrenBody">
+<!--查询条件开始-->
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+    <legend>查询条件</legend>
+</fieldset>
+
+<blockquote class="layui-elem-quote">
+    <form action="" method="post" id="searchForm" lay-filter="searchForm" class="layui-form">
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">供应商</label>
+                <div class="layui-input-inline">
+                    <select name="providerid" id="search_providerid" lay-filter="search_providerid">
+                        <option value="">请选择供应商</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-inline">
+                    <select name="goodsid" id="search_goodsid">
+                        <option value="">请选择商品</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">开始时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="startTime" readonly="readonly"  id="startTime" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">操作员</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="operateperson"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="remark"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">结束时间</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="endTime" readonly="readonly"  id="endTime"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button type="button" class="layui-btn layui-btn-normal layui-icon layui-icon-search" lay-submit="" lay-filter="doSearch">查询</button>
+                <button type="reset" class="layui-btn layui-btn-warm layui-icon layui-icon-refresh">重置</button>
+            </div>
+        </div>
+
+    </form>
+</blockquote>
+<!--查询条件结束-->
+
+<!--表头工具栏按钮开始-->
+<div id="titleToolBar" style="display: none">
+    <button type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-icon layui-icon-list" lay-event="getSelect">获取选中行</button>
+    <button type="button" class="layui-btn layui-btn-sm layui-btn-primary layui-icon layui-icon-refresh" lay-event="refreshTable">刷新表格</button>
+</div>
+<!--表头工具栏按钮结束-->
+
+<!--数据表格开始-->
+<table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+<!--数据表格结束-->
+
+</body>
+
+<script type="text/javascript">
+    layui.use(['jquery','form','layer','table','laydate'], function(){
+        var $ = layui.jquery
+            ,form = layui.form
+            ,layer = layui.layer
+            ,table = layui.table
+            ,laydate = layui.laydate
+
+        var tableIns;       //定义全局变量
+
+        //渲染时间组件
+        laydate.render({
+            elem:"#startTime",
+            type:"datetime"
+        })
+        laydate.render({
+            elem:"#endTime",
+            type:"datetime"
+        })
+
+        //渲染数据表格
+        tableIns = table.render({
+            elem: '#dataTable'      //渲染目标对象 数据表格对应ID
+            ,height: 'full-240'            //数据表格高度 可用高度-指定高度
+            ,method: 'post'
+            ,url: "/outport/list"
+            ,page: true //开启分页
+            ,toolbar:"#titleToolBar"     //引用表头工具栏 titleToolBar是div的ID
+            ,title: '退货数据表'
+            ,even: true             //开启隔行背景
+            ,cols: [ [      //两个[[和thymeleaf的语法冲突，必须在中间加一个空格！！！ [ [
+                {type:'checkbox', fixed: 'left'}    //fixed冻结列的位置
+                ,{field:'id', title:'退货ID',align:'center' }
+                ,{field:'providername', title:'供应商',align:'center'}
+                ,{field:'goodsname', title:'商品名称',align:'center'}
+                ,{field:'size', title:'商品规格',align:'center'}
+                ,{field:'outporttime', title:'退货时间',align:'center'}
+                ,{field:'number', title:'退货数量',align:'center'}
+                ,{field:'outportprice', title:'退货价格',align:'center'}
+                ,{field:'remark', title:'备注',align:'center'}
+                ,{field:'operateperson', title:'操作员',align:'center'}
+            ] ]
+            ,done: function(res, curr, count){
+                //如果当前页面数据全部删除，并且不是第一页的情况，就跳转到前一页
+                if(res.data.length===0&&curr!==1){
+                    tableIns.reload({
+                        page:{curr:curr-1}           //跳转到前一页
+                    });
+                }
+            }
+        });
+
+        //模糊查询
+        form.on("submit(doSearch)",function (data) {
+            tableIns.reload({
+                where: data.field,       //设定异步数据接口的额外参数
+                page:{curr:1}           //每次查询从第一页开始
+            });
+            return false;
+        });
+
+        //监听头部工具栏事件 dataTable:数据表格的ID
+        table.on('toolbar(dataTable)', function(obj){
+            switch(obj.event){      //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                case 'refreshTable':
+                    tableIns.reload();      //在不刷新页面的情况刷新表格数据
+                    break;
+                case 'getSelect':   //获取checkbox选中行的数据
+                    var checkStatus = table.checkStatus('dataTable'); //dataTable:数据表格的ID
+                    console.log(checkStatus.data); //获取选中行的数据
+                    console.log(checkStatus.data.length); //获取选中行数量，可作为是否有选中行的条件
+                    console.log(checkStatus.isAll); //表格是否全选
+                    break;
+            }
+        });
+
+        //加载查询条件供应商下拉框
+        $.get("/provider/queryName",function (res) {
+            //查询数据
+            var datas = res.data;
+            //组装数据
+            var html = "<option value='' hidden>请选择供应商</option>";
+            $.each(datas, function (index, item) {
+                html+="<option value='"+item.id+"'>"+item.providername+"</option>"
+            });
+            //追加数据
+            $("#search_providerid").html(html);
+            //重新渲染下拉框数据
+            form.render("select");
+        });
+
+        //监听查询条件供应商下拉框选中数据
+        form.on('select(search_providerid)', function(data){
+            var providerId = data.value; //得到被选中的值
+            initGoodsSelected("#search_goodsid",providerId);
+        });
+
+        function initGoodsSelected(target,providerId,goodsId) {
+            //加载查询条件商品下拉框
+            $.get("/goods/queryName",{providerId:providerId},function (res) {
+                //查询数据
+                var datas = res.data;
+                //组装数据
+                var html = "<option value='' hidden>请选择商品</option>";
+                $.each(datas, function (index, item) {
+                    html+="<option value='"+item.id+"'>"+item.goodsname+"["+item.size+"]</option>"
+                });
+                //追加数据
+                $(target).html(html);
+
+                //如果goodsId有值就回显
+                if(goodsId!=undefined){
+                    $(target).val(goodsId);
+                }
+
+                //重新渲染下拉框数据
+                form.render("select");
+            });
+        }
+
+    });
+</script>
+
+</html>

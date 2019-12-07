@@ -1,17 +1,16 @@
 package com.wk.sys.common;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * 文件上传下载工具类
@@ -28,30 +27,26 @@ public class AppFileUtils {
 		InputStream stream = AppFileUtils.class.getClassLoader().getResourceAsStream("file.properties");
 		Properties properties=new Properties();
 		try {
-			properties.load(stream);
+			properties.load(stream);	//读取配置文件内容
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String property = properties.getProperty("filepath");
+		String property = properties.getProperty("filepath");		//获取配置文件内容
 		if(null!=property) {
 			UPLOAD_PATH=property;
 		}
 	}
 
 	/**
-	 * 根据文件老名字得到新名字
-	 * @param oldName
-	 * @return
+	 * 根据上传文件名的后缀得到新名字
 	 */
 	public static String createNewFileName(String oldName) {
-		String stuff=oldName.substring(oldName.lastIndexOf("."), oldName.length());
+		String stuff=oldName.substring(oldName.lastIndexOf("."));
 		return IdUtil.simpleUUID().toUpperCase()+stuff;
 	}
 
 	/**
 	 * 文件下载
-	 * @param path
-	 * @return
 	 */
 	public static ResponseEntity<Object> createResponseEntity(String path) {
 		//1,构造文件对象
@@ -81,8 +76,6 @@ public class AppFileUtils {
 
 	/**
 	 * 根据路径改名字 去掉_temp
-	 * @param goodsimg
-	 * @return
 	 */
 	public static String renameFile(String goodsimg) {
 		File file=new File(UPLOAD_PATH, goodsimg);
@@ -95,7 +88,6 @@ public class AppFileUtils {
 
 	/**
 	 * 根据老路径删除图片
-	 * @param oldPath
 	 */
 	public static void removeFileByPath(String oldPath) {
 		if(!oldPath.equals(Constast.IMAGES_DEFAULTGOODSIMG_PNG)) {

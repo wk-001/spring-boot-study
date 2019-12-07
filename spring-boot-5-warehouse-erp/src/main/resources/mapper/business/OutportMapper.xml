@@ -7,7 +7,7 @@
         <id column="id" property="id" />
         <result column="providerid" property="providerid" />
         <result column="paytype" property="paytype" />
-        <result column="outputtime" property="outputtime" />
+        <result column="outporttime" property="outporttime" />
         <result column="operateperson" property="operateperson" />
         <result column="outportprice" property="outportprice" />
         <result column="number" property="number" />
@@ -19,5 +19,40 @@
     <sql id="Base_Column_List">
         id, providerid, paytype, outputtime, operateperson, outportprice, number, remark, goodsid
     </sql>
+    <select id="queryList" resultType="com.wk.business.entity.Outport">
+        SELECT
+            o.*,
+            p.providername,
+            g.goodsname,
+            g.size
+        FROM
+            bus_outport o,
+            bus_provider p,
+            bus_goods g
+        WHERE
+            o.providerid = p.id
+        AND o.goodsid = g.id
+        <if test="outport.remark!=''and outport.remark!=null">
+            <bind name="outport.remark" value="'%'+outport.remark+'%'"/>
+            AND o.remark like #{outport.remark}
+        </if>
+        <if test="outport.operateperson!=''and outport.operateperson!=null">
+            <bind name="outport.operateperson" value="'%'+outport.operateperson+'%'"/>
+            AND o.operateperson like #{outport.operateperson}
+        </if>
+        <if test="outport.providerid!=null">
+            AND o.providerid = #{outport.providerid}
+        </if>
+        <if test="outport.goodsid!=null">
+            AND o.goodsid = #{outport.goodsid}
+        </if>
+        <if test="outport.startTime!=null">
+            AND o.outporttime >=#{outport.startTime}
+        </if>
+        <if test="outport.endTime!=null">
+            AND o.outporttime  <![CDATA[<=]]> #{outport.endTime}
+        </if>
+        ORDER BY o.outporttime DESC
+    </select>
 
 </mapper>

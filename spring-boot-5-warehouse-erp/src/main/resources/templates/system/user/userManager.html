@@ -75,7 +75,7 @@
 
                         <!--数据表格操作栏开始-->
                         <div id="tableToolBar" style="display: none">
-                            <button type="button" class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit">编辑</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-icon layui-icon-edit" lay-event="edit" shiro:hasPermission="user:update">编辑</button>
                             <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-normal layui-icon-user" lay-event="assignRole" shiro:hasPermission="user:selectRole">分配角色</button>
                             <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-warm layui-icon-refresh-3" lay-event="resetPwd" shiro:hasPermission="user:resetPwd">重置密码</button>
                             <button type="button" class="layui-btn layui-btn-sm layui-icon layui-btn-danger layui-icon-delete" lay-event="del" shiro:hasRole="admin">删除</button>

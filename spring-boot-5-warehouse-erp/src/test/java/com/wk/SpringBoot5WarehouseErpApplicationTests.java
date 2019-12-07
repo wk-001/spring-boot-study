@@ -1,12 +1,15 @@
 package com.wk;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wk.sys.common.Constast;
 import com.wk.sys.entity.Role;
 import com.wk.sys.service.RoleService;
 import com.wk.sys.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 class SpringBoot5WarehouseErpApplicationTests {
@@ -30,9 +33,10 @@ class SpringBoot5WarehouseErpApplicationTests {
             System.out.println("map = " + map);
         }*/
         QueryWrapper<Role> wrapper = new QueryWrapper<Role>()
-                .eq("rolecode","admin");
-        Role role = roleService.getOne(wrapper);
-        System.out.println("role = " + role);
+                .select("id","name")
+                .eq("available", Constast.AVAILABLE_TRUE);
+        List<Role> list = roleService.list(wrapper);
+        System.out.println("list = " + list);
     }
 
 }

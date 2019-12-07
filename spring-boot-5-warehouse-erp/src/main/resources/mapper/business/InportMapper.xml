@@ -19,5 +19,39 @@
     <sql id="Base_Column_List">
         id, paytype, inporttime, operateperson, number, remark, inportprice, providerid, goodsid
     </sql>
-
+    <select id="queryList" resultType="com.wk.business.entity.Inport">
+        SELECT
+            i.*,
+            p.providername,
+            g.goodsname,
+            g.size
+        FROM
+            bus_inport i,
+            bus_provider p,
+            bus_goods g 
+        WHERE
+            i.providerid = p.id 
+            AND i.goodsid = g.id
+        <if test="inport.remark!=''and inport.remark!=null">
+            <bind name="inport.remark" value="'%'+inport.remark+'%'"/>
+            AND i.remark like #{inport.remark}
+        </if>
+        <if test="inport.operateperson!=''and inport.operateperson!=null">
+            <bind name="inport.operateperson" value="'%'+inport.operateperson+'%'"/>
+            AND i.operateperson like #{inport.operateperson}
+        </if>
+        <if test="inport.providerid!=null">
+            AND i.providerid = #{inport.providerid}
+        </if>
+        <if test="inport.goodsid!=null">
+            AND i.goodsid = #{inport.goodsid}
+        </if>
+        <if test="inport.startTime!=null">
+            AND i.inporttime >=#{inport.startTime}
+        </if>
+        <if test="inport.endTime!=null">
+            AND i.inporttime  <![CDATA[<=]]> #{inport.endTime}
+        </if>
+        ORDER BY i.inporttime DESC
+    </select>
 </mapper>

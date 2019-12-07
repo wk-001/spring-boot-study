@@ -17,8 +17,11 @@ public class SpringUtil implements ApplicationContextAware{
 	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
-	
-	
+
+	/**
+	 * 获取IOC容器中的bean对象
+	 * 用法：User user = SpringUtil.getBean(User.class);
+	 */
 	public static <T> T getBean(Class<T> cls) {
 		return applicationContext.getBean(cls);
 	}

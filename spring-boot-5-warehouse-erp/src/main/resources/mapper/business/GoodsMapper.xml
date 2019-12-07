@@ -24,6 +24,7 @@
     <sql id="Base_Column_List">
         id, goodsname, produceplace, size, goodspackage, productcode, promitcode, description, price, number, dangernum, goodsimg, available, providerid
     </sql>
+
     <select id="queryList" resultType="com.wk.business.entity.Goods">
         SELECT
             g.*,
@@ -34,23 +35,28 @@
         WHERE
             g.providerid = p.id
         <if test="goods.goodsname!=''and goods.goodsname!=null">
+            <bind name="goods.goodsname" value="'%'+goods.goodsname+'%'"/>
             AND g.goodsname like #{goods.goodsname}
         </if>
         <if test="goods.productcode!=''and goods.productcode!=null">
+            <bind name="goods.productcode" value="'%'+goods.productcode+'%'"/>
             AND g.productcode like #{goods.productcode}
         </if>
         <if test="goods.promitcode!=''and goods.promitcode!=null">
+            <bind name="goods.promitcode" value="'%'+goods.promitcode+'%'"/>
             AND g.promitcode like #{goods.promitcode}
         </if>
         <if test="goods.description!=''and goods.description!=null">
+            <bind name="goods.description" value="'%'+goods.description+'%'"/>
             AND g.description like #{goods.description}
         </if>
         <if test="goods.size!=''and goods.size!=null">
+            <bind name="goods.size" value="'%'+goods.size+'%'"/>
             AND g.size like #{goods.size}
         </if>
         <if test="goods.providerid!=null">
             AND g.providerid = #{goods.providerid}
         </if>
     </select>
-          
+
 </mapper>

@@ -94,6 +94,7 @@ spring:
 logging:
   level:
     com.wk.sys.mapper: trace
+    com.wk.business.mapper: trace
   pattern:
     console: "[%d{HH:mm:ss.SSS}] %-5p [%c] - %m%n"
 
